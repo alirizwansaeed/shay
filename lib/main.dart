@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'this is new shayapp',
+              'new build',
             ),
             Text(
               '$_counter',
