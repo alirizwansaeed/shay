@@ -11,16 +11,19 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: ScreenConstraints.devicePadding),
-          child: ScreenTypeLayout.builder(
-            mobile: (context) => Mobile(),
-            tablet: (context) => Tablet(),
-            desktop: (context) => Desktop(),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: ScreenConstraints.devicePadding),
+            child: ScreenTypeLayout.builder(
+              mobile: (context) => Mobile(),
+              tablet: (context) => Tablet(),
+              desktop: (context) => Desktop(),
+            ),
           ),
         ),
       ),

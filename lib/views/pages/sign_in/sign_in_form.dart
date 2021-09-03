@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shay/constants/constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -44,7 +43,7 @@ class SignInForm extends StatelessWidget {
             icon: Icon(Icons.login),
             label: Text(
               'Sign in',
-              style: GoogleFonts.nunito(
+              style: TextStyle(
                 fontSize: 16.sp,
               ),
             ),
@@ -111,7 +110,7 @@ class SignInForm extends StatelessWidget {
             onPressed: () {},
             child: Text(
               'Sign up',
-              style: GoogleFonts.nunito(
+              style: TextStyle(
                   fontSize: 16.sp,
                   decoration: TextDecoration.underline,
                   fontWeight: FontWeight.bold),
@@ -121,7 +120,7 @@ class SignInForm extends StatelessWidget {
             onPressed: () {},
             child: Text(
               'Forget password?',
-              style: GoogleFonts.nunito(
+              style: TextStyle(
                 color: Colors.grey,
                 fontSize: 14.sp,
                 decoration: TextDecoration.underline,
