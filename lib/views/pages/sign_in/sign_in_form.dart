@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shay/constants/constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -22,7 +23,7 @@ class SignInForm extends StatelessWidget {
         ),
         SizedBox(
           height: getValueForScreenType(
-              context: context, mobile: 1.h, desktop: 4.h, tablet: 4.h),
+              context: context, mobile: 1.h, desktop: 20, tablet: 4.h),
         ),
         TextField(
           decoration: InputDecoration(
@@ -35,7 +36,7 @@ class SignInForm extends StatelessWidget {
         ),
         SizedBox(
             height: getValueForScreenType(
-                context: context, mobile: 3.h, desktop: 8.h, tablet: 8.h)),
+                context: context, mobile: 3.h, desktop: 20, tablet: 8.h)),
         Align(
           alignment: Alignment.center,
           child: OutlinedButton.icon(
@@ -44,75 +45,70 @@ class SignInForm extends StatelessWidget {
             label: Text(
               'Sign in',
               style: TextStyle(
-                fontSize: 16.sp,
+                fontSize: getValueForScreenType(
+                    context: context, mobile: 16.sp, desktop: 16, tablet: 16),
               ),
             ),
           ),
         ),
         SizedBox(
           height: getValueForScreenType(
-              context: context, mobile: 1.h, desktop: 4.h, tablet: 4.h),
+              context: context, mobile: 1.h, desktop: 20, tablet: 4.h),
         ),
         Align(
           alignment: Alignment.center,
           child: Text(
             'or',
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: getValueForScreenType(
+                  context: context, mobile: 14.sp, desktop: 16, tablet: 16),
               color: Colors.grey,
             ),
           ),
         ),
         SizedBox(
           height: getValueForScreenType(
-              context: context, mobile: 2.h, desktop: 4.h, tablet: 4.h),
+              context: context, mobile: 2.h, desktop: 20, tablet: 4.h),
         ),
         SizedBox(
-          height: getValueForScreenType(
-              context: context, mobile: 8.h, desktop: 15.h, tablet: 15.h),
+          height: 40,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                onPressed: () {},
-                icon: Image.asset(
-                  AssetsIcons.google,
-                ),
-              ),
+                  onPressed: () {}, icon: SvgPicture.asset(AssetsIcons.google)),
               VerticalDivider(
                 indent: 10.0,
                 endIndent: 10.0,
                 thickness: 1.0,
               ),
               IconButton(
-                onPressed: () {},
-                icon: Image.asset(
-                  AssetsIcons.facebook,
-                ),
-              ),
+                  onPressed: () {},
+                  icon: SvgPicture.asset(
+                    AssetsIcons.facebook,
+                    height: 25,
+                  )),
               VerticalDivider(
                 indent: 10,
                 endIndent: 10,
                 thickness: 1.0,
               ),
               IconButton(
-                onPressed: () {},
-                icon: Image.asset(
-                  AssetsIcons.apple,
-                ),
-              ),
+                  onPressed: () {}, icon: SvgPicture.asset(AssetsIcons.apple)),
             ],
           ),
         ),
-        SizedBox(height: 1.h),
+        SizedBox(
+            height: getValueForScreenType(
+                context: context, mobile: 3.h, desktop: 50, tablet: 8.h)),
         Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           TextButton(
             onPressed: () {},
             child: Text(
               'Sign up',
               style: TextStyle(
-                  fontSize: 16.sp,
-                  decoration: TextDecoration.underline,
+                  fontSize: getValueForScreenType(
+                      context: context, mobile: 16.sp, desktop: 16, tablet: 16),
                   fontWeight: FontWeight.bold),
             ),
           ),
@@ -122,8 +118,8 @@ class SignInForm extends StatelessWidget {
               'Forget password?',
               style: TextStyle(
                 color: Colors.grey,
-                fontSize: 14.sp,
-                decoration: TextDecoration.underline,
+                fontSize: getValueForScreenType(
+                    context: context, mobile: 14.sp, desktop: 15, tablet: 15),
               ),
             ),
           ),

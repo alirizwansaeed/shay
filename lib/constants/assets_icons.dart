@@ -1,5 +1,5 @@
 class AssetsIcons {
-  static const google = 'assets/icons/google.png';
-  static const facebook = 'assets/icons/facebook.png';
-  static const apple = 'assets/icons/apple.png';
+  static const google = 'assets/icons/google.svg';
+  static const facebook = 'assets/icons/facebook.svg';
+  static const apple = 'assets/icons/apple.svg';
 }

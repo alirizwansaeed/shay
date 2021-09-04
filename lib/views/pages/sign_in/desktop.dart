@@ -9,35 +9,40 @@ class Desktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Placeholder(
-          fallbackHeight: 10.h,
-          fallbackWidth: 100.w,
-        ),
-        Expanded(
-          child: Row(
-            children: [
-              SizedBox(
-                width: 50.w - ScreenConstraints.devicePadding,
-                child: HeaderAnimation(),
-              ),
-              SizedBox(
-                width: 40.w - ScreenConstraints.devicePadding,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    SignInForm(),
-                  ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Shay'),
+
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 50.w - ScreenConstraints.devicePadding,
+                  height: 40.w,
+                  child: SignInAnimation(),
                 ),
-              ),
-            ],
-          ),
+                SizedBox(
+                  width: 40.w - ScreenConstraints.devicePadding,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      SignInForm(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
