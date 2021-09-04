@@ -14,15 +14,17 @@ class SignInPage extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: ScreenConstraints.devicePadding),
-            child: ScreenTypeLayout.builder(
-              mobile: (context) => Mobile(),
-              tablet: (context) => Tablet(),
-              desktop: (context) => Desktop(),
+        resizeToAvoidBottomInset: true,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: ScreenConstraints.devicePadding),
+              child: ScreenTypeLayout.builder(
+                mobile: (context) => Mobile(),
+                tablet: (context) => Tablet(),
+                desktop: (context) => Desktop(),
+              ),
             ),
           ),
         ),
