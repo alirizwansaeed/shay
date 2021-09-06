@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:shay/views/pages/sign_in/desktop.dart';
-
 import 'sign_in.dart';
 
 class SignInPage extends StatelessWidget {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shay/constants/constants.dart';
+import 'package:shay/presentation/common_widgets/common_widgets.dart';
 
-import 'sign_in.dart';
+import '../sign_in.dart';
 
 class Mobile extends StatelessWidget {
   const Mobile({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class Mobile extends StatelessWidget {
           children: [
             SizedBox(
               height: 45.h,
-              child: SignInAnimation(),
+              child:AuthAnimation(),
             ),
             Padding(
               padding: EdgeInsets.symmetric(

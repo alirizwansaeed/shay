@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shay/presentation/pages/pages.dart';
 import 'constants/constants.dart';
-import 'views/pages/pages.dart';
+
 void main() {
   runApp(
     Myapp(), // Wrap your app
@@ -15,7 +17,9 @@ class Myapp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(
-      builder: (context, orientation, deviceType) => MaterialApp(
+      builder: (context, orientation, deviceType) => GetMaterialApp(
+        themeMode: ,
+        theme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
         initialRoute: SignInPage.routeName,
         routes: Routes.routes,

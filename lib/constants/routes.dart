@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shay/views/pages/pages.dart';
+import 'package:shay/presentation/pages/pages.dart';
 
 class Routes {
   static Map<String, Widget Function(BuildContext context)> routes = {
