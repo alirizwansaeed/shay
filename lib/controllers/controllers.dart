@@ -1,3 +1,4 @@
 // controller exports
 //
-// getx controllers 
+// getx controllers
+export 'authentication.dart';

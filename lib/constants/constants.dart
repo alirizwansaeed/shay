@@ -4,5 +4,4 @@
 
 export 'routes.dart';
 export 'assets_icons.dart';
-export 'assets_animations.dart';
 export 'screen_constraints.dart';
