@@ -4,9 +4,25 @@ import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shay/models/models.dart';
+import 'package:shay/services/database.dart';
 
 class AuthenticationController extends GetxController {
-  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  Rx<User?> _currentUser = Rx<User?>(null);
+  String? get currentUserId {
+    return _currentUser.value?.uid;
+  }
+
+  @override
+  void onInit() async {
+    _currentUser.bindStream(_auth.authStateChanges());
+    if (GetPlatform.isWeb) await _auth.setPersistence(Persistence.LOCAL);
+    _auth.authStateChanges().listen((event) {
+      print(event);
+    });
+    super.onInit();
+  }
 
   Future<void> signInWithEmailPassword(
       {required String email, required String password}) async {
@@ -14,12 +30,7 @@ class AuthenticationController extends GetxController {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
-///show snackbar if login successful
-           Get.showSnackbar(GetBar(
-        duration: const Duration(seconds: 2),
-        titleText: SizedBox.shrink(),
-        message: "login successful",
-      ));
+      Get.back();
     } on FirebaseAuthException catch (e) {
       print(e);
       Get.showSnackbar(GetBar(
@@ -38,15 +49,16 @@ class AuthenticationController extends GetxController {
       required String email,
       required String password}) async {
     try {
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
 
+      UserModel _user = UserModel(
+          userid: userCredential.user!.uid,
+          name: userName,
+          email: userCredential.user!.email!);
 
-           Get.showSnackbar(GetBar(
-        duration: const Duration(seconds: 2),
-        titleText: SizedBox.shrink(),
-        message: "Signup successful",
-      ));
+      /// create user in database
+      await Database().createUser(_user);
     } on FirebaseAuthException catch (e) {
       Get.showSnackbar(GetBar(
         duration: const Duration(seconds: 2),
@@ -73,11 +85,18 @@ class AuthenticationController extends GetxController {
       final userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-           Get.showSnackbar(GetBar(
-        duration: const Duration(seconds: 2),
-        titleText: SizedBox.shrink(),
-        message: "Loged in as ${userCredential.user!.displayName}",
-      ));
+      ///map data to model
+      UserModel _user = UserModel(
+        userid: userCredential.user!.uid,
+        name: userCredential.user!.displayName!,
+        email: userCredential.user!.email!,
+        photoUrl: userCredential.user!.photoURL,
+      );
+// create user in database
+      await Database().createUser(_user);
+
+      // badk to previous page
+      Get.back();
     } on PlatformException catch (e) {
       Get.showSnackbar(GetBar(
         duration: const Duration(seconds: 2),
@@ -109,7 +128,7 @@ class AuthenticationController extends GetxController {
 
   Future<void> resetPassword({required String email}) async {
     try {
-      await auth.sendPasswordResetEmail(email: email);
+      await _auth.sendPasswordResetEmail(email: email);
       Get.showSnackbar(GetBar(
         title: 'Rest password sent to',
         message: email,
@@ -122,4 +141,10 @@ class AuthenticationController extends GetxController {
       ));
     }
   }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
+
+  Future<void> updatePassword() async {}
 }

@@ -25,6 +25,7 @@ class SignInForm extends StatelessWidget {
     return Column(
       children: [
         Neumorphic(
+          style: NeumorphicStyle(color: Color(0xFFCCEAF5)),
           child: TextField(
             controller: emailAddressController,
             decoration: InputDecoration(
@@ -43,6 +44,7 @@ class SignInForm extends StatelessWidget {
         ),
         Obx(
           () => Neumorphic(
+            style: NeumorphicStyle(color: Color(0xFFCCEAF5)),
             child: TextField(
               controller: passwordController,
               obscureText: passwordVisibility.value ? false : true,
@@ -132,6 +134,7 @@ class SignInForm extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Neumorphic(
+                style: NeumorphicStyle(color: Color(0xFFCCEAF5)),
                 child: IconButton(
                   onPressed: () =>
                       Get.find<AuthenticationController>().signInWithGoogle(),
@@ -146,6 +149,7 @@ class SignInForm extends StatelessWidget {
                 thickness: 1.0,
               ),
               Neumorphic(
+                style: NeumorphicStyle(color: Color(0xFFCCEAF5)),
                 child: IconButton(
                     onPressed: () {
                       Get.find<AuthenticationController>().signInWithFacebook();
@@ -161,6 +165,7 @@ class SignInForm extends StatelessWidget {
                 thickness: 1.0,
               ),
               Neumorphic(
+                style: NeumorphicStyle(color: Color(0xFFCCEAF5)),
                 child: IconButton(
                     onPressed: () {},
                     icon: SvgPicture.asset(AssetsIcons.apple)),

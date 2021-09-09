@@ -3,6 +3,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shay/constants/constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shay/presentation/common_widgets/common_widgets.dart';
 import 'package:shay/presentation/pages/sign_in/widgets/sign_in_form.dart';
 import 'package:get/get.dart';
 
@@ -23,47 +24,11 @@ class _SignInPageState extends State<SignInPage> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: NeumorphicColors.background,
-        appBar: AppBar(
-          leading: Padding(
-            padding:
-                const EdgeInsets.only(left: ScreenConstraints.devicePadding),
-            child: Image.asset(AssetsIcons.logo),
-          ),
-          leadingWidth: 160,
-          backgroundColor: NeumorphicColors.background,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(top: 4, bottom: 2),
-              child: SizedBox(
-                width: 40.w,
-                child: TextField(
-                  enabled: true,
-                  decoration: InputDecoration(
-                    labelText:
-                        'search mobile, Home utilities, cloting, and more',
-                    suffix:
-                        ElevatedButton(onPressed: () {}, child: Text('SEARCH')),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ElevatedButton(onPressed: () {}, child: Text('Login')),
-            ),
-            SizedBox(
-              width: 20,
-            )
-          ],
-        ),
+        appBar: getValueForScreenType(
+            context: context,
+            mobile: null,
+            tablet: null,
+            desktop: DesktopAppbar()),
         body: SingleChildScrollView(
           child: ScreenTypeLayout.builder(
             mobile: (context) => _mobile(),

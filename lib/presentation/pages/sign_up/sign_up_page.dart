@@ -27,7 +27,6 @@ class _SignUpPageState extends State<SignUpPage> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: NeumorphicColors.background,
         appBar: AppBar(
           leading: Padding(
             padding:

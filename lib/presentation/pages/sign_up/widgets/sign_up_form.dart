@@ -46,6 +46,7 @@ class SignUpForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Neumorphic(
+          style: NeumorphicStyle(color: Color(0xFFCCEAF5)),
           child: TextField(
             controller: usernameController,
             decoration: InputDecoration(
@@ -63,6 +64,7 @@ class SignUpForm extends StatelessWidget {
               context: context, mobile: 3.h, desktop: 20, tablet: 3.h),
         ),
         Neumorphic(
+          style: NeumorphicStyle(color: Color(0xFFCCEAF5)),
           child: TextField(
             controller: emailAddressController,
             decoration: InputDecoration(
@@ -81,6 +83,7 @@ class SignUpForm extends StatelessWidget {
         ),
         Obx(
           () => Neumorphic(
+            style: NeumorphicStyle(color: Color(0xFFCCEAF5)),
             child: TextField(
               controller: passwordController,
               obscureText: passwordVisibility.value ? false : true,
@@ -109,6 +112,7 @@ class SignUpForm extends StatelessWidget {
         ),
         Obx(
           () => Neumorphic(
+            style: NeumorphicStyle(color: Color(0xFFCCEAF5)),
             child: TextField(
               controller: confirmPasswordController,
               obscureText: confirmpasswordVisibilty.value ? false : true,

@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shay/binding/binding.dart';
 import 'package:shay/presentation/pages/pages.dart';
 import 'constants/constants.dart';
@@ -44,13 +43,11 @@ class _MyappState extends State<Myapp> {
             return Container();
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return ResponsiveSizer(
-              builder: (context, orientation, deviceType) => GetMaterialApp(
-                initialBinding: HomeBinding(),
-                debugShowCheckedModeBanner: false,
-                initialRoute: SignInPage.routeName,
-                routes: Routes.routes,
-              ),
+            return GetMaterialApp(
+              initialBinding: HomeBinding(),
+              debugShowCheckedModeBanner: false,
+              initialRoute: PostAdPage.routeName,
+              routes: Routes.routes,
             );
           }
           return Container();

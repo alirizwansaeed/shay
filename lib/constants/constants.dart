@@ -5,3 +5,4 @@
 export 'routes.dart';
 export 'assets_icons.dart';
 export 'screen_constraints.dart';
+export 'custom_colors..dart';
