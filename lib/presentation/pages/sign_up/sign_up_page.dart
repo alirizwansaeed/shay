@@ -1,149 +1,134 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:shay/constants/constants.dart';
-import 'package:shay/presentation/pages/sign_up/widgets/sign_up_form.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get/get.dart';
+import 'package:shay/controllers/authentication.dart';
+import 'package:shay/presentation/common_widgets/common_widgets.dart';
+import 'package:shay/utils/utils.dart';
 
-class SignUpPage extends StatefulWidget {
-  static const routeName = 'sign_up_page';
-  const SignUpPage({Key? key}) : super(key: key);
+class SignUpPage extends StatelessWidget {
+  static const routeName = 'signup';
 
-  @override
-  _SignUpPageState createState() => _SignUpPageState();
-}
+  final _formKey = GlobalKey<FormBuilderState>();
 
-class _SignUpPageState extends State<SignUpPage> {
-  var _passwordVisibility = false.obs;
-  var _confirmpasswordVisibility = false.obs;
+  //FORM FIELDS NAME
 
-  final _userNameController = TextEditingController();
-  final _emailAddressController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmpasswordController = TextEditingController();
+  final username = 'User Name';
+  final email = 'Email';
+  final password = 'Password';
+  final confirmPassword = 'Confirm Password';
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          leading: Padding(
-            padding:
-                const EdgeInsets.only(left: ScreenConstraints.devicePadding),
-            child: Image.asset(AssetsIcons.logo),
-          ),
-          leadingWidth: 160,
-          backgroundColor: NeumorphicColors.background,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(top: 4, bottom: 2),
-              child: SizedBox(
-                width: 40.w,
-                child: TextField(
-                  enabled: true,
-                  decoration: InputDecoration(
-                    labelText:
-                        'search mobile, Home utilities, cloting, and more',
-                    suffix:
-                        ElevatedButton(onPressed: () {}, child: Text('SEARCH')),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ElevatedButton(onPressed: () {}, child: Text('Login')),
-            ),
-            SizedBox(
-              width: 20,
-            )
-          ],
-        ),
+        appBar: screenType(context,
+            mobile: MobileAppbar(), desktopTab: DesktopTabletAppbar()),
         body: SingleChildScrollView(
-          child: ScreenTypeLayout.builder(
-            mobile: (context) => _mobile(),
-            tablet: (context) => _tablet(),
-            desktop: (context) => _desktop(),
+          child: Center(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(border: Border.all()),
+              width: getValueForScreenType<double>(
+                context: context,
+                mobile: Get.width - 40,
+                tablet: 500,
+                desktop: 500,
+              ),
+              child: _form(context),
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _mobile() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 15.h,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: ScreenConstraints.devicePadding,
-          ),
-          child: SignUpForm(
-            usernameController: _userNameController,
-            confirmPasswordController: _confirmpasswordController,
-            emailAddressController: _emailAddressController,
-            passwordController: _passwordController,
-            confirmpasswordVisibilty: _confirmpasswordVisibility,
-            passwordVisibility: _passwordVisibility,
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _tablet() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 100,
-        ),
-        Center(
-          child: SizedBox(
-            width: 60.w - ScreenConstraints.devicePadding,
-            child: SignUpForm(
-              usernameController: _userNameController,
-              confirmPasswordController: _confirmpasswordController,
-              emailAddressController: _emailAddressController,
-              passwordController: _passwordController,
-              confirmpasswordVisibilty: _confirmpasswordVisibility,
-              passwordVisibility: _passwordVisibility,
+  FormBuilder _form(BuildContext context) {
+    return FormBuilder(
+      key: _formKey,
+      child: Column(
+        children: [
+          SizedBox(height: 20),
+          Text('Sign up',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w900,
+              )),
+          SizedBox(height: 20),
+          Divider(),
+          SizedBox(height: 20),
+          FormBuilderTextField(
+            name: username,
+            keyboardType: TextInputType.name,
+            validator: FormBuilderValidators.required(context),
+            decoration: InputDecoration(
+              labelText: username,
+              border: OutlineInputBorder(),
             ),
           ),
-        )
-      ],
+          SizedBox(height: 15),
+          FormBuilderTextField(
+            name: email,
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(context),
+              FormBuilderValidators.email(context)
+            ]),
+            decoration: InputDecoration(
+              labelText: email,
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(height: 15),
+          FormBuilderTextField(
+            name: password,
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(context),
+              FormBuilderValidators.minLength(context, 6),
+              FormBuilderValidators.match(context, '^(?!.* )',
+                  errorText: 'space not allowed')
+            ]),
+            decoration: InputDecoration(
+              labelText: password,
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(height: 15),
+          FormBuilderTextField(
+            name: confirmPassword,
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(context),
+              FormBuilderValidators.minLength(context, 6),
+              FormBuilderValidators.match(context, '^(?!.* )',
+                  errorText: 'space not allowed'),
+            ]),
+            decoration: InputDecoration(
+              labelText: confirmPassword,
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(height: 15),
+          ElevatedButton(
+            onPressed: signupButton,
+            child: Text('Sign up'),
+          )
+        ],
+      ),
     );
   }
 
-  Widget _desktop() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 100,
-        ),
-        Center(
-          child: SizedBox(
-              width: 500,
-              child: SignUpForm(
-                usernameController: _userNameController,
-                confirmPasswordController: _confirmpasswordController,
-                emailAddressController: _emailAddressController,
-                passwordController: _passwordController,
-                confirmpasswordVisibilty: _confirmpasswordVisibility,
-                passwordVisibility: _passwordVisibility,
-              )),
-        ),
-      ],
-    );
+  void signupButton() {
+    if (_formKey.currentState!.validate() &&
+        _formKey.currentState!.fields[password]!.value ==
+            _formKey.currentState!.fields[confirmPassword]!.value) {
+      //create new user
+      Get.find<AuthenticationController>().createUserWithEmailPassword(
+          userName: _formKey.currentState!.fields[username]!.value,
+          email: _formKey.currentState!.fields[email]!.value,
+          password: _formKey.currentState!.fields[password]!.value);
+    } else {
+      _formKey.currentState!.invalidateField(
+          name: confirmPassword, errorText: 'Password Not Match');
+    }
   }
 }

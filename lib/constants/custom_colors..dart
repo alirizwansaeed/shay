@@ -1,5 +1,5 @@
 import 'package:flutter/Material.dart';
-class CustomColors{
+class CustomColorsConstants{
  static  const Color appbarcolor = Color(0xFFCCEAF5);
 
 

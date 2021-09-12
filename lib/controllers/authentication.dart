@@ -9,18 +9,26 @@ import 'package:shay/services/database.dart';
 
 class AuthenticationController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  Rx<User?> _currentUser = Rx<User?>(null);
-  String? get currentUserId {
-    return _currentUser.value?.uid;
+
+  /// initilize user
+  Rx<User?> _currentuser = Rx<User?>(null);
+
+  ///getting the value of current user
+  ///if value if null mean user not loged in
+  User? get currentUser {
+    return _currentuser.value;
   }
 
   @override
   void onInit() async {
-    _currentUser.bindStream(_auth.authStateChanges());
-    if (GetPlatform.isWeb) await _auth.setPersistence(Persistence.LOCAL);
-    _auth.authStateChanges().listen((event) {
-      print(event);
-    });
+    await _auth.currentUser?.reload();
+    //assign value to current user
+    _currentuser(_auth.currentUser);
+    //bind stream to current user
+    //for listening the current state of user
+    _currentuser.bindStream(_auth.authStateChanges());
+    await _auth.setPersistence(Persistence.LOCAL);
+
     super.onInit();
   }
 
@@ -29,8 +37,6 @@ class AuthenticationController extends GetxController {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-
-      Get.back();
     } on FirebaseAuthException catch (e) {
       print(e);
       Get.showSnackbar(GetBar(
@@ -49,16 +55,19 @@ class AuthenticationController extends GetxController {
       required String email,
       required String password}) async {
     try {
-      UserCredential userCredential = await _auth
+      UserCredential _userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
+      await _userCredential.user!.updateDisplayName(userName);
+      await _userCredential.user?.sendEmailVerification();
 
-      UserModel _user = UserModel(
-          userid: userCredential.user!.uid,
-          name: userName,
-          email: userCredential.user!.email!);
+      print(_userCredential);
+      // UserModel _user = UserModel(
+      //     userid: userCredential.user!.uid,
+      //     name: userName,
 
-      /// create user in database
-      await Database().createUser(_user);
+      //     email: userCredential.user!.email!);
+
+      //  await Database.createUser(_user);
     } on FirebaseAuthException catch (e) {
       Get.showSnackbar(GetBar(
         duration: const Duration(seconds: 2),
@@ -90,10 +99,10 @@ class AuthenticationController extends GetxController {
         userid: userCredential.user!.uid,
         name: userCredential.user!.displayName!,
         email: userCredential.user!.email!,
-        photoUrl: userCredential.user!.photoURL,
+        photoUrl: userCredential.user?.photoURL,
       );
 // create user in database
-      await Database().createUser(_user);
+      await Database.createUser(_user);
 
       // badk to previous page
       Get.back();

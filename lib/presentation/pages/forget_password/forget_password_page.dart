@@ -1,109 +1,87 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shay/constants/constants.dart';
-import 'package:shay/presentation/pages/forget_password/forget_password.dart';
+import 'package:shay/presentation/common_widgets/common_widgets.dart';
+import 'package:shay/utils/utils.dart';
 
 class ForgetPasswordPage extends StatelessWidget {
-  static const routeName = 'forget_password_page';
+  static const routeName = 'forgetpassword';
 
-  final _forgetEmailAddressController = TextEditingController();
+  final email = 'Email';
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          leading: Padding(
-            padding:
-                const EdgeInsets.only(left: ScreenConstraints.devicePadding),
-            child: Image.asset(AssetsIcons.logo),
-          ),
-          leadingWidth: 160,
-          backgroundColor: NeumorphicColors.background,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(top: 4, bottom: 2),
-              child: SizedBox(
-                width: 40.w,
-                child: TextField(
-                  enabled: true,
-                  decoration: InputDecoration(
-                    labelText:
-                        'search mobile, Home utilities, cloting, and more',
-                    suffix:
-                        ElevatedButton(onPressed: () {}, child: Text('SEARCH')),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ElevatedButton(onPressed: () {}, child: Text('Login')),
-            ),
-            SizedBox(
-              width: 20,
-            )
-          ],
-        ),
+        appBar: screenType(context,mobile:  MobileAppbar(),desktopTab:  DesktopTabletAppbar())
+           ,
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(ScreenConstraints.devicePadding),
-            child: ScreenTypeLayout.builder(
-              mobile: (context) => Column(
-                children: [
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  ForgetPasswordForm(
-                    forgetEmailAddressController: _forgetEmailAddressController,
-                  ),
-                ],
-              ),
-              tablet: (context) => Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 100,
-                  ),
-                  Center(
-                    child: SizedBox(
-                      width: 60.w,
-                      child: ForgetPasswordForm(
-                          forgetEmailAddressController:
-                              _forgetEmailAddressController),
-                    ),
-                  )
-                ],
-              ),
-              desktop: (context) => Column(
-                children: [
-                  SizedBox(
-                    height: 100,
-                  ),
-                  Center(
-                    child: SizedBox(
-                      width: 500,
-                      child: ForgetPasswordForm(
-                          forgetEmailAddressController:
-                              _forgetEmailAddressController),
-                    ),
-                  )
-                ],
-              ),
+          child: Center(
+            child: Container(
+              decoration: BoxDecoration(border: Border.all()),
+              padding: EdgeInsets.all(10),
+              width: getValueForScreenType<double>(
+                  context: context,
+                  mobile: Get.width - 40,
+                  tablet: 500,
+                  desktop: 500),
+              child: _form(context),
             ),
           ),
         ),
       ),
     );
   }
+
+  FormBuilder _form(BuildContext context) {
+    return FormBuilder(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          Text('Forget password',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w900,
+              )),
+          SizedBox(height: 20),
+          Divider(),
+          SizedBox(height: 20),
+          Text(
+            'Enter your email address below and we’ll send you a link to reset your password',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          FormBuilderTextField(
+            name: email,
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(context),
+              FormBuilderValidators.email(context)
+            ]),
+            decoration: InputDecoration(
+              labelText: email,
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          ElevatedButton.icon(
+            icon: Icon(Icons.send),
+            label: Text(
+              'Send password',
+            ),
+            onPressed: sendPassswordButton,
+          ),
+        ],
+      ),
+    );
+  }
+
+  void sendPassswordButton() {}
 }

@@ -4,9 +4,9 @@ import 'package:shay/presentation/pages/pages.dart';
 class Routes {
   static Map<String, Widget Function(BuildContext context)> routes = {
     HomePage.routeName: (context) => HomePage(),
-    SignInPage.routeName: (context) => SignInPage(),
+    LoginPage.routeName: (context) => LoginPage(),
     SignUpPage.routeName: (context) => SignUpPage(),
-    PostAdPage.routeName: (context) => PostAdPage(),
+    PostNewAdPage.routeName: (context) => PostNewAdPage(),
     ForgetPasswordPage.routeName: (context) => ForgetPasswordPage()
   };
 }

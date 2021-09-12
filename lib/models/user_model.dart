@@ -16,8 +16,8 @@ class UserModel {
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
     userid = snapshot.id;
-    name = snapshot[UserFields.name];
-    email = snapshot[UserFields.email];
-    photoUrl = snapshot[UserFields.photoUrl];
+    name = snapshot[UserFieldsConstants.name];
+    email = snapshot[UserFieldsConstants.email];
+    photoUrl = snapshot[UserFieldsConstants.photoUrl]??null;
   }
 }

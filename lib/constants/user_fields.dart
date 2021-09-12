@@ -1,5 +1,4 @@
-class UserFields {
-  static const collectionName = 'users';
+class UserFieldsConstants {
   static const uid = 'uid';
   static const name = 'name';
   static const email = 'email';

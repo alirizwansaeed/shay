@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shay/binding/binding.dart';
+import 'package:shay/presentation/pages/login/login_page.dart';
 import 'package:shay/presentation/pages/pages.dart';
 import 'constants/constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -46,7 +47,7 @@ class _MyappState extends State<Myapp> {
             return GetMaterialApp(
               initialBinding: HomeBinding(),
               debugShowCheckedModeBanner: false,
-              initialRoute: PostAdPage.routeName,
+              initialRoute: HomePage.routeName,
               routes: Routes.routes,
             );
           }
