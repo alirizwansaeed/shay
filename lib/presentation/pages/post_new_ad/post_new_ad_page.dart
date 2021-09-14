@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
@@ -23,30 +25,42 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
     //Form Builder Fields
     return Scaffold(
       appBar: screenType(context,
-          mobile: MobileAppbar(), desktopTab: DesktopTabletAppbar()),
+          mobile: MobileAppbar(
+            title: GetPlatform.isMobile ? 'Make New Ad' : null,
+          ),
+          desktopTab: DesktopTabletAppbar()),
       body: SingleChildScrollView(
         child: FormBuilder(
           key: _formKey,
           child: Container(
             margin: EdgeInsets.all(ScreenConstants.devicePadding),
-            padding: EdgeInsets.all(ScreenConstants.devicePadding),
-            decoration: BoxDecoration(border: Border.all()),
+            padding: GetPlatform.isMobile
+                ? null
+                : EdgeInsets.all(ScreenConstants.devicePadding),
+            decoration: GetPlatform.isMobile
+                ? null
+                : BoxDecoration(border: Border.all()),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Text(
-                    'Make New ad',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900,
-                    ),
+                if (GetPlatform.isWeb)
+                  Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          'Make New Ad',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Divider(),
+                      SizedBox(height: 20),
+                    ],
                   ),
-                ),
-                SizedBox(height: 20),
-                Divider(),
-                SizedBox(height: 20),
                 Text(PostNewAdConstants.category),
                 SizedBox(
                   height: 10,
@@ -77,6 +91,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                   height: 10,
                 ),
                 FormBuilderChoiceChip(
+                  visualDensity: VisualDensity.compact,
                   name: PostNewAdConstants.type,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: FormBuilderValidators.required(context),
@@ -175,6 +190,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                   height: 10,
                 ),
                 FormBuilderChoiceChip(
+                  visualDensity: VisualDensity.compact,
                   name: PostNewAdConstants.itemCondition,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: FormBuilderValidators.required(context),
@@ -214,7 +230,8 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                   () => Container(
                     height: 100,
                     padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(border: Border.all()),
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.grey)),
                     child: Row(
                       children: [
                         GestureDetector(
@@ -240,8 +257,13 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    Image.network(databaseController
-                                        .pickedImagesList.value[index].path),
+                                    GetPlatform.isWeb
+                                        ? Image.network(databaseController
+                                            .pickedImagesList.value[index].path)
+                                        : Image.file(File(databaseController
+                                            .pickedImagesList
+                                            .value[index]
+                                            .path)),
                                     Positioned(
                                       top: 0,
                                       right: 0,

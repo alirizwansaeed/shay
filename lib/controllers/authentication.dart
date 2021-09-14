@@ -5,6 +5,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shay/models/models.dart';
+import 'package:shay/presentation/pages/pages.dart';
 import 'package:shay/services/services.dart';
 
 class AuthenticationController extends GetxController {
@@ -29,6 +30,13 @@ class AuthenticationController extends GetxController {
 
   @override
   void onInit() async {
+
+    /// whenever user signout it will redrict to homepage
+    ever(_currentuserState, (_) {
+      if (currentUserState == null) {
+        Get.offAllNamed(HomePage.routeName);
+      }
+    });
     //initilize value to current user
     _currentuserState(_auth.currentUser);
     //bind stream to current user

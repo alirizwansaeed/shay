@@ -120,8 +120,6 @@ class DesktopTabletAppbar extends StatelessWidget
         !await _authenticationController.isEmailVerified())
       return Get.toNamed(UserVerificationPage.routeName);
     else
-  
       return Get.toNamed(PostNewAdPage.routeName);
-
   }
 }

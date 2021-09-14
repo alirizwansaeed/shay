@@ -52,12 +52,6 @@ class DatabaseController extends GetxController {
       pickedImagesList.update((val) {
         val!.add(pickedImage!);
       });
-    } catch (e) {
-      print(e);
-      Get.showSnackbar(GetBar(
-        title: 'Error',
-        message: 'cant upload',
-      ));
-    }
+    } catch (e) {}
   }
 }
