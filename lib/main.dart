@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shay/binding/binding.dart';
-import 'package:shay/presentation/pages/login/login_page.dart';
 import 'package:shay/presentation/pages/pages.dart';
 import 'constants/constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -14,7 +13,7 @@ void main() {
   if (kIsWeb) {
     // initialiaze the facebook javascript SDK
     FacebookAuth.i.webInitialize(
-      appId: "440451097278075", //<-- YOUR APP_ID
+      appId: "628491534781397", //<-- YOUR APP_ID
       cookie: true,
       xfbml: true,
       version: "v9.0",

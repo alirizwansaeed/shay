@@ -7,6 +7,7 @@ class Routes {
     LoginPage.routeName: (context) => LoginPage(),
     SignUpPage.routeName: (context) => SignUpPage(),
     PostNewAdPage.routeName: (context) => PostNewAdPage(),
-    ForgetPasswordPage.routeName: (context) => ForgetPasswordPage()
+    ForgetPasswordPage.routeName: (context) => ForgetPasswordPage(),
+    UserVerificationPage.routeName: (context) => UserVerificationPage(),
   };
 }

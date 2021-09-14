@@ -14,7 +14,6 @@ class SignUpPage extends StatelessWidget {
 
   //FORM FIELDS NAME
 
-  final username = 'User Name';
   final email = 'Email';
   final password = 'Password';
   final confirmPassword = 'Confirm Password';
@@ -59,16 +58,6 @@ class SignUpPage extends StatelessWidget {
           Divider(),
           SizedBox(height: 20),
           FormBuilderTextField(
-            name: username,
-            keyboardType: TextInputType.name,
-            validator: FormBuilderValidators.required(context),
-            decoration: InputDecoration(
-              labelText: username,
-              border: OutlineInputBorder(),
-            ),
-          ),
-          SizedBox(height: 15),
-          FormBuilderTextField(
             name: email,
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
@@ -108,9 +97,13 @@ class SignUpPage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 15),
-          ElevatedButton(
-            onPressed: signupButton,
-            child: Text('Sign up'),
+          Obx(
+            () => ElevatedButton(
+              onPressed: Get.find<AuthenticationController>().isLoading.value
+                  ? null
+                  : signupButton,
+              child: Text('Sign up'),
+            ),
           )
         ],
       ),
@@ -123,7 +116,6 @@ class SignUpPage extends StatelessWidget {
             _formKey.currentState!.fields[confirmPassword]!.value) {
       //create new user
       Get.find<AuthenticationController>().createUserWithEmailPassword(
-          userName: _formKey.currentState!.fields[username]!.value,
           email: _formKey.currentState!.fields[email]!.value,
           password: _formKey.currentState!.fields[password]!.value);
     } else {

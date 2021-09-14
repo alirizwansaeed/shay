@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shay/controllers/authentication.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
 import 'package:shay/utils/utils.dart';
 
@@ -10,13 +11,14 @@ class ForgetPasswordPage extends StatelessWidget {
   static const routeName = 'forgetpassword';
 
   final email = 'Email';
+  final _formKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        appBar: screenType(context,mobile:  MobileAppbar(),desktopTab:  DesktopTabletAppbar())
-           ,
+        appBar: screenType(context,
+            mobile: MobileAppbar(), desktopTab: DesktopTabletAppbar()),
         body: SingleChildScrollView(
           child: Center(
             child: Container(
@@ -37,6 +39,7 @@ class ForgetPasswordPage extends StatelessWidget {
 
   FormBuilder _form(BuildContext context) {
     return FormBuilder(
+      key: _formKey,
       child: Column(
         children: [
           SizedBox(
@@ -83,5 +86,10 @@ class ForgetPasswordPage extends StatelessWidget {
     );
   }
 
-  void sendPassswordButton() {}
+  void sendPassswordButton() {
+    if (_formKey.currentState!.validate()) {
+      Get.find<AuthenticationController>()
+          .resetPassword(email: _formKey.currentState!.fields[email]!.value);
+    }
+  }
 }

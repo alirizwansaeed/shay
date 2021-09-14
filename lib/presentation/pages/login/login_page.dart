@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
               padding: EdgeInsets.all(10),
               width: getValueForScreenType<double>(
                   context: context,
-                  mobile: Get.width - 40,
+                  mobile: Get.width - 30,
                   tablet: 500,
                   desktop: 500),
               child: _form(context),
@@ -47,89 +47,110 @@ class LoginPage extends StatelessWidget {
   FormBuilder _form(BuildContext context) {
     return FormBuilder(
       key: _formKey,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        SizedBox(
-          height: 20,
-        ),
-        Text('Log in',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
-            )),
-        SizedBox(height: 20),
-        Divider(),
-        SizedBox(height: 20),
-        SocialAuth(),
-        SizedBox(height: 15),
-        FormBuilderTextField(
-          name: email,
-          validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(context),
-            FormBuilderValidators.email(context)
-          ]),
-          decoration: InputDecoration(
-            labelText: email,
-            border: OutlineInputBorder(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 20,
           ),
-        ),
-        SizedBox(height: 15),
-        Obx(
-          () => FormBuilderTextField(
-            name: password,
-            obscureText: obsecurePassword.value ? true : false,
+          Text('Log in',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w900,
+              )),
+          SizedBox(height: 20),
+          Divider(),
+          SizedBox(height: 20),
+          SocialAuth(),
+          SizedBox(height: 15),
+          FormBuilderTextField(
+            name: email,
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
-              FormBuilderValidators.minLength(context, 6),
-              FormBuilderValidators.match(context, '^(?!.* )',
-                  errorText: 'space not allowed')
+              FormBuilderValidators.email(context)
             ]),
             decoration: InputDecoration(
-              suffixIcon: IconButton(
-                onPressed: obsecurePassword.toggle,
-                icon: Icon(obsecurePassword.value
-                    ? Icons.visibility_off
-                    : Icons.visibility),
-              ),
-              labelText: password,
+              labelText: email,
               border: OutlineInputBorder(),
             ),
           ),
-        ),
-        SizedBox(height: 15),
-        ElevatedButton(onPressed: loginButton, child: Text('Sign in')),
-        SizedBox(height: 15),
-        Row(
-          children: [
-            Text("Don't have an account?"),
-            TextButton(
-                onPressed: () => Get.toNamed(SignUpPage.routeName),
-                child: Text(
-                  'Sign up',
-                  style: TextStyle(decoration: TextDecoration.underline),
-                )),
-            Spacer(),
-            TextButton(
-              onPressed: () => Get.toNamed(ForgetPasswordPage.routeName),
-              child: Text(
-                'Forget Password',
-                style: TextStyle(decoration: TextDecoration.underline),
+          SizedBox(height: 15),
+          Obx(
+            () => FormBuilderTextField(
+              name: password,
+              obscureText: obsecurePassword.value ? true : false,
+              validator: FormBuilderValidators.compose([
+                FormBuilderValidators.required(context),
+                FormBuilderValidators.minLength(context, 6),
+                FormBuilderValidators.match(context, '^(?!.* )',
+                    errorText: 'space not allowed')
+              ]),
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: obsecurePassword.toggle,
+                  icon: Icon(obsecurePassword.value
+                      ? Icons.visibility_off
+                      : Icons.visibility),
+                ),
+                labelText: password,
+                border: OutlineInputBorder(),
               ),
-            )
-          ],
-        )
-      ]),
+            ),
+          ),
+          SizedBox(height: 15),
+          Obx(() => ElevatedButton(
+              onPressed: Get.find<AuthenticationController>().isLoading.value
+                  ? null
+                  : loginButton,
+              child: Text('Sign in'))),
+          SizedBox(height: 15),
+          screenType(context,
+              mobile: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _signupRow(),
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: _forgetPasswordButton()),
+                ],
+              ),
+              desktopTab: Row(
+                  children: [_signupRow(), Spacer(), _forgetPasswordButton()])),
+        ],
+      ),
+    );
+  }
+
+  TextButton _forgetPasswordButton() {
+    return TextButton(
+      onPressed: () => Get.toNamed(ForgetPasswordPage.routeName),
+      child: Text(
+        'Forget Password',
+        style: TextStyle(decoration: TextDecoration.underline),
+      ),
+    );
+  }
+
+  Row _signupRow() {
+    return Row(
+      children: [
+        Text("Don't have an account?"),
+        TextButton(
+            onPressed: () => Get.toNamed(SignUpPage.routeName),
+            child: Text(
+              'Sign up',
+              style: TextStyle(decoration: TextDecoration.underline),
+            )),
+      ],
     );
   }
 
   void loginButton() async {
-    // if (_formKey.currentState!.validate()) {
-    //   Get.find<AuthenticationController>().signInWithEmailPassword(
-    //     email: _formKey.currentState!.fields[email]!.value,
-    //     password: _formKey.currentState!.fields[password]!.value,
-    //   );
-    //   print('hello');
-    // }
-
-    print(Get.find<AuthenticationController>().currentUser);
+    if (_formKey.currentState!.validate()) {
+      Get.find<AuthenticationController>().signInWithEmailPassword(
+        email: _formKey.currentState!.fields[email]!.value,
+        password: _formKey.currentState!.fields[password]!.value,
+      );
+    }
   }
 }

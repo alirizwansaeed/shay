@@ -16,15 +16,14 @@ class Database {
   }
 
   static Future<void> createUser(UserModel userModel) async {
-    DocumentReference _userDocument = _usersCollection.doc(userModel.userid);
+    DocumentReference _userDocument = _usersCollection.doc(userModel.uid);
     //get snapshot of document
     DocumentSnapshot _snapshot = await _userDocument.get();
     // if user record  not exist then add user record
     if (!_snapshot.exists) {
       _userDocument.set({
-        UserFieldsConstants.uid: userModel.userid,
+        UserFieldsConstants.uid: userModel.uid,
         UserFieldsConstants.name: userModel.name,
-        UserFieldsConstants.email: userModel.email,
         UserFieldsConstants.photoUrl: userModel.photoUrl
       });
     }

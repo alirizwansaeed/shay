@@ -5,29 +5,37 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shay/models/models.dart';
-import 'package:shay/services/database.dart';
+import 'package:shay/services/services.dart';
 
 class AuthenticationController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  /// initilize user
-  Rx<User?> _currentuser = Rx<User?>(null);
+  /// declare user
+  Rx<User?> _currentuserState = Rx<User?>(null);
+
+  ///
+  ///loading state
+  var isLoading = false.obs;
 
   ///getting the value of current user
   ///if value if null mean user not loged in
+  User? get currentUserState {
+    return _currentuserState.value;
+  }
+
   User? get currentUser {
-    return _currentuser.value;
+    return _auth.currentUser;
   }
 
   @override
   void onInit() async {
-    await _auth.currentUser?.reload();
-    //assign value to current user
-    _currentuser(_auth.currentUser);
+    //initilize value to current user
+    _currentuserState(_auth.currentUser);
     //bind stream to current user
     //for listening the current state of user
-    _currentuser.bindStream(_auth.authStateChanges());
-    await _auth.setPersistence(Persistence.LOCAL);
+    _currentuserState.bindStream(_auth.authStateChanges());
+    // this only work in webb
+    if (GetPlatform.isWeb) await _auth.setPersistence(Persistence.LOCAL);
 
     super.onInit();
   }
@@ -35,10 +43,11 @@ class AuthenticationController extends GetxController {
   Future<void> signInWithEmailPassword(
       {required String email, required String password}) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
+      isLoading(true);
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      Get.back(closeOverlays: true);
     } on FirebaseAuthException catch (e) {
-      print(e);
       Get.showSnackbar(GetBar(
         duration: const Duration(seconds: 2),
         titleText: SizedBox.shrink(),
@@ -46,47 +55,43 @@ class AuthenticationController extends GetxController {
       ));
     } catch (e) {
       print(e);
+    } finally {
+      isLoading(false);
     }
   }
 
 // create user  with email password
   Future<void> createUserWithEmailPassword(
-      {required String userName,
-      required String email,
-      required String password}) async {
+      {required String email, required String password}) async {
     try {
+      isLoading(true);
       UserCredential _userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
-      await _userCredential.user!.updateDisplayName(userName);
       await _userCredential.user?.sendEmailVerification();
-
-      print(_userCredential);
-      // UserModel _user = UserModel(
-      //     userid: userCredential.user!.uid,
-      //     name: userName,
-
-      //     email: userCredential.user!.email!);
-
-      //  await Database.createUser(_user);
+      Get.close(2);
     } on FirebaseAuthException catch (e) {
-      Get.showSnackbar(GetBar(
-        duration: const Duration(seconds: 2),
-        titleText: SizedBox.shrink(),
-        message: "${e.message}",
-      ));
+      Get.showSnackbar(
+        GetBar(
+          duration: const Duration(seconds: 2),
+          titleText: SizedBox.shrink(),
+          message: "${e.message}",
+        ),
+      );
     } catch (e) {
       print(e);
+    } finally {
+      isLoading(false);
     }
   }
 
 //Login with google
   Future<void> signInWithGoogle() async {
     try {
+      isLoading(true);
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser!.authentication;
-
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -96,15 +101,46 @@ class AuthenticationController extends GetxController {
 
       ///map data to model
       UserModel _user = UserModel(
-        userid: userCredential.user!.uid,
+        uid: userCredential.user!.uid,
         name: userCredential.user!.displayName!,
-        email: userCredential.user!.email!,
         photoUrl: userCredential.user?.photoURL,
       );
-// create user in database
+      // create user in database
       await Database.createUser(_user);
+      Get.back(closeOverlays: true);
+    } on PlatformException catch (e) {
+      Get.showSnackbar(GetBar(
+        duration: const Duration(seconds: 2),
+        titleText: SizedBox.shrink(),
+        message: "${e.code}",
+      ));
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading(false);
+    }
+  }
 
-      // badk to previous page
+// login with facebook
+
+  Future<void> signInWithFacebook() async {
+    try {
+      isLoading(true);
+      final LoginResult result = await FacebookAuth.instance
+          .login(loginBehavior: LoginBehavior.dialogOnly);
+
+      final OAuthCredential facebookAuthCredential =
+          FacebookAuthProvider.credential(result.accessToken!.token);
+
+      // Once signed in, return the UserCredential
+      UserCredential _userCredential = await FirebaseAuth.instance
+          .signInWithCredential(facebookAuthCredential);
+
+      UserModel _userModel = UserModel(
+        uid: _userCredential.user!.uid,
+        name: _userCredential.user!.displayName!,
+      );
+      Database.createUser(_userModel);
       Get.back();
     } on PlatformException catch (e) {
       Get.showSnackbar(GetBar(
@@ -114,22 +150,8 @@ class AuthenticationController extends GetxController {
       ));
     } catch (e) {
       print(e);
-    }
-  }
-
-// login with facebook
-
-  Future<void> signInWithFacebook() async {
-    try {
-      final LoginResult result = await FacebookAuth.instance.login();
-
-      final OAuthCredential facebookAuthCredential =
-          FacebookAuthProvider.credential(result.accessToken!.token);
-
-      // Once signed in, return the UserCredential
-      FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-    } catch (e) {
-      print(e);
+    } finally {
+      isLoading(false);
     }
   }
 
@@ -138,10 +160,11 @@ class AuthenticationController extends GetxController {
   Future<void> resetPassword({required String email}) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
+      Get.close(2);
       Get.showSnackbar(GetBar(
-        title: 'Rest password sent to',
-        message: email,
-      ));
+          title: 'Rest password sent to',
+          message: email,
+          duration: const Duration(seconds: 3)));
     } on FirebaseAuthException catch (e) {
       Get.showSnackbar(GetBar(
         duration: const Duration(seconds: 2),
@@ -151,9 +174,34 @@ class AuthenticationController extends GetxController {
     }
   }
 
+  Future<bool> isEmailVerified() async {
+    ///check if the user created with email is verified or not
+    ///if verified return true;
+    if (_auth.currentUser!.emailVerified &&
+        _auth.currentUser!.providerData[0].providerId == 'password') {
+      return true;
+    }
+//reload the state of user
+    await _auth.currentUser!.reload();
+
+// recheck if verified create user in database
+    if (_auth.currentUser!.emailVerified &&
+        _auth.currentUser!.providerData[0].providerId == 'password') {
+      UserModel userModel =
+          UserModel(uid: _auth.currentUser!.uid, name: 'Shay User');
+      await Database.createUser(userModel);
+      return true;
+    }
+    //recheck if user is not verified then return fasle
+    if (!_auth.currentUser!.emailVerified &&
+        _auth.currentUser!.providerData[0].providerId == 'password') {
+      return false;
+      // user created with third parties is always true and verified
+    } else
+      return true;
+  }
+
   Future<void> signOut() async {
     await _auth.signOut();
   }
-
-  Future<void> updatePassword() async {}
 }

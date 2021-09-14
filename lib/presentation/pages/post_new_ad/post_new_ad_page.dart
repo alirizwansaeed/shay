@@ -3,9 +3,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:shay/constants/constants.dart';
 import 'package:shay/controllers/controllers.dart';
+import 'package:shay/models/models.dart';
+import 'package:shay/presentation/common_widgets/common_widgets.dart';
+import 'package:shay/utils/utils.dart';
 
 class PostNewAdPage extends StatefulWidget {
-  static const routeName = 'post_ad_page';
+  static const routeName = 'postnewad';
   PostNewAdPage({Key? key}) : super(key: key);
 
   @override
@@ -19,6 +22,8 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
     final databaseController = Get.find<DatabaseController>();
     //Form Builder Fields
     return Scaffold(
+      appBar: screenType(context,
+          mobile: MobileAppbar(), desktopTab: DesktopTabletAppbar()),
       body: SingleChildScrollView(
         child: FormBuilder(
           key: _formKey,
@@ -264,12 +269,44 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                       ],
                     ),
                   ),
-                )
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Obx(
+                  () => ElevatedButton(
+                      onPressed: Get.find<DatabaseController>().isLoading.value
+                          ? null
+                          : _postNewAdButton,
+                      child: Text(' Post Ad')),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _postNewAdButton() async {
+    if (_formKey.currentState!.validate()) {
+      PostNewAdModel model = PostNewAdModel(
+          category:
+              _formKey.currentState!.fields[PostNewAdConstants.category]!.value,
+          type: _formKey.currentState!.fields[PostNewAdConstants.type]!.value,
+          title: _formKey.currentState!.fields[PostNewAdConstants.title]!.value,
+          description: _formKey
+              .currentState!.fields[PostNewAdConstants.description]!.value,
+          price: _formKey.currentState!.fields[PostNewAdConstants.price]!.value,
+          mobileNumber: _formKey
+              .currentState!.fields[PostNewAdConstants.mobileNumber]!.value,
+          itemCondition: _formKey
+              .currentState!.fields[PostNewAdConstants.itemCondition]!.value,
+          city: _formKey.currentState!.fields[PostNewAdConstants.city]!.value);
+      Get.find<DatabaseController>().postNewAdd(model);
+    }
   }
 }
