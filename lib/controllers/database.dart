@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shay/controllers/authentication.dart';
 import 'package:shay/models/models.dart';
 import 'package:shay/services/services.dart';
 import 'package:shay/utils/pick_image.dart';

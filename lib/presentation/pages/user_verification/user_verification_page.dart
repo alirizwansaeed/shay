@@ -37,16 +37,18 @@ class UserVerificationPage extends StatelessWidget {
               Divider(),
               SizedBox(height: 20),
               RichText(
-                  text: TextSpan(children: [
-                TextSpan(text: 'We send you verification link at'),
-                TextSpan(
-                    text:
-                        ' ${Get.find<AuthenticationController>().currentUser!.email} ',
-                    style: TextStyle(color: Colors.blue)),
-                TextSpan(
-                    text:
-                        'In order to post ads kindly confirm your verification within 24 Hours'),
-              ])),
+                  text: TextSpan(
+                      style: TextStyle(color: Colors.black),
+                      children: [
+                    TextSpan(text: 'We send you verification link at'),
+                    TextSpan(
+                        text:
+                            ' ${Get.find<AuthenticationController>().currentUser!.email} ',
+                        style: TextStyle(color: Colors.blue)),
+                    TextSpan(
+                        text:
+                            'In order to post ads kindly confirm your verification within 24 Hours'),
+                  ])),
               SizedBox(
                 height: 15,
               ),
