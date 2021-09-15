@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:shay/constants/constants.dart';
 import 'package:shay/controllers/authentication.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
 import 'package:shay/utils/screen_type.dart';

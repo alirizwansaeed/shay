@@ -25,11 +25,18 @@ class LoginPage extends StatelessWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: screenType(context,
-            mobile: MobileAppbar(), desktopTab: DesktopTabletAppbar()),
+            mobile: MobileAppbar(
+              title: 'Login',
+            ),
+            desktopTab: DesktopTabletAppbar()),
         body: SingleChildScrollView(
           child: Center(
             child: Container(
-              decoration: BoxDecoration(border: Border.all()),
+              decoration: screenType(
+                context,
+                mobile: null,
+                desktopTab: BoxDecoration(border: Border.all()),
+              ),
               padding: EdgeInsets.all(10),
               width: getValueForScreenType<double>(
                   context: context,
@@ -48,19 +55,29 @@ class LoginPage extends StatelessWidget {
     return FormBuilder(
       key: _formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
             height: 20,
           ),
-          Text('Log in',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w900,
-              )),
-          SizedBox(height: 20),
-          Divider(),
-          SizedBox(height: 20),
+          screenType(
+            context,
+            mobile: SizedBox.shrink(),
+            desktopTab: Column(
+              children: [
+                Text('Login',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                    )),
+                SizedBox(height: 20),
+                Divider(),
+                SizedBox(height: 20),
+              ],
+            ),
+          ),
           SocialAuth(),
           SizedBox(height: 15),
           FormBuilderTextField(
@@ -106,6 +123,7 @@ class LoginPage extends StatelessWidget {
           SizedBox(height: 15),
           screenType(context,
               mobile: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _signupRow(),

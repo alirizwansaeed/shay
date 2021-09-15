@@ -30,7 +30,6 @@ class AuthenticationController extends GetxController {
 
   @override
   void onInit() async {
-
     /// whenever user signout it will redrict to homepage
     ever(_currentuserState, (_) {
       if (currentUserState == null) {
@@ -185,14 +184,18 @@ class AuthenticationController extends GetxController {
   Future<bool> isEmailVerified() async {
     ///check if the user created with email is verified or not
     ///if verified return true;
-    if (_auth.currentUser!.emailVerified &&
-        _auth.currentUser!.providerData[0].providerId == 'password') {
-      return true;
-    }
-//reload the state of user
-    await _auth.currentUser!.reload();
 
-// recheck if verified create user in database
+    if (_auth.currentUser!.emailVerified &&
+        _auth.currentUser!.providerData[0].providerId == 'password')
+      return true;
+
+    if (_auth.currentUser!.providerData[0].providerId == 'google.com' ||
+        _auth.currentUser!.providerData[0].providerId == 'facebook.com')
+      return true;
+
+    //reload the state of user
+    await _auth.currentUser!.reload();
+    // recheck if verified create user in database
     if (_auth.currentUser!.emailVerified &&
         _auth.currentUser!.providerData[0].providerId == 'password') {
       UserModel userModel =

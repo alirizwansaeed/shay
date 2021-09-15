@@ -18,11 +18,15 @@ class ForgetPasswordPage extends StatelessWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: screenType(context,
-            mobile: MobileAppbar(), desktopTab: DesktopTabletAppbar()),
+            mobile: MobileAppbar(title: 'Forget Password',), desktopTab: DesktopTabletAppbar()),
         body: SingleChildScrollView(
           child: Center(
             child: Container(
-              decoration: BoxDecoration(border: Border.all()),
+              decoration: screenType(
+                context,
+                mobile: null,
+                desktopTab: BoxDecoration(border: Border.all()),
+              ),
               padding: EdgeInsets.all(10),
               width: getValueForScreenType<double>(
                   context: context,
@@ -45,14 +49,22 @@ class ForgetPasswordPage extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Text('Forget password',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w900,
-              )),
-          SizedBox(height: 20),
-          Divider(),
-          SizedBox(height: 20),
+          screenType(
+            context,
+            mobile: SizedBox.shrink(),
+            desktopTab: Column(
+              children: [
+                Text('Forget Password',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                    )),
+                SizedBox(height: 20),
+                Divider(),
+                SizedBox(height: 20),
+              ],
+            ),
+          ),
           Text(
             'Enter your email address below and we’ll send you a link to reset your password',
             style: TextStyle(fontWeight: FontWeight.bold),

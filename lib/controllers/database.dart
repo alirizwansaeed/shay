@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shay/controllers/authentication.dart';
@@ -26,7 +27,7 @@ class DatabaseController extends GetxController {
 
       await Database.postNewAdd(
         model.copyWith(
-            uid: Get.find<AuthenticationController>().currentUser!.uid,
+            uid: 'sddf',
             isFeatured: true,
             status: 'publish',
             photos: imagesPathInStorage),
@@ -43,15 +44,48 @@ class DatabaseController extends GetxController {
     try {
       if (pickedImagesList.value.length == 8) {
         Get.showSnackbar(GetBar(
-          title: 'Max limint reach',
+          title: 'Max limit Reach',
           message: 'You can post Maximum 8 images',
         ));
         return;
       }
-      XFile? pickedImage = await PickImage.formGallery();
-      pickedImagesList.update((val) {
-        val!.add(pickedImage!);
-      });
+      if (GetPlatform.isMobile) {
+        Get.bottomSheet(BottomSheet(
+          onClosing: () {},
+          builder: (context) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.collections),
+                title: Text('Pick Form Gallery'),
+                onTap: () async {
+                  XFile? pickedImage = await PickImage.formGallery();
+                  pickedImagesList.update((val) {
+                    val!.add(pickedImage!);
+                  });
+                  Get.back();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.camera),
+                title: Text('Pick Form Camera'),
+                onTap: () async {
+                  XFile? pickedImage = await PickImage.formCamera();
+                  pickedImagesList.update((val) {
+                    val!.add(pickedImage!);
+                  });
+                  Get.back();
+                },
+              ),
+            ],
+          ),
+        ));
+      } else {
+        XFile? pickedImage = await PickImage.formGallery();
+        pickedImagesList.update((val) {
+          val!.add(pickedImage!);
+        });
+      }
     } catch (e) {}
   }
 }

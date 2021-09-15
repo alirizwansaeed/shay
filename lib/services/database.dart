@@ -31,23 +31,19 @@ class Database {
 
   static Future<void> postNewAdd(PostNewAdModel model) async {
     await _postsCollection.doc().set({
-      UserFieldsConstants.uid:model.uid,
-      PostNewAdConstants.category:model.category,
-      PostNewAdConstants.title:model.title,
-      PostNewAdConstants.description:model.description,
-      PostNewAdConstants.city:model.city,
-      PostNewAdConstants.itemCondition:model.itemCondition,
-      PostNewAdConstants.mobileNumber:model.mobileNumber,
-      PostNewAdConstants.photos:model.photos,
-      PostNewAdConstants.price:model.price,
-      PostNewAdConstants.type:model.type,
-      PostNewAdConstants.Isfeatured:model.isFeatured,
-      PostNewAdConstants.status:model.status,
-
-
-
-
-
+      UserFieldsConstants.uid: model.uid,
+      PostNewAdConstants.category: model.category,
+      PostNewAdConstants.title: model.title,
+      PostNewAdConstants.description: model.description,
+      PostNewAdConstants.city: model.city,
+      PostNewAdConstants.itemCondition: model.itemCondition,
+      PostNewAdConstants.mobileNumber: model.mobileNumber,
+      PostNewAdConstants.photos: model.photos,
+      PostNewAdConstants.price: model.price,
+      PostNewAdConstants.type: model.type,
+      PostNewAdConstants.Isfeatured: model.isFeatured,
+      PostNewAdConstants.status: model.status,
+      'date': DateTime.now(),
     });
   }
 }

@@ -23,12 +23,19 @@ class SignUpPage extends StatelessWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: screenType(context,
-            mobile: MobileAppbar(), desktopTab: DesktopTabletAppbar()),
+            mobile: MobileAppbar(
+              title: 'Sign up',
+            ),
+            desktopTab: DesktopTabletAppbar()),
         body: SingleChildScrollView(
           child: Center(
             child: Container(
               padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(border: Border.all()),
+              decoration: screenType(
+                context,
+                mobile: null,
+                desktopTab: BoxDecoration(border: Border.all()),
+              ),
               width: getValueForScreenType<double>(
                 context: context,
                 mobile: Get.width - 40,
@@ -49,14 +56,22 @@ class SignUpPage extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 20),
-          Text('Sign up',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w900,
-              )),
-          SizedBox(height: 20),
-          Divider(),
-          SizedBox(height: 20),
+          screenType(
+            context,
+            mobile: SizedBox.shrink(),
+            desktopTab: Column(
+              children: [
+                Text('Sign up',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                    )),
+                SizedBox(height: 20),
+                Divider(),
+                SizedBox(height: 20),
+              ],
+            ),
+          ),
           FormBuilderTextField(
             name: email,
             validator: FormBuilderValidators.compose([
