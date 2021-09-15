@@ -32,6 +32,17 @@ class DatabaseController extends GetxController {
             status: 'publish',
             photos: imagesPathInStorage),
       );
+      pickedImagesList.value.clear();
+      imagesPathInStorage.clear();
+      Get.back();
+      Get.showSnackbar(GetBar(
+        titleText: Text(
+          "Ad Posted Successfully",
+          style: TextStyle(color: Colors.white),
+        ),
+        messageText: SizedBox.shrink(),
+        duration: const Duration(seconds: 3),
+      ));
     } catch (e) {
       print(e);
     } finally {
@@ -46,6 +57,7 @@ class DatabaseController extends GetxController {
         Get.showSnackbar(GetBar(
           title: 'Max limit Reach',
           message: 'You can post Maximum 8 images',
+          duration: const Duration(seconds: 3),
         ));
         return;
       }

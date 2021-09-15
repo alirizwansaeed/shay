@@ -337,7 +337,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
           itemCondition: _formKey
               .currentState!.fields[PostNewAdConstants.itemCondition]!.value,
           city: _formKey.currentState!.fields[PostNewAdConstants.city]!.value);
-      Get.find<DatabaseController>().postNewAdd(model);
+      await Get.find<DatabaseController>().postNewAdd(model);
     }
   }
 }
