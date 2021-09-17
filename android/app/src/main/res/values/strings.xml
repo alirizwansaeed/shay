@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">shay</string>
+ <string name="facebook_app_id">628491534781397</string>
+ <string name="fb_login_protocol_scheme">fb628491534781397</string>
+
+
+</resources>

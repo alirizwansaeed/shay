@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "784817718657",
+    "project_id": "shay-4d7b6",
+    "storage_bucket": "shay-4d7b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784817718657:android:98cea0fe9941ce072f1480",
+        "android_client_info": {
+          "package_name": "com.example.shay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784817718657-d666mdqp90qoid569lne6unbpcrpmipf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDblch7-M8M9YlXQiM77qAwpOh_28lsACA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784817718657-d666mdqp90qoid569lne6unbpcrpmipf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

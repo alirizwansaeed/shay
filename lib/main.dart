@@ -1,32 +1,56 @@
-import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:get/get.dart';
+import 'package:shay/binding/binding.dart';
+import 'package:shay/presentation/pages/pages.dart';
 import 'constants/constants.dart';
-import 'views/pages/pages.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) {
+    // initialiaze the facebook javascript SDK
+    FacebookAuth.i.webInitialize(
+      appId: "628491534781397", //<-- YOUR APP_ID
+      cookie: true,
+      xfbml: true,
+      version: "v9.0",
+    );
+  }
   runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => Myapp(), // Wrap your app
-    ),
+    Myapp(), // Wrap your app
   );
 }
 
-class Myapp extends StatelessWidget {
+class Myapp extends StatefulWidget {
   const Myapp({Key? key}) : super(key: key);
 
   @override
+  _MyappState createState() => _MyappState();
+}
+
+class _MyappState extends State<Myapp> {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
+  @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(
-      builder: (context, orientation, deviceType) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        locale: DevicePreview.locale(context), // Add the locale here
-        builder: DevicePreview.appBuilder,
-        initialRoute: SignInPage.routeName,
-        routes: Routes.routes,
-      ),
-    );
+    return FutureBuilder(
+        future: _initialization,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Container();
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            return GetMaterialApp(
+              initialBinding: HomeBinding(),
+              debugShowCheckedModeBanner: false,
+              initialRoute: HomePage.routeName,
+              routes: Routes.routes,
+            );
+          }
+          return Container();
+        });
   }
 }
