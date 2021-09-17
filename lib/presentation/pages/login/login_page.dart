@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
       child: Scaffold(
         appBar: screenType(context,
             mobile: MobileAppbar(
-              title: 'Login',
+              title: 'Log in',
             ),
             desktopTab: DesktopTabletAppbar()),
         body: SingleChildScrollView(
@@ -67,7 +67,7 @@ class LoginPage extends StatelessWidget {
             mobile: SizedBox.shrink(),
             desktopTab: Column(
               children: [
-                Text('Login',
+                Text('Log in',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w900,

@@ -7,3 +7,4 @@ export 'forget_password/forget_password_page.dart';
 export 'post_new_ad/post_new_ad_page.dart';
 export 'login/login_page.dart';
 export 'user_verification/user_verification_page.dart';
+export 'edit_profile/edit_profile_page.dart';

@@ -3,4 +3,5 @@ class AssetsIconsConstants {
   static const facebook = 'assets/icons/facebook.svg';
   static const apple = 'assets/icons/apple.svg';
   static const logo = 'assets/icons/logo.png';
+  static const avatar = 'assets/icons/avatar.png';
 }

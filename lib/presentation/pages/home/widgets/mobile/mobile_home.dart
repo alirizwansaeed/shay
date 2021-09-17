@@ -1,14 +1,17 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shay/constants/constants.dart';
 import 'package:shay/controllers/controllers.dart';
-import 'package:shay/presentation/pages/home/widgets/mobile_user_account.dart';
+import 'package:shay/presentation/pages/home/widgets/mobile/pages/user_account_page/mobile_user_account.dart';
 import 'package:shay/presentation/pages/pages.dart';
+
+import 'pages/home_page_view/home_page_view.dart';
 
 // ignore: must_be_immutable
 class MobileHome extends StatelessWidget {
   final _authenticationController = Get.find<AuthenticationController>();
-  final _pagecontroller = PageController();
+  final _pagecontroller = PageController(initialPage: 0);
   var bottomBarIndex = 0.obs;
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,8 @@ class MobileHome extends StatelessWidget {
       floatingActionButton: _floatingActionButton(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _mobilebottombar(),
-      body: SafeArea(child: _mobilehome()),
+      body: SafeArea(
+          child: _mobilehome()),
     );
   }
 
@@ -26,16 +30,14 @@ class MobileHome extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       controller: _pagecontroller,
       children: [
-        Container(
-          child: Text('1'),
-        ),
+        HomePageView(),
         Container(
           child: Text('2'),
         ),
         Container(
           child: Text('3'),
         ),
-       MobileUserAccount()
+        MobileUserAccount()
       ],
     );
   }
@@ -86,3 +88,5 @@ class MobileHome extends StatelessWidget {
     );
   }
 }
+
+

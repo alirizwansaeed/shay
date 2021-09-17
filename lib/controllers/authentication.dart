@@ -31,8 +31,10 @@ class AuthenticationController extends GetxController {
   @override
   void onInit() async {
     /// whenever user signout it will redrict to homepage
-    ever(_currentuserState, (_) {
+    ever(_currentuserState, (_) async {
       if (currentUserState == null) {
+        await _auth.currentUser?.reload();
+
         Get.offAllNamed(HomePage.routeName);
       }
     });
@@ -110,7 +112,6 @@ class AuthenticationController extends GetxController {
       UserModel _user = UserModel(
         uid: userCredential.user!.uid,
         name: userCredential.user!.displayName!,
-        photoUrl: userCredential.user?.photoURL,
       );
       // create user in database
       await Database.createUser(_user);

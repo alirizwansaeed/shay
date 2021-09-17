@@ -240,7 +240,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                       child: Row(
                         children: [
                           GestureDetector(
-                            onTap: () => databaseController.getImageFormUser(),
+                            onTap: () => databaseController.pickPostNewAdImages(),
                             child: Container(
                               height: 80,
                               width: 80,
@@ -252,7 +252,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: databaseController
-                                  .pickedImagesList.value.length,
+                                  .postAdImages.value.length,
                               itemBuilder: (context, index) {
                                 return Container(
                                   margin: EdgeInsets.symmetric(horizontal: 6.0),
@@ -264,11 +264,11 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                                     children: [
                                       GetPlatform.isWeb
                                           ? Image.network(databaseController
-                                              .pickedImagesList
+                                              .postAdImages
                                               .value[index]
                                               .path)
                                           : Image.file(File(databaseController
-                                              .pickedImagesList
+                                              .postAdImages
                                               .value[index]
                                               .path)),
                                       Positioned(
@@ -276,7 +276,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                                         right: 0,
                                         child: IconButton(
                                           onPressed: () => databaseController
-                                              .pickedImagesList
+                                              .postAdImages
                                               .update((val) {
                                             val!.removeAt(index);
                                           }),
@@ -324,7 +324,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
 
   void _postNewAdButton() async {
     if (_formKey.currentState!.validate()) {
-      PostNewAdModel model = PostNewAdModel(
+      AdModel model = AdModel(
           category:
               _formKey.currentState!.fields[PostNewAdConstants.category]!.value,
           type: _formKey.currentState!.fields[PostNewAdConstants.type]!.value,

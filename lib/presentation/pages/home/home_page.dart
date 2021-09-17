@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shay/presentation/pages/home/widgets/desktop_tab_home.dart';
-import 'package:shay/presentation/pages/home/widgets/mobile_home.dart';
+import 'package:shay/presentation/pages/home/widgets/desktop_tablet/desktop_tab_home.dart';
+import 'package:shay/presentation/pages/home/widgets/mobile/mobile_home.dart';
 import 'package:shay/utils/utils.dart';
 
 class HomePage extends StatefulWidget {

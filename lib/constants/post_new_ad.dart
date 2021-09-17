@@ -33,4 +33,5 @@ class PostNewAdConstants {
   static const photos = 'Photos';
   static const status = 'Status';
   static const Isfeatured = 'IsFeatured';
+  static const date = 'date';
 }
