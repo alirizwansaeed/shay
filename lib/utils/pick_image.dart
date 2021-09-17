@@ -16,7 +16,7 @@ class PickImage {
               title: Text('Pick Form Gallery'),
               onTap: () async {
                 imagefile =
-                    await ImagePicker().pickImage(source: ImageSource.gallery);
+                    await ImagePicker().pickImage(source: ImageSource.gallery,maxHeight: 500,maxWidth: 500);
                 Get.back();
               },
             ),
@@ -25,7 +25,7 @@ class PickImage {
               title: Text('Pick Form Camera'),
               onTap: () async {
                 imagefile =
-                    await ImagePicker().pickImage(source: ImageSource.camera);
+                    await ImagePicker().pickImage(source: ImageSource.camera,maxHeight: 500,maxWidth: 500);
                 Get.back();
               },
             ),

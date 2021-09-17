@@ -30,13 +30,6 @@ class AuthenticationController extends GetxController {
 
   @override
   void onInit() async {
-    /// whenever user signout it will redrict to homepage
-    ever(_currentuserState, (_) async {
-      
-      // if (currentUser == null) {
-      //   Get.offAllNamed(HomePage.routeName);
-      // }
-    });
     //initilize value to current user
     _currentuserState(_auth.currentUser);
     //bind stream to current user
@@ -213,6 +206,7 @@ class AuthenticationController extends GetxController {
   }
 
   Future<void> signOut() async {
+    Get.offAllNamed(HomePage.routeName);
     await _auth.signOut();
   }
 }

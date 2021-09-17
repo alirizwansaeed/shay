@@ -72,7 +72,9 @@ class AdModel {
     isFeatured = snapshot[PostNewAdConstants.Isfeatured];
     itemCondition = snapshot[PostNewAdConstants.itemCondition];
     mobileNumber = snapshot[PostNewAdConstants.mobileNumber];
-    photos = snapshot[PostNewAdConstants.photos];
+    photos = snapshot[PostNewAdConstants.photos] == null
+        ? Map<String, dynamic>()
+        : snapshot[PostNewAdConstants.photos];
     price = snapshot[PostNewAdConstants.price];
     status = snapshot[PostNewAdConstants.status];
     title = snapshot[PostNewAdConstants.title];

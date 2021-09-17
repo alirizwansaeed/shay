@@ -26,7 +26,15 @@ class FeatureAdsListView extends StatelessWidget {
                       alignment: Alignment.topCenter,
                       heightFactor: .7,
                       child: Image.network(
-                          _databseController.adStream[index].photos!['0'],
+                          _databseController.adStream[index].photos!.isEmpty
+                              ? ''
+                              : _databseController.adStream[index].photos!['0'],
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                                alignment: Alignment.center,
+                                color: Colors.grey.shade200,
+                                child: Text('No image'),
+                              ),
                           fit: BoxFit.cover)),
                   FractionallySizedBox(
                     alignment: Alignment.bottomCenter,
