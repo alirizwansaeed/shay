@@ -22,12 +22,14 @@ class DatabaseController extends GetxController {
   var isLoading = false.obs;
 
   UserModel get stream {
-    if (_authController.currentUserState != null) {
+    if (_authController.currentUser != null) {
       userNameStream.bindStream(
           Database.userNameStream(_authController.currentUser!.uid));
       return userNameStream.value;
     } else {
-      userNameStream(UserModel(name: 'Shay User'));
+      userNameStream(UserModel(
+        name: 'Shay User',
+      ));
       return userNameStream.value;
     }
   }

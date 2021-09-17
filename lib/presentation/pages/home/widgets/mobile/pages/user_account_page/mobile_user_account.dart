@@ -62,7 +62,7 @@ class MobileUserAccount extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          _databaseController.stream.name,
+                          _databaseController.stream.name ?? 'Shay User',
                           maxLines: 1,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),

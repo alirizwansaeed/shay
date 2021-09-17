@@ -3,7 +3,7 @@ import 'package:shay/constants/user_fields.dart';
 
 class UserModel {
   late String? uid;
-  late String name;
+  late String? name;
   UserModel({
     this.uid,
     required this.name,

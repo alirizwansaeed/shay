@@ -32,11 +32,10 @@ class AuthenticationController extends GetxController {
   void onInit() async {
     /// whenever user signout it will redrict to homepage
     ever(_currentuserState, (_) async {
-      if (currentUserState == null) {
-        await _auth.currentUser?.reload();
-
-        Get.offAllNamed(HomePage.routeName);
-      }
+      
+      // if (currentUser == null) {
+      //   Get.offAllNamed(HomePage.routeName);
+      // }
     });
     //initilize value to current user
     _currentuserState(_auth.currentUser);

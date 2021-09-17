@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 T screenType<T>(BuildContext context,  { required T mobile, T? desktopTab}) {
