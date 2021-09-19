@@ -10,5 +10,7 @@ class Routes {
     ForgetPasswordPage.routeName: (context) => ForgetPasswordPage(),
     UserVerificationPage.routeName: (context) => UserVerificationPage(),
     EditProfilePage.routeName: (context) => EditProfilePage(),
+    AdDetailPage.routeName:(context)=>AdDetailPage()
+
   };
 }

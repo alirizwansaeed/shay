@@ -62,7 +62,7 @@ class MobileUserAccount extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          _databaseController.stream.name ?? 'Shay User',
+                          _databaseController.userStream.name ?? 'Shay User',
                           maxLines: 1,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
@@ -138,7 +138,7 @@ class MobileUserAccount extends StatelessWidget {
               FormBuilderTextField(
                 name: 'name',
                 maxLength: 25,
-                initialValue: _databaseController.stream.name,
+                initialValue: _databaseController.userStream.name,
                 validator: FormBuilderValidators.required(context),
                 decoration: InputDecoration(border: OutlineInputBorder()),
               ),

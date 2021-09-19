@@ -32,11 +32,12 @@ dependencies:
   flutter_svg: ^0.22.0
   google_sign_in: ^5.1.0
   flutter_facebook_auth: ^3.5.1
-  flutter_neumorphic: ^3.1.0
   flutter_form_builder: ^6.1.0+1
   image_picker: ^0.8.4
   animated_bottom_navigation_bar: ^0.3.2
   intl: ^0.17.0
+  cached_network_image: ^3.1.0
+  quds_popup_menu: ^0.0.1+1
 
 
 

@@ -8,34 +8,31 @@ import 'package:shay/utils/pick_image.dart';
 
 class DatabaseController extends GetxController {
   final _authController = Get.find<AuthenticationController>();
-  var userNameStream = UserModel(name: "Shay User").obs;
+  var _usernameStream = UserModel(name: "Shay User").obs;
   Rx<List<AdModel>> _adstream = Rx<List<AdModel>>([]);
-
-  /// list of images location picked from user
-  Rx<List<XFile>> postAdImages = Rx<List<XFile>>([]);
+  Rx<List<XFile>> imagePickerImageList = Rx<List<XFile>>([]);
+  var isLoading = false.obs;
 
   List<AdModel> get adStream {
     return _adstream.value;
   }
 
-  /// loading state
-  var isLoading = false.obs;
-
-  UserModel get stream {
+  UserModel get userStream {
     if (_authController.currentUser != null) {
-      userNameStream.bindStream(
+      _usernameStream.bindStream(
           Database.userNameStream(_authController.currentUser!.uid));
-      return userNameStream.value;
+      return _usernameStream.value;
     } else {
-      userNameStream(UserModel(
+      _usernameStream(UserModel(
         name: 'Shay User',
       ));
-      return userNameStream.value;
+      return _usernameStream.value;
     }
   }
 
   @override
   void onInit() {
+    //BIND ALL ADS STREAM
     _adstream.bindStream(Database.adsStream());
 
     super.onInit();
@@ -45,9 +42,19 @@ class DatabaseController extends GetxController {
     Map<String, String> imagesPathInStorage = {};
     try {
       isLoading(true);
-      for (int index = 0; index < postAdImages.value.length; index++) {
+      Get.showSnackbar(GetBar(
+        showProgressIndicator: true,
+        isDismissible: false,
+        titleText: Text(
+          "Ad Posting in progress",
+          style: TextStyle(color: Colors.white),
+        ),
+        messageText: SizedBox.shrink(),
+      ));
+
+      for (int index = 0; index < imagePickerImageList.value.length; index++) {
         String? val = await Storage.uploadPostImages(
-            pickedFile: postAdImages.value[index],
+            pickedFile: imagePickerImageList.value[index],
             uid: _authController.currentUser!.uid);
         imagesPathInStorage.putIfAbsent('$index', () => val!);
       }
@@ -60,18 +67,25 @@ class DatabaseController extends GetxController {
           photos: imagesPathInStorage,
         ),
       );
-      postAdImages.value.clear();
+      imagePickerImageList.value.clear();
+      Get.back();
+      Get.showSnackbar(GetBar(
+          titleText: Text(
+            "Ad posted successfully",
+            style: TextStyle(color: Colors.white),
+          ),
+          messageText: SizedBox.shrink(),
+          duration: const Duration(seconds: 3)));
+    } catch (e) {
       Get.back();
       Get.showSnackbar(GetBar(
         titleText: Text(
-          "Ad Posted Successfully",
+          "Ad posting fail",
           style: TextStyle(color: Colors.white),
         ),
         messageText: SizedBox.shrink(),
         duration: const Duration(seconds: 3),
       ));
-    } catch (e) {
-      print(e);
     } finally {
       isLoading(false);
     }
@@ -83,59 +97,8 @@ class DatabaseController extends GetxController {
 
   void pickPostNewAdImages() async {
     XFile? _userimage = await PickImage.pickImage();
-    postAdImages.update((val) {
+    imagePickerImageList.update((val) {
       val!.add(_userimage!);
     });
   }
-
-  /// getting images from user
-  // void getImageFormUser() async {
-  //   try {
-  //     if (postAdImages.value.length == 8) {
-  //       Get.showSnackbar(GetBar(
-  //         title: 'Max limit Reach',
-  //         message: 'You can post Maximum 8 images',
-  //         duration: const Duration(seconds: 3),
-  //       ));
-  //       return;
-  //     }
-  //     if (GetPlatform.isMobile) {
-  //       Get.bottomSheet(BottomSheet(
-  //         onClosing: () {},
-  //         builder: (context) => Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             ListTile(
-  //               leading: Icon(Icons.collections),
-  //               title: Text('Pick Form Gallery'),
-  //               onTap: () async {
-  //                 XFile? pickedImage = await PickImage.formGallery();
-  //                 postAdImages.update((val) {
-  //                   val!.add(pickedImage!);
-  //                 });
-  //                 Get.back();
-  //               },
-  //             ),
-  //             ListTile(
-  //               leading: Icon(Icons.camera),
-  //               title: Text('Pick Form Camera'),
-  //               onTap: () async {
-  //                 XFile? pickedImage = await PickImage.formCamera();
-  //                 postAdImages.update((val) {
-  //                   val!.add(pickedImage!);
-  //                 });
-  //                 Get.back();
-  //               },
-  //             ),
-  //           ],
-  //         ),
-  //       ));
-  //     } else {
-  //       XFile? pickedImage = await PickImage.formGallery();
-  //       postAdImages.update((val) {
-  //         val!.add(pickedImage!);
-  //       });
-  //     }
-  //   } catch (e) {}
-  // }
 }

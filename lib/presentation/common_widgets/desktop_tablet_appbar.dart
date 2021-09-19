@@ -7,11 +7,12 @@ import 'package:shay/presentation/pages/pages.dart';
 class DesktopTabletAppbar extends StatelessWidget
     implements PreferredSizeWidget {
   @override
-  Size get preferredSize => Size.fromHeight(AppBar().preferredSize.height + 40);
+  Size get preferredSize => Size.fromHeight(AppBar().preferredSize.height + 50);
   final _authenticationController = Get.find<AuthenticationController>();
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppBar(
           leading: Padding(
@@ -70,36 +71,35 @@ class DesktopTabletAppbar extends StatelessWidget
             ),
           ],
         ),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(
-        //       horizontal: ScreenConstants.devicePadding),
-        //   child: Container(
-        //     height: 40,
-        //     child: Wrap(
-        //       children: [
-        //         Text('CATEGORIES'),
-        //         Spacer(),
-        //         Text('MOBILE SHOPS'),
-        //         SizedBox(
-        //           width: 10,
-        //         ),
-        //         Text('LAPTOPSHOPS'),
-        //         SizedBox(
-        //           width: 10,
-        //         ),
-        //         Text('BECOME A VENDOR'),
-        //         SizedBox(
-        //           width: 10,
-        //         ),
-        //         Text('EXPLORE ADS'),
-        //         SizedBox(
-        //           width: 10,
-        //         ),
-        //         Text('PRICING PLANS'),
-        //       ],
-        //     ),
-        //   ),
-        // )
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              PopupMenuButton(
+                child: Text(
+                  'ALL CATEGORIES',
+                ),
+                tooltip: 'ALL CATEGORIES',
+                itemBuilder: (context) => PostNewAdConstants.categoryMap.keys
+                    .map((e) => PopupMenuItem(
+                        height: 30,
+                        textStyle: TextStyle(fontSize: 14),
+                        value: e,
+                        child: Text(e)))
+                    .toList(),
+              ),
+              Spacer(),
+              TextButton(onPressed: () {}, child: Text('MOBILE SHOPS')),
+              SizedBox(width: 8),
+              TextButton(onPressed: () {}, child: Text('LAPTOP SHOPS')),
+              SizedBox(width: 8),
+              TextButton(onPressed: () {}, child: Text('BECOME VENDOR')),
+              SizedBox(width: 8),
+              TextButton(onPressed: () {}, child: Text('PRICE PLANS')),
+              SizedBox(width: 8),
+            ],
+          ),
+        ),
       ],
     );
   }

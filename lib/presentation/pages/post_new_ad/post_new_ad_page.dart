@@ -19,10 +19,11 @@ class PostNewAdPage extends StatefulWidget {
 
 class _PostNewAdPageState extends State<PostNewAdPage> {
   final _formKey = GlobalKey<FormBuilderState>();
+  Rx<List<String>> subCategory = Rx<List<String>>([]);
   @override
   Widget build(BuildContext context) {
     final databaseController = Get.find<DatabaseController>();
-    //Form Builder Fields
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -74,18 +75,53 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: FormBuilderValidators.required(context),
                     hint: Text('Choose Category'),
+                    onChanged: (value) {
+                      _formKey
+                          .currentState?.fields[PostNewAdConstants.subCategory]
+                          ?.reset();
+                      subCategory(PostNewAdConstants.categoryMap[value]);
+                    },
                     isDense: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                     ),
-                    items: PostNewAdConstants.categorylist
+                    items: PostNewAdConstants.categoryMap.entries
                         .map(
                           (category) => DropdownMenuItem(
-                            value: category,
-                            child: Text(category),
+                            value: category.key,
+                            child: Text(category.key),
                           ),
                         )
                         .toList(),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Obx(
+                    () => subCategory.value.isEmpty
+                        ? SizedBox.shrink()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(PostNewAdConstants.subCategory),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              FormBuilderDropdown(
+                                  name: PostNewAdConstants.subCategory,
+                                  hint: Text('Choose  Subcategory'),
+                                  validator:
+                                      FormBuilderValidators.required(context),
+                                  isDense: true,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  items: subCategory.value
+                                      .map((e) => DropdownMenuItem(
+                                          value: e, child: Text(e)))
+                                      .toList()),
+                            ],
+                          ),
                   ),
                   SizedBox(
                     height: 20,
@@ -240,7 +276,8 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                       child: Row(
                         children: [
                           GestureDetector(
-                            onTap: () => databaseController.pickPostNewAdImages(),
+                            onTap: () =>
+                                databaseController.pickPostNewAdImages(),
                             child: Container(
                               height: 80,
                               width: 80,
@@ -252,7 +289,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: databaseController
-                                  .postAdImages.value.length,
+                                  .imagePickerImageList.value.length,
                               itemBuilder: (context, index) {
                                 return Container(
                                   margin: EdgeInsets.symmetric(horizontal: 6.0),
@@ -264,11 +301,11 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                                     children: [
                                       GetPlatform.isWeb
                                           ? Image.network(databaseController
-                                              .postAdImages
+                                              .imagePickerImageList
                                               .value[index]
                                               .path)
                                           : Image.file(File(databaseController
-                                              .postAdImages
+                                              .imagePickerImageList
                                               .value[index]
                                               .path)),
                                       Positioned(
@@ -276,7 +313,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                                         right: 0,
                                         child: IconButton(
                                           onPressed: () => databaseController
-                                              .postAdImages
+                                              .imagePickerImageList
                                               .update((val) {
                                             val!.removeAt(index);
                                           }),
@@ -336,7 +373,11 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
               .currentState!.fields[PostNewAdConstants.mobileNumber]!.value,
           itemCondition: _formKey
               .currentState!.fields[PostNewAdConstants.itemCondition]!.value,
-          city: _formKey.currentState!.fields[PostNewAdConstants.city]!.value);
+          city: _formKey.currentState!.fields[PostNewAdConstants.city]!.value,
+          subCategory: _formKey.currentState
+                  ?.fields[PostNewAdConstants.subCategory]?.value ??
+              '');
+      Get.back();
       await Get.find<DatabaseController>().postNewAdd(model);
     }
   }

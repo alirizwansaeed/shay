@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -104,6 +105,7 @@ class AuthenticationController extends GetxController {
       UserModel _user = UserModel(
         uid: userCredential.user!.uid,
         name: userCredential.user!.displayName!,
+        creationdate: Timestamp.fromDate(userCredential.user!.metadata.creationTime!),
       );
       // create user in database
       await Database.createUser(_user);
@@ -139,6 +141,7 @@ class AuthenticationController extends GetxController {
       UserModel _userModel = UserModel(
         uid: _userCredential.user!.uid,
         name: _userCredential.user!.displayName!,
+        creationdate: Timestamp.fromDate(_userCredential.user!.metadata.creationTime!),
       );
       Database.createUser(_userModel);
       Get.back();
@@ -192,7 +195,7 @@ class AuthenticationController extends GetxController {
     if (_auth.currentUser!.emailVerified &&
         _auth.currentUser!.providerData[0].providerId == 'password') {
       UserModel userModel =
-          UserModel(uid: _auth.currentUser!.uid, name: 'Shay User');
+          UserModel(uid: _auth.currentUser!.uid, name: 'Shay User',creationdate:Timestamp.fromDate(_auth.currentUser!.metadata.creationTime!), );
       await Database.createUser(userModel);
       return true;
     }

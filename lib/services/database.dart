@@ -25,6 +25,7 @@ class Database {
         {
           UserFieldsConstants.uid: userModel.uid,
           UserFieldsConstants.name: userModel.name,
+          UserFieldsConstants.creationdate: userModel.creationdate
         },
       );
     }
@@ -52,6 +53,7 @@ class Database {
       PostNewAdConstants.Isfeatured: model.isFeatured,
       PostNewAdConstants.status: model.status,
       PostNewAdConstants.date: DateTime.now(),
+      PostNewAdConstants.subCategory: model.subCategory
     });
   }
 

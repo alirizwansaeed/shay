@@ -19,7 +19,11 @@ class Storage {
           await pickedFile.readAsBytes(),
           SettableMetadata(contentType: 'image/jpeg'));
       return uploadTask.ref.getDownloadURL();
-    } catch (e) {}
+    } on FirebaseException catch (e) {
+      print(e);
+    } catch (e) {
+      print(e);
+    }
   }
 
   static Future<String?> uploadUserProfile(
