@@ -1,4 +1,6 @@
-import 'package:flutter/Material.dart';
+
+import 'package:flutter/material.dart';
+
 class ColorConstants{
  static  const Color primaryColor = Color(0xFFCCEAF5);
 
