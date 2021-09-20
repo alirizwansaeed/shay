@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ScreenConstraints {
+class ScreenConstants {
   /// padding around the corners of screen
-  static double devicePadding = 20.0;
+  static const double devicePadding = 20.0;
+  ///app bar size of device
+  static double appBarSize = AppBar().preferredSize.height;
 
   /// screen width
-  static double width(BuildContext context) =>
-      MediaQuery.of(context).size.width;
-
-  ///screen height
-  static double height(BuildContext context) =>
-      MediaQuery.of(context).size.height;
 }
