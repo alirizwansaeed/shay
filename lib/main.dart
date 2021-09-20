@@ -46,7 +46,7 @@ class _MyappState extends State<Myapp> {
             return GetMaterialApp(
               initialBinding: HomeBinding(),
               debugShowCheckedModeBanner: false,
-              initialRoute: HomePage.routeName,
+              initialRoute: PostNewAdPage.routeName,
               routes: Routes.routes,
             );
           }

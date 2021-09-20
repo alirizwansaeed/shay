@@ -1,6 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:shay/constants/assets_icons.dart';
+import 'package:shay/controllers/controllers.dart';
 
 import 'package:shay/models/ad.dart';
 import 'package:shay/presentation/pages/ad_detail/widgets/images_view.dart';
@@ -130,6 +133,57 @@ class MobileDetailPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(adModel.description!),
               ),
+              Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'User Information',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 6),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor:
+                              Theme.of(context).scaffoldBackgroundColor,
+                          backgroundImage:
+                              AssetImage(AssetsIconsConstants.avatar),
+                          radius: 30,
+                        ),
+                        SizedBox(width: 6),
+                        Obx(
+                          () => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Get.find<DatabaseController>()
+                                    .specificUserData
+                                    .name!,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w900),
+                              ),
+                              Text(
+                                'Member Since ${DateFormat().add_yMMM().format(DateTime.fromMicrosecondsSinceEpoch(Get.find<DatabaseController>().specificUserData.creationdate!.microsecondsSinceEpoch))}',
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),

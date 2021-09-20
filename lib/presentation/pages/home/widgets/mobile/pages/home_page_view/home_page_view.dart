@@ -7,34 +7,36 @@ class HomePageView extends StatelessWidget {
   // final _databseController = Get.find<DatabaseController>();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(ScreenConstants.devicePadding),
-          child: Container(
-            height: 45,
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(border: Border.all()),
-            child: Text(
-              'search mobile, Home utilities, cloting, and more',
-              style: TextStyle(color: Colors.grey.shade600),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(ScreenConstants.devicePadding),
+            child: Container(
+              height: 45,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(border: Border.all()),
+              child: Text(
+                'search mobile, Home utilities, cloting, and more',
+                style: TextStyle(color: Colors.grey.shade600),
+              ),
             ),
           ),
-        ),
-        _catagoryTabs(),
-        Padding(
-          padding: const EdgeInsets.only(top: 20, left: 20),
-          child: Text("Featured Ads",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              )),
-        ),
-        FeatureAdsListView(),
-      ],
+          _catagoryTabs(),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, left: 20),
+            child: Text("Featured Ads",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
+          FeatureAdsListView(),
+        ],
+      ),
     );
   }
 

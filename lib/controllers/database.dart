@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,7 +9,10 @@ import 'package:shay/utils/pick_image.dart';
 
 class DatabaseController extends GetxController {
   final _authController = Get.find<AuthenticationController>();
+
   var _usernameStream = UserModel(name: "Shay User").obs;
+  var _specificUserData =
+      UserModel(name: 'Shay User', creationdate: Timestamp.now()).obs;
   Rx<List<AdModel>> _adstream = Rx<List<AdModel>>([]);
   Rx<List<XFile>> imagePickerImageList = Rx<List<XFile>>([]);
   var isLoading = false.obs;
@@ -17,10 +21,14 @@ class DatabaseController extends GetxController {
     return _adstream.value;
   }
 
+  UserModel get specificUserData {
+    return _specificUserData.value;
+  }
+
   UserModel get userStream {
     if (_authController.currentUser != null) {
       _usernameStream.bindStream(
-          Database.userNameStream(_authController.currentUser!.uid));
+          Database.currentuserStream(_authController.currentUser!.uid));
       return _usernameStream.value;
     } else {
       _usernameStream(UserModel(
@@ -38,8 +46,23 @@ class DatabaseController extends GetxController {
     super.onInit();
   }
 
+  void fetchSpecificUser(String documentid) async {
+    UserModel userModel = await Database.fetchSpecificUser(documentid);
+    _specificUserData(userModel);
+  }
+
   Future<void> postNewAdd(AdModel model) async {
     Map<String, String> imagesPathInStorage = {};
+    if (imagePickerImageList.value.isEmpty) {
+      return Get.showSnackbar(GetBar(
+        titleText: Text(
+          "pick atleast one image",
+          style: TextStyle(color: Colors.white),
+        ),
+        messageText: SizedBox.shrink(),
+        duration: const Duration(seconds: 3),
+      ));
+    }
     try {
       isLoading(true);
       Get.showSnackbar(GetBar(
@@ -92,13 +115,24 @@ class DatabaseController extends GetxController {
   }
 
   void updateUserName(String name) async {
-    Database.updateUserName(uid: _authController.currentUser!.uid, name: name);
+    Database.updateCurrentUserName(
+        uid: _authController.currentUser!.uid, name: name);
   }
 
   void pickPostNewAdImages() async {
-    XFile? _userimage = await PickImage.pickImage();
-    imagePickerImageList.update((val) {
-      val!.add(_userimage!);
-    });
+    if (imagePickerImageList.value.length >= 8) {
+      return Get.showSnackbar(GetBar(
+          titleText: Text(
+            "You can post maximum 8 images",
+            style: TextStyle(color: Colors.white),
+          ),
+          messageText: SizedBox.shrink(),
+          duration: const Duration(seconds: 3)));
+    } else {
+      XFile? _userimage = await PickImage.pickImage();
+      imagePickerImageList.update((val) {
+        val!.add(_userimage!);
+      });
+    }
   }
 }

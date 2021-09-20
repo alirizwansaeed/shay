@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shay/constants/constants.dart';
+import 'package:shay/controllers/controllers.dart';
 
 import 'package:shay/models/ad.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
@@ -37,65 +38,124 @@ class DesktopTabDetailPage extends StatelessWidget {
                   width: 20,
                 ),
                 Expanded(
-                  child: SizedBox(
-                    height: 200,
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 200,
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Rs ' + adModel.price!,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.w900),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Rs ' + adModel.price!,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                            Icons.favorite_border_outlined))
+                                  ],
                                 ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.favorite_border_outlined))
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  adModel.title!,
+                                  style: TextStyle(
+                                      color: Colors.grey.shade600,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(Icons.place_outlined),
+                                    Text(
+                                      adModel.city!,
+                                      style: TextStyle(
+                                        color: Colors.grey.shade600,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Text(
+                                      '${DateFormat().add_d().add_MMM().add_y().format(DateTime.fromMicrosecondsSinceEpoch(adModel.date!.microsecondsSinceEpoch))}',
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              adModel.title!,
-                              style: TextStyle(
-                                  color: Colors.grey.shade600,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Row(
-                              children: [
-                                Icon(Icons.place_outlined),
-                                Text(
-                                  adModel.city!,
-                                  style: TextStyle(
-                                    color: Colors.grey.shade600,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Spacer(),
-                                Text(
-                                  '${DateFormat().add_d().add_MMM().add_y().format(DateTime.fromMicrosecondsSinceEpoch(adModel.date!.microsecondsSinceEpoch))}',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                      Card(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          padding: EdgeInsets.all(10),
+                          height: 115,
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'User Information',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w900),
+                              ),
+                              SizedBox(height: 6),
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    backgroundImage:
+                                        AssetImage(AssetsIconsConstants.avatar),
+                                    radius: 30,
+                                  ),
+                                  SizedBox(width: 6),
+                                  Obx(
+                                    () => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          Get.find<DatabaseController>()
+                                              .specificUserData
+                                              .name!,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w900),
+                                        ),
+                                        Text(
+                                          'Member Since ${DateFormat().add_yMMM().format(DateTime.fromMicrosecondsSinceEpoch(Get.find<DatabaseController>().specificUserData.creationdate!.microsecondsSinceEpoch))}',
+                                          style: TextStyle(
+                                            color: Colors.grey.shade600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 )
               ]),

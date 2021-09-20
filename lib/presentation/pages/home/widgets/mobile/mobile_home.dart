@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/presentation/pages/home/widgets/mobile/pages/user_account_page/mobile_user_account.dart';
 import 'package:shay/presentation/pages/pages.dart';
@@ -9,9 +10,16 @@ import 'pages/home_page_view/home_page_view.dart';
 
 // ignore: must_be_immutable
 class MobileHome extends StatelessWidget {
+  final PageController pageController;
+  final Rx<int> bottombarIndex;
+  MobileHome({
+    Key? key,
+    required this.pageController,
+    required this.bottombarIndex,
+  }) : super(key: key);
+
   final _authenticationController = Get.find<AuthenticationController>();
-  final _pagecontroller = PageController(initialPage: 0, keepPage: true);
-  var bottomBarIndex = 0.obs;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +34,7 @@ class MobileHome extends StatelessWidget {
   PageView _mobilehome() {
     return PageView(
       physics: NeverScrollableScrollPhysics(),
-      controller: _pagecontroller,
+      controller: pageController,
       children: [
         HomePageView(),
         Container(
@@ -72,15 +80,15 @@ class MobileHome extends StatelessWidget {
           Icons.favorite_border,
           Icons.manage_accounts
         ],
-        activeIndex: bottomBarIndex.value,
+        activeIndex: bottombarIndex.value,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.verySmoothEdge,
         leftCornerRadius: 32,
         rightCornerRadius: 32,
         onTap: (index) {
-          bottomBarIndex(index);
+          bottombarIndex(index);
 
-          _pagecontroller.jumpToPage(index);
+          pageController.jumpToPage(index);
         },
       ),
     );

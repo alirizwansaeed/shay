@@ -15,7 +15,7 @@ class Database {
     return _db.collection('posts');
   }
 
-  static Future<void> createUser(UserModel userModel) async {
+  static Future<void> createNewUser(UserModel userModel) async {
     DocumentReference _userDocument = _usersCollection.doc(userModel.uid);
     //get snapshot of document
     DocumentSnapshot _snapshot = await _userDocument.get();
@@ -31,7 +31,14 @@ class Database {
     }
   }
 
-  static Future<void> updateUserName(
+  static Future<UserModel> fetchSpecificUser(String documentid) async {
+    return _usersCollection
+        .doc(documentid)
+        .get()
+        .then((value) => UserModel.fromSnapshot(value));
+  }
+
+  static Future<void> updateCurrentUserName(
       {required String uid, required String name}) async {
     await _usersCollection.doc(uid).update({
       UserFieldsConstants.name: name,
@@ -58,7 +65,7 @@ class Database {
   }
 
   //userdata stream
-  static Stream<UserModel> userNameStream(String uid) {
+  static Stream<UserModel> currentuserStream(String uid) {
     return _usersCollection
         .doc(uid)
         .snapshots()

@@ -108,7 +108,7 @@ class AuthenticationController extends GetxController {
         creationdate: Timestamp.fromDate(userCredential.user!.metadata.creationTime!),
       );
       // create user in database
-      await Database.createUser(_user);
+      await Database.createNewUser(_user);
       Get.back(closeOverlays: true);
     } on PlatformException catch (e) {
       Get.showSnackbar(GetBar(
@@ -143,7 +143,7 @@ class AuthenticationController extends GetxController {
         name: _userCredential.user!.displayName!,
         creationdate: Timestamp.fromDate(_userCredential.user!.metadata.creationTime!),
       );
-      Database.createUser(_userModel);
+      Database.createNewUser(_userModel);
       Get.back();
     } on PlatformException catch (e) {
       Get.showSnackbar(GetBar(
@@ -196,7 +196,7 @@ class AuthenticationController extends GetxController {
         _auth.currentUser!.providerData[0].providerId == 'password') {
       UserModel userModel =
           UserModel(uid: _auth.currentUser!.uid, name: 'Shay User',creationdate:Timestamp.fromDate(_auth.currentUser!.metadata.creationTime!), );
-      await Database.createUser(userModel);
+      await Database.createNewUser(userModel);
       return true;
     }
     //recheck if user is not verified then return fasle
