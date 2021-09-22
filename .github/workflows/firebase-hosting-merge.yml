@@ -16,11 +16,11 @@ jobs:
         with:
           channel: 'stable'
      # Build Website
-      - name: Build Website    
+      - name: Build Website
         run: |
             flutter config --enable-web
             flutter pub get
-            flutter build web --release
+            flutter build web --release --web-renderer canvaskit
         working-directory: ./
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

@@ -46,7 +46,9 @@ class DatabaseController extends GetxController {
     super.onInit();
   }
 
-  void fetchSpecificUser(String documentid) async {
+  Future<void> fetchSpecificUser(String documentid) async {
+    _specificUserData(
+        UserModel(name: "Shay User", creationdate: Timestamp.now()));
     UserModel userModel = await Database.fetchSpecificUser(documentid);
     _specificUserData(userModel);
   }

@@ -28,11 +28,22 @@ class HomePageView extends StatelessWidget {
           _catagoryTabs(),
           Padding(
             padding: const EdgeInsets.only(top: 20, left: 20),
-            child: Text("Featured Ads",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                )),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Featured Ads",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    )),
+                TextButton(
+                  onPressed: () {
+                    
+                  },
+                  child: Text('VIEW ALL'),
+                )
+              ],
+            ),
           ),
           FeatureAdsListView(),
         ],

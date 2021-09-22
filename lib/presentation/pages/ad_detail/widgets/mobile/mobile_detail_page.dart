@@ -16,6 +16,7 @@ class MobileDetailPage extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
