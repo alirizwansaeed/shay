@@ -94,15 +94,15 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                         )
                         .toList(),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   Obx(
                     () => subCategory.value.isEmpty
                         ? SizedBox.shrink()
                         : Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              SizedBox(
+                                height: 20,
+                              ),
                               Text(PostNewAdConstants.subCategory),
                               SizedBox(
                                 height: 10,
@@ -249,7 +249,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 29),
+                  SizedBox(height: 20),
                   Text(PostNewAdConstants.city),
                   SizedBox(
                     height: 10,
@@ -258,6 +258,16 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                     name: PostNewAdConstants.city,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: FormBuilderValidators.required(context),
+                    decoration: InputDecoration(border: OutlineInputBorder()),
+                  ),
+                  SizedBox(height: 20),
+                  Text(PostNewAdConstants.videoUrl),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  FormBuilderTextField(
+                    name: PostNewAdConstants.videoUrl,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(border: OutlineInputBorder()),
                   ),
                   SizedBox(

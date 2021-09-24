@@ -9,8 +9,8 @@ class Routes {
     PostNewAdPage.routeName: (context) => PostNewAdPage(),
     ForgetPasswordPage.routeName: (context) => ForgetPasswordPage(),
     UserVerificationPage.routeName: (context) => UserVerificationPage(),
-    EditProfilePage.routeName: (context) => EditProfilePage(),
-    AdDetailPage.routeName:(context)=>AdDetailPage()
-
+    EditUserProfilepage.routeName: (context) => EditUserProfilepage(),
+    AdDetailPage.routeName: (context) => AdDetailPage(),
+    AllAdsGridView.routeName: (context) => AllAdsGridView(),
   };
 }

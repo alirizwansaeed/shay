@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shay/constants/assets_icons.dart';
 import 'package:shay/controllers/controllers.dart';
-
-import 'package:shay/models/ad.dart';
+import 'package:shay/models/models.dart';
+import 'package:shay/presentation/common_widgets/common_widgets.dart';
 import 'package:shay/presentation/pages/ad_detail/widgets/images_view.dart';
 
 class MobileDetailPage extends StatelessWidget {
@@ -16,8 +15,10 @@ class MobileDetailPage extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
+      appBar: MobileAppbar(
+        title: "${adModel.title}",
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

@@ -42,4 +42,5 @@ class PostNewAdConstants {
   static const status = 'Status';
   static const Isfeatured = 'IsFeatured';
   static const date = 'date';
+  static const videoUrl = 'Video Url';
 }

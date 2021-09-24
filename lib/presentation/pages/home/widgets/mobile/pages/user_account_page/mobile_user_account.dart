@@ -34,28 +34,6 @@ class MobileUserAccount extends StatelessWidget {
                             Theme.of(context).scaffoldBackgroundColor,
                         backgroundImage:
                             AssetImage(AssetsIconsConstants.avatar),
-                        // child: Stack(
-                        //   clipBehavior: Clip.none,
-                        //   children: [
-                        //     Positioned(
-                        //       right: -2,
-                        //       bottom: -6,
-                        //       child: InkWell(
-                        //         onTap: () {},
-                        //         child: Container(
-                        //             padding: const EdgeInsets.all(6),
-                        //             decoration: BoxDecoration(
-                        //               shape: BoxShape.circle,
-                        //               color: Colors.blue,
-                        //             ),
-                        //             child: Icon(
-                        //               Icons.camera,
-                        //               color: Colors.white,
-                        //             )),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
                       ),
                       SizedBox(
                         width: 10,
@@ -69,14 +47,15 @@ class MobileUserAccount extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                          onPressed: _updateUserName, icon: Icon(Icons.edit))
+                          onPressed: () =>
+                              Get.toNamed(EditUserProfilepage.routeName),
+                          icon: Icon(Icons.edit))
                     ],
                   ),
           ),
           SizedBox(
             height: 30,
           ),
-
           Obx(
             () => SizedBox(
               width: double.infinity,
@@ -101,24 +80,6 @@ class MobileUserAccount extends StatelessWidget {
                     ),
             ),
           )
-          // _authenticationController.currentUserState == null
-          //     ? TextButton(
-          //         onPressed: () async {
-          //           if (_authenticationController.currentUserState == null)
-          //             return Get.toNamed(LoginPage.routeName);
-          //           if (await _authenticationController.isEmailVerified())
-          //             return Get.toNamed(PostNewAdPage.routeName);
-          //           if (!await _authenticationController.isEmailVerified())
-          //             return Get.toNamed(UserVerificationPage.routeName);
-          //           else
-          //             return Get.toNamed(PostNewAdPage.routeName);
-          //         },
-          //         child: Text('Login'))
-          //     : TextButton(
-          //         onPressed: () {
-          //           _authenticationController.signOut();
-          //         },
-          //         child: Text("Sign out")),
         ],
       ),
     );

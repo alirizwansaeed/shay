@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 import 'package:shay/constants/constants.dart';
 import 'package:shay/presentation/pages/home/widgets/feature_ads_listView.dart';
+import 'package:shay/presentation/pages/pages.dart';
 
 class HomePageView extends StatelessWidget {
   // final _databseController = Get.find<DatabaseController>();
@@ -38,7 +40,7 @@ class HomePageView extends StatelessWidget {
                     )),
                 TextButton(
                   onPressed: () {
-                    
+                    Get.toNamed(AllAdsGridView.routeName);
                   },
                   child: Text('VIEW ALL'),
                 )
