@@ -135,7 +135,7 @@ class DesktopTabDetailPage extends StatelessWidget {
                                         Text(
                                           Get.find<DatabaseController>()
                                               .specificUserData
-                                              .name!,
+                                              .displayName!,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.w900),

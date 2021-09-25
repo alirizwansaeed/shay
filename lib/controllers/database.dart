@@ -10,9 +10,9 @@ import 'package:shay/utils/pick_image.dart';
 class DatabaseController extends GetxController {
   final _authController = Get.find<AuthenticationController>();
 
-  var _usernameStream = UserModel(name: "Shay User").obs;
+  var _usernameStream = UserModel(displayName: "Shay User").obs;
   var _specificUserData =
-      UserModel(name: 'Shay User', creationdate: Timestamp.now()).obs;
+      UserModel(displayName: 'Shay User', creationdate: Timestamp.now()).obs;
   Rx<List<AdModel>> _adstream = Rx<List<AdModel>>([]);
   Rx<List<XFile>> imagePickerImageList = Rx<List<XFile>>([]);
   var isLoading = false.obs;
@@ -32,7 +32,7 @@ class DatabaseController extends GetxController {
       return _usernameStream.value;
     } else {
       _usernameStream(UserModel(
-        name: 'Shay User',
+        displayName: 'Shay User',
       ));
       return _usernameStream.value;
     }
@@ -48,7 +48,7 @@ class DatabaseController extends GetxController {
 
   Future<void> fetchSpecificUser(String documentid) async {
     _specificUserData(
-        UserModel(name: "Shay User", creationdate: Timestamp.now()));
+        UserModel(displayName: "Shay User", creationdate: Timestamp.now()));
     UserModel userModel = await Database.fetchSpecificUser(documentid);
     _specificUserData(userModel);
   }
@@ -116,9 +116,9 @@ class DatabaseController extends GetxController {
     }
   }
 
-  void updateUserName(String name) async {
-    Database.updateCurrentUserName(
-        uid: _authController.currentUser!.uid, name: name);
+  void updateUser(UserModel userModel) async {
+    await Database.updateUser(
+        userModel.copyWith(uid: _authController.currentUser!.uid));
   }
 
   void pickPostNewAdImages() async {

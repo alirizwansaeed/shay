@@ -13,7 +13,7 @@ class AuthenticationController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   /// declare user
-  Rx<User?> _currentuserState = Rx<User?>(null);
+  Rx<User?> _currentuserState = Rx(null);
 
   ///
   ///loading state
@@ -103,9 +103,10 @@ class AuthenticationController extends GetxController {
 
       ///map data to model
       UserModel _user = UserModel(
-        uid: userCredential.user!.uid,
-        name: userCredential.user!.displayName!,
-        creationdate: Timestamp.fromDate(userCredential.user!.metadata.creationTime!),
+        uid: userCredential.user?.uid,
+        displayName: userCredential.user?.displayName!,
+        creationdate:
+            Timestamp.fromDate(userCredential.user!.metadata.creationTime!),
       );
       // create user in database
       await Database.createNewUser(_user);
@@ -140,8 +141,9 @@ class AuthenticationController extends GetxController {
 
       UserModel _userModel = UserModel(
         uid: _userCredential.user!.uid,
-        name: _userCredential.user!.displayName!,
-        creationdate: Timestamp.fromDate(_userCredential.user!.metadata.creationTime!),
+        displayName: _userCredential.user!.displayName!,
+        creationdate:
+            Timestamp.fromDate(_userCredential.user!.metadata.creationTime!),
       );
       Database.createNewUser(_userModel);
       Get.back();
@@ -194,8 +196,11 @@ class AuthenticationController extends GetxController {
     // recheck if verified create user in database
     if (_auth.currentUser!.emailVerified &&
         _auth.currentUser!.providerData[0].providerId == 'password') {
-      UserModel userModel =
-          UserModel(uid: _auth.currentUser!.uid, name: 'Shay User',creationdate:Timestamp.fromDate(_auth.currentUser!.metadata.creationTime!), );
+      UserModel userModel = UserModel(
+        uid: _auth.currentUser!.uid,
+        creationdate:
+            Timestamp.fromDate(_auth.currentUser!.metadata.creationTime!),
+      );
       await Database.createNewUser(userModel);
       return true;
     }

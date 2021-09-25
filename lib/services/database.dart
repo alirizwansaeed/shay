@@ -23,12 +23,38 @@ class Database {
     if (!_snapshot.exists) {
       _userDocument.set(
         {
-          UserFieldsConstants.uid: userModel.uid,
-          UserFieldsConstants.name: userModel.name,
-          UserFieldsConstants.creationdate: userModel.creationdate
+          Strings.userId: userModel.uid,
+          Strings.userDisplayName: userModel.displayName,
+          Strings.userBiography: userModel.biography,
+          Strings.userMobileNumber: userModel.mobileNumber,
+          Strings.userWebsite: userModel.website,
+          Strings.userEmail: userModel.email,
+          Strings.userAddress: userModel.address,
+          Strings.facebook: userModel.facebook,
+          Strings.twitter: userModel.twitter,
+          Strings.instagram: userModel.instagram,
+          Strings.youtube: userModel.youtube,
+          Strings.userCreationDate: userModel.creationdate
         },
       );
     }
+  }
+
+  static Future<void> updateUser(UserModel userModel) async {
+    await _usersCollection.doc(userModel.uid).update(
+      {
+        Strings.userDisplayName: userModel.displayName,
+        Strings.userBiography: userModel.biography,
+        Strings.userMobileNumber: userModel.mobileNumber,
+        Strings.userWebsite: userModel.website,
+        Strings.userEmail: userModel.email,
+        Strings.userAddress: userModel.address,
+        Strings.facebook: userModel.facebook,
+        Strings.twitter: userModel.twitter,
+        Strings.instagram: userModel.instagram,
+        Strings.youtube: userModel.youtube,
+      },
+    );
   }
 
   static Future<UserModel> fetchSpecificUser(String documentid) async {
@@ -36,13 +62,6 @@ class Database {
         .doc(documentid)
         .get()
         .then((value) => UserModel.fromSnapshot(value));
-  }
-
-  static Future<void> updateCurrentUserName(
-      {required String uid, required String name}) async {
-    await _usersCollection.doc(uid).update({
-      UserFieldsConstants.name: name,
-    });
   }
 
   static Future<void> postNewAdd(AdModel model) async {

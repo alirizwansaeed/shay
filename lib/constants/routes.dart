@@ -12,5 +12,12 @@ class Routes {
     EditUserProfilepage.routeName: (context) => EditUserProfilepage(),
     AdDetailPage.routeName: (context) => AdDetailPage(),
     AllAdsGridView.routeName: (context) => AllAdsGridView(),
+    HelpAndSupportPage.routeName: (context) => HelpAndSupportPage(),
+    ContactUsPage.routeName: (context) => ContactUsPage(),
+    HelpPage.routeName: (context) => HelpPage(),
+    Faqspage.routeName: (context) => Faqspage(),
+    AboutUspage.routeName: (context) => AboutUspage(),
+    SettingsPage.routeName: (context) => SettingsPage(),
+    ChangePasswordPage.routeName: (context) => ChangePasswordPage(),
   };
 }
