@@ -387,7 +387,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
           subCategory: _formKey.currentState
                   ?.fields[PostNewAdConstants.subCategory]?.value ??
               '');
-
+      Get.back();
       await Get.find<DatabaseController>().postNewAdd(model);
     }
   }

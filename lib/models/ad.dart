@@ -84,7 +84,6 @@ class AdModel {
     title = snapshot[PostNewAdConstants.title];
     type = snapshot[PostNewAdConstants.type];
     date = snapshot[PostNewAdConstants.date];
-    videoUrl = snapshot[PostNewAdConstants.videoUrl];
     subCategory =
         snapshot.data().toString().contains(PostNewAdConstants.subCategory)
             ? snapshot[PostNewAdConstants.subCategory]
