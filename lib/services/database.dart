@@ -34,7 +34,8 @@ class Database {
           Strings.twitter: userModel.twitter,
           Strings.instagram: userModel.instagram,
           Strings.youtube: userModel.youtube,
-          Strings.userCreationDate: userModel.creationdate
+          Strings.userCreationDate: userModel.creationdate,
+          Strings.isVarified: userModel.isVarified,
         },
       );
     }
@@ -43,16 +44,21 @@ class Database {
   static Future<void> updateUser(UserModel userModel) async {
     await _usersCollection.doc(userModel.uid).update(
       {
-        Strings.userDisplayName: userModel.displayName,
-        Strings.userBiography: userModel.biography,
-        Strings.userMobileNumber: userModel.mobileNumber,
-        Strings.userWebsite: userModel.website,
-        Strings.userEmail: userModel.email,
-        Strings.userAddress: userModel.address,
-        Strings.facebook: userModel.facebook,
-        Strings.twitter: userModel.twitter,
-        Strings.instagram: userModel.instagram,
-        Strings.youtube: userModel.youtube,
+        if (userModel.displayName != null)
+          Strings.userDisplayName: userModel.displayName,
+        if (userModel.biography != null)
+          Strings.userBiography: userModel.biography,
+        if (userModel.mobileNumber != null)
+          Strings.userMobileNumber: userModel.mobileNumber,
+        if (userModel.website != null) Strings.userWebsite: userModel.website,
+        if (userModel.email != null) Strings.userEmail: userModel.email,
+        if (userModel.address != null) Strings.userAddress: userModel.address,
+        if (userModel.facebook != null) Strings.facebook: userModel.facebook,
+        if (userModel.twitter != null) Strings.twitter: userModel.twitter,
+        if (userModel.instagram != null) Strings.instagram: userModel.instagram,
+        if (userModel.youtube != null) Strings.youtube: userModel.youtube,
+        if (userModel.isVarified != null)
+          Strings.isVarified: userModel.isVarified
       },
     );
   }

@@ -8,6 +8,7 @@ class Strings {
   static const userEmail = 'Email';
   static const userCreationDate = 'Date';
   static const userAddress = 'Address';
+  static const isVarified = 'Is Varified';
 
   ///social profile links
   static const facebook = 'Facebook';

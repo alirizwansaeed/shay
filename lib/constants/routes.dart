@@ -19,5 +19,6 @@ class Routes {
     AboutUspage.routeName: (context) => AboutUspage(),
     SettingsPage.routeName: (context) => SettingsPage(),
     ChangePasswordPage.routeName: (context) => ChangePasswordPage(),
+    WrapperPage.routeName: (context) => WrapperPage(),
   };
 }

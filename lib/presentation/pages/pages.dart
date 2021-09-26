@@ -17,3 +17,4 @@ export 'FAQs/faqs_page.dart';
 export 'about_us/about_us_page.dart';
 export 'settings/settings_page.dart';
 export 'change_password/change_password_page.dart';
+export 'wrapper/wrapper_page.dart';

@@ -17,7 +17,10 @@ class ForgetPasswordPage extends StatelessWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: screenType(context,
-            mobile: MobileAppbar(title: 'Forget Password',), desktopTab: DesktopTabletAppbar()),
+            mobile: MobileAppbar(
+              title: 'Forget Password',
+            ),
+            desktopTab: DesktopTabletAppbar()),
         body: SingleChildScrollView(
           child: Center(
             child: Container(
@@ -97,10 +100,15 @@ class ForgetPasswordPage extends StatelessWidget {
     );
   }
 
-  void sendPassswordButton() {
-    if (_formKey.currentState!.validate()) {
-      Get.find<AuthenticationController>()
-          .resetPassword(email: _formKey.currentState!.fields[email]!.value);
+  void sendPassswordButton() async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        await Get.find<AuthenticationController>()
+            .resetPassword(email: _formKey.currentState!.fields[email]!.value);
+        Get.back();
+      }
+    } catch (e) {
+      Get.snackbar('Password reset Failed', 'Please try');
     }
   }
 }

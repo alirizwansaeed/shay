@@ -16,6 +16,7 @@ class AdModel {
   late bool? isFeatured;
   late String? status;
   late Map<String, dynamic>? photos;
+  late String? videoUrl;
   late Timestamp? date;
 
   AdModel(
@@ -32,6 +33,7 @@ class AdModel {
       this.status,
       this.photos,
       this.date,
+      this.videoUrl,
       this.subCategory});
 
   AdModel copyWith(
@@ -44,6 +46,7 @@ class AdModel {
       String? mobileNumber,
       String? itemCondition,
       String? city,
+      String? videoUrl,
       bool? isFeatured,
       String? status,
       Map<String, dynamic>? photos,
@@ -63,6 +66,7 @@ class AdModel {
         status: status ?? this.status,
         photos: photos ?? this.photos,
         date: date ?? this.date,
+        videoUrl: videoUrl ?? this.videoUrl,
         subCategory: subCategory ?? this.subCategory);
   }
 
@@ -80,6 +84,7 @@ class AdModel {
     title = snapshot[PostNewAdConstants.title];
     type = snapshot[PostNewAdConstants.type];
     date = snapshot[PostNewAdConstants.date];
+    videoUrl = snapshot[PostNewAdConstants.videoUrl];
     subCategory =
         snapshot.data().toString().contains(PostNewAdConstants.subCategory)
             ? snapshot[PostNewAdConstants.subCategory]

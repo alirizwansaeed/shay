@@ -156,7 +156,7 @@ class MobileDetailPage extends StatelessWidget {
                           backgroundColor:
                               Theme.of(context).scaffoldBackgroundColor,
                           backgroundImage:
-                              AssetImage(AssetsIconsConstants.avatar),
+                              AssetImage(Assets.avatar),
                           radius: 30,
                         ),
                         SizedBox(width: 6),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shay/constants/constants.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
+import 'package:shay/presentation/pages/home/home_page.dart';
 import 'package:shay/presentation/pages/pages.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -28,6 +29,7 @@ class SettingsPage extends StatelessWidget {
             child: TextButton.icon(
               onPressed: () {
                 Get.find<AuthenticationController>().signOut();
+                Get.offAllNamed(HomePage.routeName);
               },
               icon: Icon(
                 Icons.logout_outlined,

@@ -1,11 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:get/get.dart';
 import 'package:shay/controllers/authentication.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
+import 'package:shay/presentation/pages/pages.dart';
 import 'package:shay/utils/utils.dart';
 
+// ignore: must_be_immutable
 class SignUpPage extends StatelessWidget {
   static const routeName = 'signup';
 
@@ -16,6 +19,7 @@ class SignUpPage extends StatelessWidget {
   final email = 'Email';
   final password = 'Password';
   final confirmPassword = 'Confirm Password';
+  var isloading = false.obs;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -113,9 +117,7 @@ class SignUpPage extends StatelessWidget {
           SizedBox(height: 15),
           Obx(
             () => ElevatedButton(
-              onPressed: Get.find<AuthenticationController>().isLoading.value
-                  ? null
-                  : signupButton,
+              onPressed: isloading.value ? null : signupButton,
               child: Text('Sign up'),
             ),
           )
@@ -124,17 +126,27 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  void signupButton() {
-    if (_formKey.currentState!.validate() &&
-        _formKey.currentState!.fields[password]!.value ==
-            _formKey.currentState!.fields[confirmPassword]!.value) {
-      //create new user
-      Get.find<AuthenticationController>().createUserWithEmailPassword(
-          email: _formKey.currentState!.fields[email]!.value,
-          password: _formKey.currentState!.fields[password]!.value);
-    } else {
-      _formKey.currentState!.invalidateField(
-          name: confirmPassword, errorText: 'Password Not Match');
+  void signupButton() async {
+    try {
+      isloading(true);
+      if (_formKey.currentState!.validate() &&
+          _formKey.currentState!.fields[password]!.value ==
+              _formKey.currentState!.fields[confirmPassword]!.value) {
+        //create new user
+        await Get.find<AuthenticationController>().createUserWithEmailPassword(
+            email: _formKey.currentState!.fields[email]!.value,
+            password: _formKey.currentState!.fields[password]!.value);
+        Get.toNamed(UserVerificationPage.routeName);
+      } else {
+        _formKey.currentState!.invalidateField(
+            name: confirmPassword, errorText: 'Password Not Match');
+      }
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar('Execption', e.code);
+    } catch (e) {
+      print(e);
+    } finally {
+      isloading(false);
     }
   }
 }

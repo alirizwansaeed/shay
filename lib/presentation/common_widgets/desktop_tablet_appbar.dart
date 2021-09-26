@@ -17,7 +17,7 @@ class DesktopTabletAppbar extends StatelessWidget
         AppBar(
           leading: Padding(
             padding: const EdgeInsets.only(left: ScreenConstants.devicePadding),
-            child: Image.asset(AssetsIconsConstants.logo),
+            child: Image.asset(Assets.logo),
           ),
           leadingWidth: 120,
           backgroundColor: ColorConstants.primaryColor,

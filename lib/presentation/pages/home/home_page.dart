@@ -12,13 +12,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-   final _pagecontroller = PageController();
+  final _pagecontroller = PageController();
   var bottomBarIndex = 0.obs;
+
   @override
   Widget build(BuildContext context) {
-
     return screenType(context,
-        mobile: MobileHome(pageController: _pagecontroller,bottombarIndex: bottomBarIndex,), desktopTab: DesktopTabHome());
+        mobile: MobileHome(
+          pageController: _pagecontroller,
+          bottombarIndex: bottomBarIndex,
+        ),
+        desktopTab: DesktopTabHome());
   }
 }

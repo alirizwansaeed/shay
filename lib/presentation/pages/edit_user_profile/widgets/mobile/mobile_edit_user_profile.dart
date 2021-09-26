@@ -9,7 +9,7 @@ import 'package:shay/presentation/common_widgets/common_widgets.dart';
 class MobileEditUserProfile extends StatelessWidget {
   MobileEditUserProfile({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormBuilderState>();
-  final _currentUser = Get.find<CurrentUserController>().currentUserStream;
+  final _currentUser = Get.find<UserController>().currentUserStream;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

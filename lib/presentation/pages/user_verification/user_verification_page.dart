@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shay/controllers/authentication.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
+import 'package:shay/presentation/pages/home/home_page.dart';
 import 'package:shay/utils/screen_type.dart';
 
 class UserVerificationPage extends StatelessWidget {
@@ -43,7 +44,7 @@ class UserVerificationPage extends StatelessWidget {
                     TextSpan(text: 'We send you verification link at'),
                     TextSpan(
                         text:
-                            ' ${Get.find<AuthenticationController>().currentUser!.email} ',
+                            ' ${Get.find<AuthenticationController>().currentUser!.email}',
                         style: TextStyle(color: Colors.blue)),
                     TextSpan(
                         text:
@@ -68,8 +69,14 @@ class UserVerificationPage extends StatelessWidget {
     );
   }
 
-  void _resendVerificationButton() {
-    Get.find<AuthenticationController>().currentUser!.sendEmailVerification();
-    Get.back();
+  void _resendVerificationButton() async {
+    try {
+      await Get.find<AuthenticationController>()
+          .currentUser!
+          .sendEmailVerification();
+      Get.offAllNamed(HomePage.routeName);
+    } catch (e) {
+      Get.snackbar('Password send failed', 'please retry');
+    }
   }
 }

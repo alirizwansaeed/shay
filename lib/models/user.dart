@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:shay/constants/constants.dart';
 
 class UserModel {
@@ -14,6 +13,7 @@ class UserModel {
   late String? twitter;
   late String? instagram;
   late String? youtube;
+  late bool? isVarified;
   late Timestamp? creationdate;
 
   UserModel({
@@ -29,36 +29,39 @@ class UserModel {
     this.instagram,
     this.youtube,
     this.creationdate,
+    this.isVarified,
   });
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
     uid = snapshot.id;
-    displayName = snapshot[Strings.userDisplayName]??'Shay User';
-    biography = snapshot[Strings.userBiography]??'';
-    mobileNumber = snapshot[Strings.userMobileNumber]??'';
-    website = snapshot[Strings.userWebsite]??'';
-    email = snapshot[Strings.userEmail]??'';
-    address = snapshot[Strings.userAddress]??'';
-    facebook = snapshot[Strings.facebook]??'';
-    twitter = snapshot[Strings.twitter]??'';
-    instagram = snapshot[Strings.instagram]??'';
-    youtube = snapshot[Strings.youtube]??'';
-    creationdate = snapshot[Strings.userCreationDate]??'';
+    displayName = snapshot[Strings.userDisplayName] ?? 'Shay User';
+    biography = snapshot[Strings.userBiography] ?? '';
+    mobileNumber = snapshot[Strings.userMobileNumber] ?? '';
+    website = snapshot[Strings.userWebsite] ?? '';
+    email = snapshot[Strings.userEmail] ?? '';
+    address = snapshot[Strings.userAddress] ?? '';
+    facebook = snapshot[Strings.facebook] ?? '';
+    twitter = snapshot[Strings.twitter] ?? '';
+    instagram = snapshot[Strings.instagram] ?? '';
+    youtube = snapshot[Strings.youtube] ?? '';
+    isVarified = snapshot[Strings.isVarified];
+    creationdate = snapshot[Strings.userCreationDate] ?? '';
   }
 
   UserModel copyWith({
-     String? uid,
-     String? displayName,
-     String? biography,
-     String? mobileNumber,
-     String? website,
-     String? email,
-     String? address,
-     String? facebook,
-     String? twitter,
-     String? instagram,
-     String? youtube,
-     Timestamp? creationdate,
+    String? uid,
+    String? displayName,
+    String? biography,
+    String? mobileNumber,
+    String? website,
+    String? email,
+    String? address,
+    String? facebook,
+    String? twitter,
+    String? instagram,
+    String? youtube,
+    bool?   isVarified,
+    Timestamp? creationdate,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -72,6 +75,7 @@ class UserModel {
       twitter: twitter ?? this.twitter,
       instagram: instagram ?? this.instagram,
       youtube: youtube ?? this.youtube,
+      isVarified: isVarified??this.isVarified,
       creationdate: creationdate ?? this.creationdate,
     );
   }

@@ -59,8 +59,6 @@ class MobileHome extends StatelessWidget {
       onPressed: () async {
         if (_authenticationController.currentUserState == null)
           return Get.toNamed(LoginPage.routeName);
-        if (await _authenticationController.isEmailVerified())
-          return Get.toNamed(PostNewAdPage.routeName);
         if (!await _authenticationController.isEmailVerified())
           return Get.toNamed(UserVerificationPage.routeName);
         else
