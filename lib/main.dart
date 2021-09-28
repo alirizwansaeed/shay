@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:shay/binding/binding.dart';
+import 'package:shay/presentation/pages/home/home_page.dart';
 import 'package:shay/presentation/pages/pages.dart';
 import 'constants/constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -46,7 +48,7 @@ class _MyappState extends State<Myapp> {
             return GetMaterialApp(
               initialBinding: HomeBinding(),
               debugShowCheckedModeBanner: false,
-              initialRoute: WrapperPage.routeName,
+              initialRoute:GetPlatform.isWeb?HomePage.routeName:    WrapperPage.routeName,
               routes: Routes.routes,
             );
           }

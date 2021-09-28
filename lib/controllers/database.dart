@@ -82,6 +82,7 @@ class DatabaseController extends GetxController {
             pickedFile: imagePickerImageList.value[index],
             uid: _authController.currentUser!.uid);
         imagesPathInStorage.putIfAbsent('$index', () => val!);
+      
       }
 
       await Database.postNewAdd(
