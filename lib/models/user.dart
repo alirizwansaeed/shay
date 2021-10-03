@@ -33,19 +33,19 @@ class UserModel {
   });
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
-    uid = snapshot.id;
-    displayName = snapshot[Strings.userDisplayName] ?? 'Shay User';
-    biography = snapshot[Strings.userBiography] ?? '';
-    mobileNumber = snapshot[Strings.userMobileNumber] ?? '';
-    website = snapshot[Strings.userWebsite] ?? '';
-    email = snapshot[Strings.userEmail] ?? '';
-    address = snapshot[Strings.userAddress] ?? '';
-    facebook = snapshot[Strings.facebook] ?? '';
-    twitter = snapshot[Strings.twitter] ?? '';
-    instagram = snapshot[Strings.instagram] ?? '';
-    youtube = snapshot[Strings.youtube] ?? '';
+    uid = snapshot[Strings.userId];
+    displayName = snapshot[Strings.userDisplayName];
+    biography = snapshot[Strings.userBiography];
+    mobileNumber = snapshot[Strings.userMobileNumber];
+    website = snapshot[Strings.userWebsite];
+    email = snapshot[Strings.userEmail];
+    address = snapshot[Strings.userAddress];
+    facebook = snapshot[Strings.facebook];
+    twitter = snapshot[Strings.twitter];
+    instagram = snapshot[Strings.instagram];
+    youtube = snapshot[Strings.youtube];
     isVarified = snapshot[Strings.isVarified];
-    creationdate = snapshot[Strings.userCreationDate] ?? '';
+    creationdate = snapshot[Strings.userCreationDate];
   }
 
   UserModel copyWith({
@@ -60,7 +60,7 @@ class UserModel {
     String? twitter,
     String? instagram,
     String? youtube,
-    bool?   isVarified,
+    bool? isVarified,
     Timestamp? creationdate,
   }) {
     return UserModel(
@@ -75,7 +75,7 @@ class UserModel {
       twitter: twitter ?? this.twitter,
       instagram: instagram ?? this.instagram,
       youtube: youtube ?? this.youtube,
-      isVarified: isVarified??this.isVarified,
+      isVarified: isVarified ?? this.isVarified,
       creationdate: creationdate ?? this.creationdate,
     );
   }

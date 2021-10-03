@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:shay/controllers/controllers.dart';
+import 'package:shay/presentation/pages/home/widgets/mobile/pages/liked_ads_page_view/liked_ads_page_view.dart';
 import 'package:shay/presentation/pages/home/widgets/mobile/pages/user_account_page/mobile_user_account.dart';
 import 'package:shay/presentation/pages/pages.dart';
 
 import 'pages/home_page_view/home_page_view.dart';
+import 'pages/my_ads_page_view/my_ads_page_view.dart';
 
 // ignore: must_be_immutable
 class MobileHome extends StatelessWidget {
@@ -31,20 +33,22 @@ class MobileHome extends StatelessWidget {
     );
   }
 
-  PageView _mobilehome() {
-    return PageView(
-      physics: NeverScrollableScrollPhysics(),
-      controller: pageController,
-      children: [
-        HomePageView(),
-        Container(
-          child: Text('2'),
-        ),
-        Container(
-          child: Text('3'),
-        ),
-        MobileUserAccount()
-      ],
+  Widget _mobilehome() {
+    return Obx(
+      () => PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: pageController,
+        children: [
+          HomePageView(),
+          _authenticationController.currentUserState == null
+              ? LoginPage()
+              : MyAdsPageView(),
+          _authenticationController.currentUserState == null
+              ? LoginPage()
+              : LikedAdsPageView(),
+          MobileUserAccount()
+        ],
+      ),
     );
   }
 

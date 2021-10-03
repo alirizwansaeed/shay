@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shay/constants/constants.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
 import 'package:shay/presentation/pages/home/home_page.dart';

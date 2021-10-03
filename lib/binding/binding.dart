@@ -6,8 +6,6 @@ class HomeBinding extends Bindings {
   void dependencies() {
     Get.put<AuthenticationController>(AuthenticationController());
     Get.put<DatabaseController>(DatabaseController());
-    Get.lazyPut<UserController>(
-      () => UserController(),
-    );
+    Get.lazyPut<UserController>(() => UserController(), fenix: true);
   }
 }

@@ -42,18 +42,19 @@ class ImagesView extends StatelessWidget {
                 child: Text('${index + 1}/${adModel.photos?.length}',
                     style: TextStyle(color: Colors.white))),
           ),
-          Positioned(
-            top: 10,
-            left: 10,
-            child: Container(
-              padding: EdgeInsets.all(6),
-              color: Colors.red,
-              child: Text(
-                'Featured',
-                style: TextStyle(color: Colors.white),
+          if (adModel.isFeatured!)
+            Positioned(
+              top: 10,
+              left: 10,
+              child: Container(
+                padding: EdgeInsets.all(6),
+                color: Colors.red,
+                child: Text(
+                  'Featured',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
-          )
         ],
       ),
     );

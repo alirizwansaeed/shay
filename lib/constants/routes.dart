@@ -11,7 +11,7 @@ class Routes {
     UserVerificationPage.routeName: (context) => UserVerificationPage(),
     EditUserProfilepage.routeName: (context) => EditUserProfilepage(),
     AdDetailPage.routeName: (context) => AdDetailPage(),
-    AllAdsGridView.routeName: (context) => AllAdsGridView(),
+    FeaturedAdsPage.routeName: (context) => FeaturedAdsPage(),
     HelpAndSupportPage.routeName: (context) => HelpAndSupportPage(),
     ContactUsPage.routeName: (context) => ContactUsPage(),
     HelpPage.routeName: (context) => HelpPage(),
@@ -20,5 +20,9 @@ class Routes {
     SettingsPage.routeName: (context) => SettingsPage(),
     ChangePasswordPage.routeName: (context) => ChangePasswordPage(),
     WrapperPage.routeName: (context) => WrapperPage(),
+    SpecificUserAdsPage.routeName: (context) => SpecificUserAdsPage(),
+    EditAdPage.routeName: (context) => EditAdPage(),
+    SearchPage.routeName: (context) => SearchPage(),
+    CategoryPage.routeName: (context) => CategoryPage(),
   };
 }

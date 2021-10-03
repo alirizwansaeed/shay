@@ -26,15 +26,9 @@ class Storage {
     }
   }
 
-  static Future<String?> uploadUserProfile(
-      {required XFile pickedFile, required String uid}) async {
-    try {
-      Reference _reference = _firebaseStorage.ref().child('porfile').child(uid);
-
-      TaskSnapshot uploadTask = await _reference.putData(
-          await pickedFile.readAsBytes(),
-          SettableMetadata(contentType: 'image/jpeg'));
-      return uploadTask.ref.getDownloadURL();
-    } catch (e) {}
+  static Future<void> deleteimage(String url) {
+   return _firebaseStorage.refFromURL(url).delete();
   }
+
+
 }

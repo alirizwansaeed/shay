@@ -3,7 +3,7 @@ import 'package:flutter/painting.dart';
 
 ///Form Text used in signin, sign up , postnew ads , edit profile etc
 
-Widget formBuilerText(String text,
+Widget formBuilderText(String text,
     {double topPadding = 8.0, double bottomPadding = 5.0}) {
   return Column(
     children: [

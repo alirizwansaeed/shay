@@ -26,7 +26,7 @@ class MobileEditUserProfile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   headerText('Basic Information'),
-                  formBuilerText(Strings.userDisplayName, topPadding: 0),
+                  formBuilderText(Strings.userDisplayName, topPadding: 0),
                   FormBuilderTextField(
                       name: Strings.userDisplayName,
                       initialValue: _currentUser.displayName,
@@ -34,7 +34,7 @@ class MobileEditUserProfile extends StatelessWidget {
                       validator: FormBuilderValidators.required(context),
                       maxLength: 30,
                       decoration: formFieldDecoration),
-                  formBuilerText(Strings.userBiography, topPadding: 0),
+                  formBuilderText(Strings.userBiography, topPadding: 0),
                   FormBuilderTextField(
                     name: Strings.userBiography,
                     initialValue: _currentUser.biography,
@@ -48,26 +48,26 @@ class MobileEditUserProfile extends StatelessWidget {
                   SizedBox(height: 10),
                   Divider(color: Colors.red),
                   headerText('Contact Detail'),
-                  formBuilerText(Strings.userMobileNumber, topPadding: 0),
+                  formBuilderText(Strings.userMobileNumber, topPadding: 0),
                   FormBuilderTextField(
                     name: Strings.userMobileNumber,
                     initialValue: _currentUser.mobileNumber,
                     maxLength: 11,
                     decoration: formFieldDecoration,
                   ),
-                  formBuilerText(Strings.userWebsite, topPadding: 0),
+                  formBuilderText(Strings.userWebsite, topPadding: 0),
                   FormBuilderTextField(
                     name: Strings.userWebsite,
                     initialValue: _currentUser.website,
                     decoration: formFieldDecoration,
                   ),
-                  formBuilerText(Strings.userEmail),
+                  formBuilderText(Strings.userEmail),
                   FormBuilderTextField(
                     name: Strings.userEmail,
                     initialValue: _currentUser.email,
                     decoration: formFieldDecoration,
                   ),
-                  formBuilerText(Strings.userAddress),
+                  formBuilderText(Strings.userAddress),
                   FormBuilderTextField(
                     name: Strings.userAddress,
                     initialValue: _currentUser.address,
@@ -76,25 +76,25 @@ class MobileEditUserProfile extends StatelessWidget {
                   SizedBox(height: 25),
                   Divider(color: Colors.red),
                   headerText('SOCIAL PROFILE LINK'),
-                  formBuilerText(Strings.facebook, topPadding: 0),
+                  formBuilderText(Strings.facebook, topPadding: 0),
                   FormBuilderTextField(
                     name: Strings.facebook,
                     initialValue: _currentUser.facebook,
                     decoration: formFieldDecoration,
                   ),
-                  formBuilerText(Strings.twitter),
+                  formBuilderText(Strings.twitter),
                   FormBuilderTextField(
                     name: Strings.twitter,
                     initialValue: _currentUser.twitter,
                     decoration: formFieldDecoration,
                   ),
-                  formBuilerText(Strings.instagram),
+                  formBuilderText(Strings.instagram),
                   FormBuilderTextField(
                     name: Strings.instagram,
                     initialValue: _currentUser.instagram,
                     decoration: formFieldDecoration,
                   ),
-                  formBuilerText(Strings.youtube),
+                  formBuilderText(Strings.youtube),
                   FormBuilderTextField(
                     name: Strings.youtube,
                     initialValue: _currentUser.youtube,

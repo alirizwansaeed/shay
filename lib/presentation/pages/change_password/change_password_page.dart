@@ -29,7 +29,7 @@ class ChangePasswordPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  formBuilerText(_currentPassword),
+                  formBuilderText(_currentPassword),
                   FormBuilderTextField(
                     name: _currentPassword,
                     decoration: formFieldDecoration,
@@ -40,7 +40,7 @@ class ChangePasswordPage extends StatelessWidget {
                       FormBuilderValidators.minLength(context, 6),
                     ]),
                   ),
-                  formBuilerText(_newPasword),
+                  formBuilderText(_newPasword),
                   FormBuilderTextField(
                     name: _newPasword,
                     decoration: formFieldDecoration,
@@ -51,7 +51,7 @@ class ChangePasswordPage extends StatelessWidget {
                       FormBuilderValidators.minLength(context, 6),
                     ]),
                   ),
-                  formBuilerText(_confirmNewPassword),
+                  formBuilderText(_confirmNewPassword),
                   FormBuilderTextField(
                     name: _confirmNewPassword,
                     decoration: formFieldDecoration,

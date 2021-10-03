@@ -1,46 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:shay/constants/constants.dart';
-import 'package:shay/presentation/pages/home/widgets/feature_ads_listView.dart';
+import 'package:shay/controllers/controllers.dart';
+import 'package:shay/presentation/common_widgets/common_widgets.dart';
+import 'package:shay/presentation/pages/category/category_page.dart';
 import 'package:shay/presentation/pages/pages.dart';
+import 'package:shay/presentation/pages/search/search_page.dart';
+import '../../../feature_ads_listView.dart';
 
 class HomePageView extends StatelessWidget {
-  // final _databseController = Get.find<DatabaseController>();
+  final _databseController = Get.find<DatabaseController>();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(ScreenConstants.devicePadding),
-            child: Container(
-              height: 45,
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(border: Border.all()),
-              child: Text(
-                'search mobile, Home utilities, cloting, and more',
-                style: TextStyle(color: Colors.grey.shade600),
-              ),
-            ),
-          ),
+          InkWell(
+              onTap: () {
+                Get.toNamed(SearchPage.routeName);
+              },
+              child: _searchbar()),
           _catagoryTabs(),
           Padding(
-            padding: const EdgeInsets.only(top: 20, left: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Featured Ads",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    )),
+                headerText(
+                  'Featured Ads',
+                ),
                 TextButton(
                   onPressed: () {
-                    Get.toNamed(AllAdsGridView.routeName);
+                    Get.toNamed(FeaturedAdsPage.routeName);
                   },
                   child: Text('VIEW ALL'),
                 )
@@ -48,7 +42,47 @@ class HomePageView extends StatelessWidget {
             ),
           ),
           FeatureAdsListView(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: headerText('All Ads'),
+          ),
+          Obx(
+            () => StaggeredGridView.countBuilder(
+              physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
+              crossAxisCount: 4,
+              staggeredTileBuilder: (int index) => StaggeredTile.count(2, 2.5),
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+              itemCount: _databseController.allAdsStream.length,
+              itemBuilder: (BuildContext context, int index) => InkWell(
+                  onTap: () {
+                    Get.toNamed(AdDetailPage.routeName,
+                        arguments: _databseController.allAdsStream[index]);
+                  },
+                  child: SizedBox(
+                      child: AdWidget(
+                          adModel: _databseController.allAdsStream[index]))),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Padding _searchbar() {
+    return Padding(
+      padding: const EdgeInsets.all(ScreenConstants.devicePadding),
+      child: Container(
+        height: 45,
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(border: Border.all()),
+        child: Text(
+          'search mobile, Home utilities, cloting, and more',
+          style: TextStyle(color: Colors.grey.shade600),
+        ),
       ),
     );
   }
@@ -60,7 +94,10 @@ class HomePageView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _databseController.fetchCategory('Mobile');
+              Get.toNamed(CategoryPage.routeName, arguments: "Mobile");
+            },
             child: SizedBox(
               width: 65,
               height: 70,
@@ -77,7 +114,10 @@ class HomePageView extends StatelessWidget {
             width: 10,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _databseController.fetchCategory('Laptop');
+              Get.toNamed(CategoryPage.routeName, arguments: "Laptop");
+            },
             child: SizedBox(
               width: 65,
               height: 70,
@@ -94,7 +134,11 @@ class HomePageView extends StatelessWidget {
             width: 10,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _databseController.fetchCategory('Automobiles Parts');
+              Get.toNamed(CategoryPage.routeName,
+                  arguments: "Automobiles Parts");
+            },
             child: SizedBox(
               width: 91,
               height: 70,
@@ -111,7 +155,10 @@ class HomePageView extends StatelessWidget {
             width: 10,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _databseController.fetchCategory('Home Utilities');
+              Get.toNamed(CategoryPage.routeName, arguments: "Home Utilities");
+            },
             child: SizedBox(
               width: 91,
               height: 70,
@@ -128,7 +175,10 @@ class HomePageView extends StatelessWidget {
             width: 10,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _databseController.fetchCategory('Sports Goods');
+              Get.toNamed(CategoryPage.routeName, arguments: "Sports Goods");
+            },
             child: SizedBox(
               width: 65,
               height: 70,
@@ -142,7 +192,10 @@ class HomePageView extends StatelessWidget {
             width: 10,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _databseController.fetchCategory('Cloting');
+              Get.toNamed(CategoryPage.routeName, arguments: "Cloting");
+            },
             child: SizedBox(
               width: 65,
               height: 70,
@@ -156,7 +209,10 @@ class HomePageView extends StatelessWidget {
             width: 10,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _databseController.fetchCategory('Pet & Animals');
+              Get.toNamed(CategoryPage.routeName, arguments: "Pet & Animals");
+            },
             child: SizedBox(
               width: 65,
               height: 70,
@@ -170,7 +226,10 @@ class HomePageView extends StatelessWidget {
             width: 10,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _databseController.fetchCategory('Kids');
+              Get.toNamed(CategoryPage.routeName, arguments: "Kids");
+            },
             child: SizedBox(
               width: 65,
               height: 70,
@@ -187,7 +246,10 @@ class HomePageView extends StatelessWidget {
             width: 10,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _databseController.fetchCategory('Real Estate');
+              Get.toNamed(CategoryPage.routeName, arguments: "Real Estate");
+            },
             child: SizedBox(
               width: 80,
               height: 70,
@@ -207,7 +269,10 @@ class HomePageView extends StatelessWidget {
             width: 10,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _databseController.fetchCategory('Services');
+              Get.toNamed(CategoryPage.routeName, arguments: "Services");
+            },
             child: SizedBox(
               width: 65,
               height: 70,
@@ -224,7 +289,10 @@ class HomePageView extends StatelessWidget {
             width: 10,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _databseController.fetchCategory('Uncategorized');
+              Get.toNamed(CategoryPage.routeName, arguments: "Uncategorized");
+            },
             child: SizedBox(
               width: 100,
               height: 70,

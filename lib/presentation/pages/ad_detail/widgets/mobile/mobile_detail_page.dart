@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:shay/constants/assets_icons.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/models/models.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
 import 'package:shay/presentation/pages/ad_detail/widgets/images_view.dart';
+
+import '../user_information.dart';
 
 class MobileDetailPage extends StatelessWidget {
   final AdModel adModel;
@@ -15,6 +16,7 @@ class MobileDetailPage extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.find<DatabaseController>().adLikedbyMe(adModel.docId!);
     return Scaffold(
       appBar: MobileAppbar(
         title: "${adModel.title}",
@@ -38,9 +40,24 @@ class MobileDetailPage extends StatelessWidget {
                           fontSize: 16,
                           fontWeight: FontWeight.w900),
                     ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.favorite_outline_outlined))
+                    Obx(
+                      () => IconButton(
+                          onPressed: () async {
+                            await Get.find<UserController>().likeAd(
+                                docid: adModel.docId!,
+                                isliked: Get.find<DatabaseController>()
+                                        .adLikedByMe
+                                        .value
+                                    ? false
+                                    : true);
+                            await Get.find<DatabaseController>()
+                                .adLikedbyMe(adModel.docId!);
+                          },
+                          icon: Icon(
+                              Get.find<DatabaseController>().adLikedByMe.value
+                                  ? Icons.favorite_rounded
+                                  : Icons.favorite_outline_outlined)),
+                    )
                   ],
                 ),
               ),
@@ -125,6 +142,25 @@ class MobileDetailPage extends StatelessWidget {
                 endIndent: 8,
               ),
               Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Ad Type"),
+                    Text(
+                      adModel.type!,
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Divider(
+                indent: 8,
+                endIndent: 8,
+              ),
+              Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   'Description',
@@ -135,56 +171,8 @@ class MobileDetailPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(adModel.description!),
               ),
-              Container(
-                margin: EdgeInsets.all(10),
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'User Information',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 6),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor:
-                              Theme.of(context).scaffoldBackgroundColor,
-                          backgroundImage:
-                              AssetImage(Assets.avatar),
-                          radius: 30,
-                        ),
-                        SizedBox(width: 6),
-                        Obx(
-                          () => Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                Get.find<DatabaseController>()
-                                    .specificUserData
-                                    .displayName!,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900),
-                              ),
-                              Text(
-                                'Member Since ${DateFormat().add_yMMM().format(DateTime.fromMicrosecondsSinceEpoch(Get.find<DatabaseController>().specificUserData.creationdate!.microsecondsSinceEpoch))}',
-                                style: TextStyle(
-                                  color: Colors.grey.shade600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+              UserInformation(
+                uid: adModel.uid!,
               )
             ],
           ),

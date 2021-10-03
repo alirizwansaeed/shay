@@ -15,7 +15,7 @@ class SignUpPage extends StatelessWidget {
   final _formKey = GlobalKey<FormBuilderState>();
 
   //FORM FIELDS NAME
-
+  final username = 'User Name';
   final email = 'Email';
   final password = 'Password';
   final confirmPassword = 'Confirm Password';
@@ -76,6 +76,20 @@ class SignUpPage extends StatelessWidget {
             ),
           ),
           FormBuilderTextField(
+            name: username,
+            maxLength: 30,
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(context),
+            ]),
+            decoration: InputDecoration(
+              labelText: username,
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          FormBuilderTextField(
             name: email,
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
@@ -134,6 +148,7 @@ class SignUpPage extends StatelessWidget {
               _formKey.currentState!.fields[confirmPassword]!.value) {
         //create new user
         await Get.find<AuthenticationController>().createUserWithEmailPassword(
+            username: _formKey.currentState!.fields[username]!.value,
             email: _formKey.currentState!.fields[email]!.value,
             password: _formKey.currentState!.fields[password]!.value);
         Get.toNamed(UserVerificationPage.routeName);

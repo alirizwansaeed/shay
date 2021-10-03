@@ -27,32 +27,32 @@ class HelpPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                formBuilerText(name),
+                formBuilderText(name),
                 FormBuilderTextField(
                   name: name,
                   decoration: formFieldDecoration,
                 ),
-                formBuilerText(email),
+                formBuilderText(email),
                 FormBuilderTextField(
                   name: email,
                   decoration: formFieldDecoration,
                 ),
-                formBuilerText(subject),
+                formBuilderText(subject),
                 FormBuilderTextField(
                   name: subject,
                   decoration: formFieldDecoration,
                 ),
-                formBuilerText(contactNumber),
+                formBuilderText(contactNumber),
                 FormBuilderTextField(
                   name: contactNumber,
                   decoration: formFieldDecoration,
                 ),
-                formBuilerText(adid),
+                formBuilderText(adid),
                 FormBuilderTextField(
                   name: adid,
                   decoration: formFieldDecoration,
                 ),
-                formBuilerText(message),
+                formBuilderText(message),
                 FormBuilderTextField(
                   name: message,
                   maxLines: 4,

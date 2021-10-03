@@ -24,7 +24,7 @@ class ContactUsPage extends StatelessWidget {
           padding: const EdgeInsets.all(ScreenConstants.devicePadding),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            formBuilerText(name),
+            formBuilderText(name),
             FormBuilderTextField(
               name: name,
               decoration: formFieldDecoration,
@@ -38,13 +38,13 @@ class ContactUsPage extends StatelessWidget {
               ]),
               maxLength: 30,
             ),
-            formBuilerText(contactNumber, topPadding: 0),
+            formBuilderText(contactNumber, topPadding: 0),
             FormBuilderTextField(
               name: contactNumber,
               decoration: formFieldDecoration,
               maxLength: 11,
             ),
-            formBuilerText(email, topPadding: 0),
+            formBuilderText(email, topPadding: 0),
             FormBuilderTextField(
               name: email,
               initialValue: '',
@@ -54,7 +54,7 @@ class ContactUsPage extends StatelessWidget {
                 FormBuilderValidators.email(context),
               ]),
             ),
-            formBuilerText(message),
+            formBuilderText(message),
             FormBuilderTextField(
               name: message,
               maxLines: 4,

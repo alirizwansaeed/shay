@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shay/constants/constants.dart';
-import 'package:shay/constants/user_fields.dart';
+import 'package:shay/constants/post_new_ad.dart';
 import 'package:shay/models/models.dart';
 import 'package:shay/models/ad.dart';
 
@@ -58,21 +58,21 @@ class Database {
         if (userModel.instagram != null) Strings.instagram: userModel.instagram,
         if (userModel.youtube != null) Strings.youtube: userModel.youtube,
         if (userModel.isVarified != null)
-          Strings.isVarified: userModel.isVarified
+          Strings.isVarified: userModel.isVarified,
       },
     );
   }
 
-  static Future<UserModel> fetchSpecificUser(String documentid) async {
+  static Future<UserModel> fetchUser(String documentid) async {
     return _usersCollection
         .doc(documentid)
         .get()
         .then((value) => UserModel.fromSnapshot(value));
   }
 
-  static Future<void> postNewAdd(AdModel model) async {
+  static Future<void> postNewAdd(AdModel model, List searchArray) async {
     await _postsCollection.doc().set({
-      UserFieldsConstants.uid: model.uid,
+      Strings.userId: model.uid,
       PostNewAdConstants.category: model.category,
       PostNewAdConstants.title: model.title,
       PostNewAdConstants.description: model.description,
@@ -85,7 +85,34 @@ class Database {
       PostNewAdConstants.Isfeatured: model.isFeatured,
       PostNewAdConstants.status: model.status,
       PostNewAdConstants.date: DateTime.now(),
-      PostNewAdConstants.subCategory: model.subCategory
+      PostNewAdConstants.subCategory: model.subCategory,
+      PostNewAdConstants.videoUrl: model.videoUrl,
+      Strings.likes: {},
+      Strings.searchArray: searchArray,
+    });
+  }
+
+  static Future<void> updateAd(AdModel model, List searchArray) async {
+    await _postsCollection.doc(model.docId).update({
+      if (model.category != null) PostNewAdConstants.category: model.category,
+      if (model.title != null) PostNewAdConstants.title: model.title,
+      if (model.description != null)
+        PostNewAdConstants.description: model.description,
+      if (model.city != null) PostNewAdConstants.city: model.city,
+      if (model.itemCondition != null)
+        PostNewAdConstants.itemCondition: model.itemCondition,
+      if (model.mobileNumber != null)
+        PostNewAdConstants.mobileNumber: model.mobileNumber,
+      if (model.photos != null) PostNewAdConstants.photos: model.photos,
+      if (model.price != null) PostNewAdConstants.price: model.price,
+      if (model.type != null) PostNewAdConstants.type: model.type,
+      if (model.isFeatured != null)
+        PostNewAdConstants.Isfeatured: model.isFeatured,
+      if (model.status != null) PostNewAdConstants.status: model.status,
+      if (model.subCategory != null)
+        PostNewAdConstants.subCategory: model.subCategory,
+      if (model.videoUrl != null) PostNewAdConstants.videoUrl: model.videoUrl,
+      if (searchArray.isNotEmpty) Strings.searchArray: searchArray
     });
   }
 
@@ -97,13 +124,111 @@ class Database {
         .map((snapshot) => UserModel.fromSnapshot(snapshot));
   }
 
-  static Stream<List<AdModel>> adsStream() {
-    return _postsCollection.snapshots().map((event) {
+  static Stream<List<AdModel>> allAdsStream() {
+    return _postsCollection
+        .orderBy(PostNewAdConstants.date, descending: true)
+        .snapshots()
+        .map((event) {
       List<AdModel> retval = [];
       event.docs.forEach((element) {
         retval.add(AdModel.fromsnapshot(element));
       });
       return retval;
     });
+  }
+
+  static Stream<List<AdModel>> featuredAdsStream() {
+    return _postsCollection
+        .orderBy(PostNewAdConstants.date, descending: true)
+        .where(PostNewAdConstants.Isfeatured, isEqualTo: true)
+        .snapshots()
+        .map((event) {
+      List<AdModel> retval = [];
+      event.docs.forEach((element) {
+        retval.add(AdModel.fromsnapshot(element));
+      });
+      return retval;
+    });
+  }
+
+  static Future<List<AdModel>> fetchSpecificUserAds(String id) async {
+    List<AdModel> retval = [];
+    var val = await _postsCollection
+        .where(Strings.userId, isEqualTo: id)
+        .orderBy(PostNewAdConstants.date, descending: true)
+        .get();
+    val.docs.forEach((element) {
+      retval.add(AdModel.fromsnapshot(element));
+    });
+
+    return retval;
+  }
+
+  static Stream<List<AdModel>> currentUserAdsStream(String id) {
+    return _postsCollection
+        .where(Strings.userId, isEqualTo: id)
+        .orderBy(PostNewAdConstants.date, descending: true)
+        .snapshots()
+        .map((event) {
+      List<AdModel> retval = [];
+      event.docs.forEach((element) {
+        retval.add(AdModel.fromsnapshot(element));
+      });
+      return retval;
+    });
+  }
+
+  static Stream<List<AdModel>> likedAdsStream(String uid) {
+    return _postsCollection
+        .where("Likes.$uid", isEqualTo: true)
+        .snapshots()
+        .map((event) {
+      List<AdModel> retval = [];
+      event.docs.forEach((element) {
+        retval.add(AdModel.fromsnapshot(element));
+      });
+      return retval;
+    });
+  }
+
+  static Future<void> deleteMyad(String docid) async {
+    _postsCollection.doc(docid).delete();
+  }
+
+  static Future<List<AdModel>> fetchByCategory(String value) async {
+    List<AdModel> retval = [];
+    var val = await _postsCollection
+        .where(PostNewAdConstants.category, isEqualTo: value)
+        .orderBy(PostNewAdConstants.date, descending: true)
+        .get();
+    val.docs.forEach((element) {
+      retval.add(AdModel.fromsnapshot(element));
+    });
+    return retval;
+  }
+
+  static Future<List<AdModel>> searchAds(String value) async {
+    List<AdModel> retval = [];
+
+    var val = await _postsCollection
+        .where(Strings.searchArray, arrayContainsAny: value.split(' '))
+        .get();
+
+    val.docs.forEach((element) {
+      retval.add(AdModel.fromsnapshot(element));
+    });
+    return retval;
+  }
+
+  static Future<DocumentSnapshot> fetchSingleAd({required String docid}) async {
+    return await _postsCollection.doc(docid).get();
+  }
+
+  static Future<void> likeAd({
+    required String docid,
+    required String uid,
+    required bool isliked,
+  }) async {
+    await _postsCollection.doc(docid).update({"Likes.$uid": isliked});
   }
 }

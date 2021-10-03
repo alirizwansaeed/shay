@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,61 +9,66 @@ import 'package:shay/utils/pick_image.dart';
 class DatabaseController extends GetxController {
   final _authController = Get.find<AuthenticationController>();
 
-  var _usernameStream = UserModel(displayName: "Shay User").obs;
-  var _specificUserData =
-      UserModel(displayName: 'Shay User', creationdate: Timestamp.now()).obs;
-  Rx<List<AdModel>> _adstream = Rx<List<AdModel>>([]);
+  Rx<List<AdModel>> _allAdsStream = Rx<List<AdModel>>([]);
+  Rx<List<AdModel>> _featuredAdsStream = Rx<List<AdModel>>([]);
+  Rx<List<AdModel>> _fetchedSpecificUserAdsList = Rx<List<AdModel>>([]);
+  Rx<List<AdModel>> _fetchedCategory = Rx<List<AdModel>>([]);
+  Rx<List<AdModel>> _searchedads = Rx<List<AdModel>>([]);
+
   Rx<List<XFile>> imagePickerImageList = Rx<List<XFile>>([]);
+  var isUpladingImage = false.obs;
+
+  var _fetchedUserData = UserModel().obs;
+
   var isLoading = false.obs;
+  var adLikedByMe = false.obs;
 
-  List<AdModel> get adStream {
-    return _adstream.value;
+  List<AdModel> get allAdsStream {
+    return _allAdsStream.value;
   }
 
-  UserModel get specificUserData {
-    return _specificUserData.value;
+  List<AdModel> get searchedAds {
+    return _searchedads.value;
   }
 
-  UserModel get userStream {
-    if (_authController.currentUser != null) {
-      _usernameStream.bindStream(
-          Database.currentuserStream(_authController.currentUser!.uid));
-      return _usernameStream.value;
-    } else {
-      _usernameStream(UserModel(
-        displayName: 'Shay User',
-      ));
-      return _usernameStream.value;
-    }
+  List<AdModel> get fetchedCategory {
+    return _fetchedCategory.value;
+  }
+
+  List<AdModel> get featuredAdsStream {
+    return _featuredAdsStream.value;
+  }
+
+  UserModel get fetchedUserData {
+    return _fetchedUserData.value;
+  }
+
+  List<AdModel> get fetchedSpecificUserAdsList {
+    return _fetchedSpecificUserAdsList.value;
   }
 
   @override
   void onInit() {
     //BIND ALL ADS STREAM
-    _adstream.bindStream(Database.adsStream());
+    _allAdsStream.bindStream(Database.allAdsStream());
+    _featuredAdsStream.bindStream(Database.featuredAdsStream());
 
     super.onInit();
   }
 
-  Future<void> fetchSpecificUser(String documentid) async {
-    _specificUserData(
-        UserModel(displayName: "Shay User", creationdate: Timestamp.now()));
-    UserModel userModel = await Database.fetchSpecificUser(documentid);
-    _specificUserData(userModel);
+  void fetchSpecificUserAds(String id) async {
+    _fetchedSpecificUserAdsList([]);
+    List<AdModel> ads = await Database.fetchSpecificUserAds(id);
+
+    _fetchedSpecificUserAdsList(ads);
+  }
+
+  Future<UserModel> fetchUser(String uid) async {
+    return await Database.fetchUser(uid);
   }
 
   Future<void> postNewAdd(AdModel model) async {
     Map<String, String> imagesPathInStorage = {};
-    if (imagePickerImageList.value.isEmpty) {
-      return Get.showSnackbar(GetBar(
-        titleText: Text(
-          "pick atleast one image",
-          style: TextStyle(color: Colors.white),
-        ),
-        messageText: SizedBox.shrink(),
-        duration: const Duration(seconds: 3),
-      ));
-    }
     try {
       isLoading(true);
       Get.showSnackbar(GetBar(
@@ -82,17 +86,27 @@ class DatabaseController extends GetxController {
             pickedFile: imagePickerImageList.value[index],
             uid: _authController.currentUser!.uid);
         imagesPathInStorage.putIfAbsent('$index', () => val!);
-      
       }
+      List modelvalues = [
+        ...model.title!.toLowerCase().split(' '),
+        ...model.category!.toLowerCase().split(' '),
+        ...model.city!.toLowerCase().split(' ')
+      ];
+      List searchList = [];
 
+      for (var a = 0; a < modelvalues.length; a++) {
+        for (var i = 1; i <= modelvalues[a].length; i++) {
+          searchList.add(modelvalues[a].substring(0, i));
+        }
+      }
       await Database.postNewAdd(
-        model.copyWith(
-          uid: _authController.currentUser!.uid,
-          isFeatured: true,
-          status: 'publish',
-          photos: imagesPathInStorage,
-        ),
-      );
+          model.copyWith(
+            uid: _authController.currentUser!.uid,
+            isFeatured: true,
+            status: 'publish',
+            photos: imagesPathInStorage,
+          ),
+          searchList);
       imagePickerImageList.value.clear();
       Get.back();
       Get.showSnackbar(GetBar(
@@ -122,20 +136,123 @@ class DatabaseController extends GetxController {
         userModel.copyWith(uid: _authController.currentUser!.uid));
   }
 
-  void pickPostNewAdImages() async {
-    if (imagePickerImageList.value.length >= 8) {
-      return Get.showSnackbar(GetBar(
-          titleText: Text(
-            "You can post maximum 8 images",
-            style: TextStyle(color: Colors.white),
-          ),
-          messageText: SizedBox.shrink(),
-          duration: const Duration(seconds: 3)));
-    } else {
-      XFile? _userimage = await PickImage.pickImage();
-      imagePickerImageList.update((val) {
-        val!.add(_userimage!);
-      });
+  Future<void> deleteImageonsinglePost(AdModel model, int index) async {
+    if (model.photos!.length <= 1) {
+      Get.snackbar(
+          'Alteast one image required', 'Upload new image then remove it');
+      return;
     }
+
+    try {
+      Map<String, String> imagesPathInStorage = {};
+      List existedimges = model.photos!.values.toList();
+      isUpladingImage(true);
+      await Storage.deleteimage(existedimges[index]);
+      existedimges.removeAt(index);
+      for (var i = 0; i < existedimges.length; i++) {
+        imagesPathInStorage.putIfAbsent('$i', () => existedimges[i]);
+      }
+
+      Database.updateAd(model.copyWith(photos: imagesPathInStorage), []);
+    } catch (e) {
+      print(e);
+    } finally {
+      isUpladingImage(false);
+    }
+  }
+
+  Future<void> updatePostData(AdModel model) async {
+    List modelvalues = [
+      ...model.title!.toLowerCase().split(' '),
+      ...model.category!.toLowerCase().split(' '),
+      ...model.city!.toLowerCase().split(' ')
+    ];
+    List searchList = [];
+
+    for (var a = 0; a < modelvalues.length; a++) {
+      for (var i = 1; i <= modelvalues[a].length; i++) {
+        searchList.add(modelvalues[a].substring(0, i));
+      }
+    }
+    await Database.updateAd(model, searchList);
+  }
+
+  Future<void> updatePostPictures(AdModel model) async {
+    if (model.photos!.length >= 8) {
+      Get.snackbar('Max limit reach', 'You Can Upload Maximum 8 images');
+      return;
+    }
+
+    try {
+      List existedimges = model.photos!.values.toList();
+      Map<String, String> imagesPathInStorage = {};
+      XFile? _userimage = await PickImage.pickImage();
+      isUpladingImage(true);
+      String? pathinstorage = await Storage.uploadPostImages(
+          pickedFile: _userimage!, uid: _authController.currentUser!.uid);
+      existedimges.add(pathinstorage);
+      for (var i = 0; i < existedimges.length; i++) {
+        imagesPathInStorage.putIfAbsent('$i', () => existedimges[i]);
+      }
+      await Database.updateAd(model.copyWith(photos: imagesPathInStorage), []);
+    } catch (e) {
+      print(e);
+    } finally {
+      isUpladingImage(false);
+    }
+  }
+
+  void pickPostNewAdImages() async {
+    try {
+      if (imagePickerImageList.value.length >= 8) {
+        return Get.showSnackbar(GetBar(
+            titleText: Text(
+              "You can post maximum 8 images",
+              style: TextStyle(color: Colors.white),
+            ),
+            messageText: SizedBox.shrink(),
+            duration: const Duration(seconds: 3)));
+      } else {
+        XFile? _userimage = await PickImage.pickImage();
+        imagePickerImageList.update((val) {
+          val!.add(_userimage!);
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> adLikedbyMe(String docid) async {
+    adLikedByMe(false);
+    var snapshot = await Database.fetchSingleAd(docid: docid);
+    Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>;
+    if (data['Likes'] == null) {
+      adLikedByMe(false);
+      return;
+    }
+
+    Map<String, dynamic> value = data['Likes'];
+    value.forEach((key, value) {
+      if (key == _authController.currentUser!.uid && value == true) {
+        adLikedByMe(true);
+      } else {
+        adLikedByMe(false);
+      }
+    });
+  }
+
+  Future<void> fetchCategory(String value) async {
+    _fetchedCategory([]);
+    var snapshot = await Database.fetchByCategory(value);
+
+    _fetchedCategory(snapshot);
+  }
+
+  Future<void> searchads(String value) async {
+    _searchedads([]);
+    var snapshot = await Database.searchAds(value);
+
+    _searchedads(snapshot);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:shay/constants/constants.dart';
 import 'package:shay/constants/user_fields.dart';
 
@@ -18,40 +19,45 @@ class AdModel {
   late Map<String, dynamic>? photos;
   late String? videoUrl;
   late Timestamp? date;
+  late String? docId;
 
-  AdModel(
-      {this.uid,
-      this.category,
-      this.type,
-      this.title,
-      this.description,
-      this.price,
-      this.mobileNumber,
-      this.itemCondition,
-      this.city,
-      this.isFeatured,
-      this.status,
-      this.photos,
-      this.date,
-      this.videoUrl,
-      this.subCategory});
+  AdModel({
+    this.uid,
+    this.category,
+    this.type,
+    this.title,
+    this.description,
+    this.price,
+    this.mobileNumber,
+    this.itemCondition,
+    this.city,
+    this.isFeatured,
+    this.status,
+    this.photos,
+    this.date,
+    this.videoUrl,
+    this.subCategory,
+    this.docId,
+  });
 
-  AdModel copyWith(
-      {String? uid,
-      String? category,
-      String? type,
-      String? title,
-      String? description,
-      String? price,
-      String? mobileNumber,
-      String? itemCondition,
-      String? city,
-      String? videoUrl,
-      bool? isFeatured,
-      String? status,
-      Map<String, dynamic>? photos,
-      Timestamp? date,
-      String? subCategory}) {
+  AdModel copyWith({
+    String? uid,
+    String? category,
+    String? type,
+    String? title,
+    String? description,
+    String? price,
+    String? mobileNumber,
+    String? itemCondition,
+    String? city,
+    String? videoUrl,
+    bool? isFeatured,
+    String? status,
+    Map<String, dynamic>? photos,
+    Timestamp? date,
+    String? subCategory,
+    String? docId,
+  }) {
     return AdModel(
         uid: uid ?? this.uid,
         category: category ?? this.category,
@@ -67,7 +73,8 @@ class AdModel {
         photos: photos ?? this.photos,
         date: date ?? this.date,
         videoUrl: videoUrl ?? this.videoUrl,
-        subCategory: subCategory ?? this.subCategory);
+        subCategory: subCategory ?? this.subCategory,
+        docId: docId ?? this.docId);
   }
 
   AdModel.fromsnapshot(DocumentSnapshot snapshot) {
@@ -84,9 +91,51 @@ class AdModel {
     title = snapshot[PostNewAdConstants.title];
     type = snapshot[PostNewAdConstants.type];
     date = snapshot[PostNewAdConstants.date];
-    subCategory =
-        snapshot.data().toString().contains(PostNewAdConstants.subCategory)
-            ? snapshot[PostNewAdConstants.subCategory]
-            : '';
+    videoUrl = snapshot[PostNewAdConstants.videoUrl];
+    subCategory = snapshot[PostNewAdConstants.subCategory];
+    docId = snapshot.id;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AdModel &&
+        other.uid == uid &&
+        other.category == category &&
+        other.subCategory == subCategory &&
+        other.type == type &&
+        other.title == title &&
+        other.description == description &&
+        other.price == price &&
+        other.mobileNumber == mobileNumber &&
+        other.itemCondition == itemCondition &&
+        other.city == city &&
+        other.isFeatured == isFeatured &&
+        other.status == status &&
+        other.photos == photos &&
+        other.videoUrl == videoUrl &&
+        other.date == date &&
+        other.docId == docId;
+  }
+
+  @override
+  int get hashCode {
+    return uid.hashCode ^
+        category.hashCode ^
+        subCategory.hashCode ^
+        type.hashCode ^
+        title.hashCode ^
+        description.hashCode ^
+        price.hashCode ^
+        mobileNumber.hashCode ^
+        itemCondition.hashCode ^
+        city.hashCode ^
+        isFeatured.hashCode ^
+        status.hashCode ^
+        photos.hashCode ^
+        videoUrl.hashCode ^
+        date.hashCode ^
+        docId.hashCode;
   }
 }

@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shay/constants/constants.dart';
-import 'package:shay/controllers/controllers.dart';
-
 import 'package:shay/models/ad.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
 import 'package:shay/presentation/pages/ad_detail/widgets/images_view.dart';
+import 'package:shay/presentation/pages/ad_detail/widgets/user_information.dart';
 
 class DesktopTabDetailPage extends StatelessWidget {
   final AdModel adModel;
@@ -102,59 +101,7 @@ class DesktopTabDetailPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Card(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          padding: EdgeInsets.all(10),
-                          height: 115,
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'User Information',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w900),
-                              ),
-                              SizedBox(height: 6),
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                    backgroundImage:
-                                        AssetImage(Assets.avatar),
-                                    radius: 30,
-                                  ),
-                                  SizedBox(width: 6),
-                                  Obx(
-                                    () => Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          Get.find<DatabaseController>()
-                                              .specificUserData
-                                              .displayName!,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w900),
-                                        ),
-                                        Text(
-                                          'Member Since ${DateFormat().add_yMMM().format(DateTime.fromMicrosecondsSinceEpoch(Get.find<DatabaseController>().specificUserData.creationdate!.microsecondsSinceEpoch))}',
-                                          style: TextStyle(
-                                            color: Colors.grey.shade600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
+                      Card(child: UserInformation(uid: adModel.uid!))
                     ],
                   ),
                 )

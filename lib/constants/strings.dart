@@ -15,4 +15,8 @@ class Strings {
   static const twitter = 'Twitter';
   static const instagram = 'Instagram';
   static const youtube = 'Youtube';
+
+  //databse values
+  static const searchArray = 'Search Array';
+  static const likes = 'Likes';
 }
