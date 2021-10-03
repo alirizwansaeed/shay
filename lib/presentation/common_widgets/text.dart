@@ -6,6 +6,7 @@ import 'package:flutter/painting.dart';
 Widget formBuilderText(String text,
     {double topPadding = 8.0, double bottomPadding = 5.0}) {
   return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       SizedBox(height: topPadding),
       Text(

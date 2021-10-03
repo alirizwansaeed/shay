@@ -19,4 +19,5 @@ class Strings {
   //databse values
   static const searchArray = 'Search Array';
   static const likes = 'Likes';
+  static const adId = 'AdId';
 }

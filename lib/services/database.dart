@@ -89,6 +89,7 @@ class Database {
       PostNewAdConstants.videoUrl: model.videoUrl,
       Strings.likes: {},
       Strings.searchArray: searchArray,
+      Strings.adId: DateTime.now().microsecondsSinceEpoch
     });
   }
 

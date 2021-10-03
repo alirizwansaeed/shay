@@ -79,18 +79,17 @@ class AdWidget extends StatelessWidget {
           if (adModel.isFeatured!)
             Positioned(
               top: 5,
-              left: 5,
+              left: 0,
               child: Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                color: Colors.red,
-                child: Row(
-                  children: [
-                    Text(
-                      'Featured',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ],
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                    color: Colors.yellow,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(15),
+                        bottomRight: Radius.circular(15))),
+                child: Icon(
+                  Icons.star,
                 ),
               ),
             )

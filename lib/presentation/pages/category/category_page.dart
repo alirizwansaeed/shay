@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:shay/controllers/controllers.dart';
+import 'package:shay/models/ad.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
 
 import '../pages.dart';
@@ -16,25 +17,36 @@ class CategoryPage extends StatelessWidget {
       appBar: MobileAppbar(
         title: args,
       ),
-      body: Obx(
-        () => StaggeredGridView.countBuilder(
-          physics: BouncingScrollPhysics(),
-          shrinkWrap: true,
-          crossAxisCount: 4,
-          staggeredTileBuilder: (int index) => StaggeredTile.count(2, 2.5),
-          mainAxisSpacing: 4.0,
-          crossAxisSpacing: 4.0,
-          itemCount: _databaseController.fetchedCategory.length,
-          itemBuilder: (BuildContext context, int index) => InkWell(
-              onTap: () {
-                Get.toNamed(AdDetailPage.routeName,
-                    arguments: _databaseController.fetchedCategory[index]);
-              },
-              child: SizedBox(
-                  child: AdWidget(
-                      adModel: _databaseController.fetchedCategory[index]))),
-        ),
-      ),
+      body: FutureBuilder<List<AdModel>>(
+          future: _databaseController.fetchCategory(args),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return Center(child: Text('NO items'));
+              } else
+                return StaggeredGridView.countBuilder(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  crossAxisCount: 4,
+                  staggeredTileBuilder: (int index) =>
+                      StaggeredTile.count(2, 2.5),
+                  mainAxisSpacing: 4.0,
+                  crossAxisSpacing: 4.0,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) => InkWell(
+                      onTap: () {
+                        Get.toNamed(AdDetailPage.routeName,
+                            arguments: snapshot.data![index]);
+                      },
+                      child: SizedBox(
+                          child: AdWidget(adModel: snapshot.data![index]))),
+                );
+            } else {
+              return Center(
+                child: Text('loading'),
+              );
+            }
+          }),
     );
   }
 }

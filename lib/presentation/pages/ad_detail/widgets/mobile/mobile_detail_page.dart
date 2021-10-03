@@ -128,7 +128,7 @@ class MobileDetailPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Mobile Number"),
-                    Text(
+                    SelectableText(
                       adModel.mobileNumber!,
                       style: TextStyle(
                         color: Colors.grey.shade600,
@@ -160,6 +160,27 @@ class MobileDetailPage extends StatelessWidget {
                 indent: 8,
                 endIndent: 8,
               ),
+              if (adModel.videoUrl != null)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Video Url"),
+                      SizedBox(height: 4),
+                      SelectableText(
+                        adModel.videoUrl!,
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                      Divider(
+                        indent: 8,
+                        endIndent: 8,
+                      ),
+                    ],
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(

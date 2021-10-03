@@ -211,6 +211,7 @@ class EditAdPage extends StatelessWidget {
                   formBuilderText(PostNewAdConstants.videoUrl),
                   FormBuilderTextField(
                     name: PostNewAdConstants.videoUrl,
+                    initialValue: _userController.allAds[args].videoUrl,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: formFieldDecoration,
                   ),

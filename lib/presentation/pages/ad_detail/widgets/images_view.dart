@@ -32,26 +32,32 @@ class ImagesView extends StatelessWidget {
           ),
           Positioned(
             right: 20,
-            bottom: 20,
+            bottom: 10,
             child: Container(
                 alignment: Alignment.center,
                 height: 30,
                 width: 40,
                 decoration: BoxDecoration(
-                    color: Colors.red, borderRadius: BorderRadius.circular(20)),
+                    color: Colors.yellow,
+                    borderRadius: BorderRadius.circular(20)),
                 child: Text('${index + 1}/${adModel.photos?.length}',
-                    style: TextStyle(color: Colors.white))),
+                    style: TextStyle(color: Colors.black))),
           ),
           if (adModel.isFeatured!)
             Positioned(
               top: 10,
-              left: 10,
+              left: 0,
               child: Container(
-                padding: EdgeInsets.all(6),
-                color: Colors.red,
+                padding:
+                    EdgeInsets.only(top: 6, bottom: 6, right: 10, left: 10),
+                decoration: BoxDecoration(
+                    color: Colors.yellow,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(15),
+                        bottomRight: Radius.circular(15))),
                 child: Text(
                   'Featured',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                 ),
               ),
             ),

@@ -89,13 +89,12 @@ class HomePageView extends StatelessWidget {
 
   SizedBox _catagoryTabs() {
     return SizedBox(
-      height: 65,
+      height: 60,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           InkWell(
             onTap: () {
-              _databseController.fetchCategory('Mobile');
               Get.toNamed(CategoryPage.routeName, arguments: "Mobile");
             },
             child: SizedBox(
@@ -115,7 +114,6 @@ class HomePageView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              _databseController.fetchCategory('Laptop');
               Get.toNamed(CategoryPage.routeName, arguments: "Laptop");
             },
             child: SizedBox(
@@ -135,7 +133,6 @@ class HomePageView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              _databseController.fetchCategory('Automobiles Parts');
               Get.toNamed(CategoryPage.routeName,
                   arguments: "Automobiles Parts");
             },
@@ -156,7 +153,6 @@ class HomePageView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              _databseController.fetchCategory('Home Utilities');
               Get.toNamed(CategoryPage.routeName, arguments: "Home Utilities");
             },
             child: SizedBox(
@@ -176,7 +172,6 @@ class HomePageView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              _databseController.fetchCategory('Sports Goods');
               Get.toNamed(CategoryPage.routeName, arguments: "Sports Goods");
             },
             child: SizedBox(
@@ -193,7 +188,6 @@ class HomePageView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              _databseController.fetchCategory('Cloting');
               Get.toNamed(CategoryPage.routeName, arguments: "Cloting");
             },
             child: SizedBox(
@@ -210,7 +204,6 @@ class HomePageView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              _databseController.fetchCategory('Pet & Animals');
               Get.toNamed(CategoryPage.routeName, arguments: "Pet & Animals");
             },
             child: SizedBox(
@@ -227,7 +220,6 @@ class HomePageView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              _databseController.fetchCategory('Kids');
               Get.toNamed(CategoryPage.routeName, arguments: "Kids");
             },
             child: SizedBox(
@@ -247,7 +239,6 @@ class HomePageView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              _databseController.fetchCategory('Real Estate');
               Get.toNamed(CategoryPage.routeName, arguments: "Real Estate");
             },
             child: SizedBox(
@@ -270,7 +261,6 @@ class HomePageView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              _databseController.fetchCategory('Services');
               Get.toNamed(CategoryPage.routeName, arguments: "Services");
             },
             child: SizedBox(
@@ -290,7 +280,6 @@ class HomePageView extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              _databseController.fetchCategory('Uncategorized');
               Get.toNamed(CategoryPage.routeName, arguments: "Uncategorized");
             },
             child: SizedBox(

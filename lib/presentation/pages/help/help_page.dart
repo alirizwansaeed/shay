@@ -62,10 +62,13 @@ class HelpPage extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.send),
-                    label: Text('Submit'))
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                      onPressed: _submitButton,
+                      icon: Icon(Icons.send),
+                      label: Text('Submit')),
+                )
               ],
             ),
           ),
@@ -73,4 +76,6 @@ class HelpPage extends StatelessWidget {
       ),
     );
   }
+
+  void _submitButton() {}
 }

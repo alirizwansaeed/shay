@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/models/models.dart';

@@ -242,11 +242,11 @@ class DatabaseController extends GetxController {
     });
   }
 
-  Future<void> fetchCategory(String value) async {
-    _fetchedCategory([]);
-    var snapshot = await Database.fetchByCategory(value);
+  Future<List<AdModel>> fetchCategory(String value) async {
+    //  _fetchedCategory([]);
+    return await Database.fetchByCategory(value);
 
-    _fetchedCategory(snapshot);
+    // _fetchedCategory(snapshot);
   }
 
   Future<void> searchads(String value) async {
