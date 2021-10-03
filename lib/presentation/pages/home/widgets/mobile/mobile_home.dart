@@ -28,7 +28,7 @@ class MobileHome extends StatelessWidget {
       floatingActionButton: _floatingActionButton(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _mobilebottombar(),
-      body: SafeArea(child: _mobilehome()),
+      body: _mobilehome(),
     );
   }
 

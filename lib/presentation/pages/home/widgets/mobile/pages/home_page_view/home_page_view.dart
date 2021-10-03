@@ -1,13 +1,17 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shay/constants/constants.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
 import 'package:shay/presentation/pages/category/category_page.dart';
 import 'package:shay/presentation/pages/pages.dart';
-import 'package:shay/presentation/pages/search/search_page.dart';
 import '../../../feature_ads_listView.dart';
 
 class HomePageView extends StatelessWidget {
@@ -18,11 +22,121 @@ class HomePageView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InkWell(
-              onTap: () {
-                Get.toNamed(SearchPage.routeName);
-              },
-              child: _searchbar()),
+          Container(
+            height: Get.mediaQuery.padding.top + 200,
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              boxShadow: [BoxShadow(blurRadius: 10)],
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(35),
+                  bottomRight: Radius.circular(35)),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF120C32).withGreen(50),
+                  Color(0xFF120C32),
+                ],
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 70,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Shay',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: AnimatedTextKit(
+                            repeatForever: true,
+                            animatedTexts: PostNewAdConstants.typeList
+                                .map(
+                                  (e) => RotateAnimatedText(
+                                    e,
+                                    textStyle: GoogleFonts.bebasNeue(
+                                      color: Colors.white.withOpacity(.5),
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                )
+                                .toList()),
+                      )
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    Text('Explore',
+                        style: GoogleFonts.nunito(
+                          color: Colors.white,
+                          fontSize: 27,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    Text(' For You',
+                        style: GoogleFonts.nunito(
+                          color: Colors.white.withOpacity(.6),
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(SearchPage.routeName);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 30),
+                    height: 40,
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.pink),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.search,
+                          size: 30,
+                          color: Colors.pink,
+                        ),
+                        Text('  I am Looking For ?',
+                            style: GoogleFonts.nunito(
+                                color: Colors.grey,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20)
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
           _catagoryTabs(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -66,23 +180,6 @@ class HomePageView extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Padding _searchbar() {
-    return Padding(
-      padding: const EdgeInsets.all(ScreenConstants.devicePadding),
-      child: Container(
-        height: 45,
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(border: Border.all()),
-        child: Text(
-          'search mobile, Home utilities, cloting, and more',
-          style: TextStyle(color: Colors.grey.shade600),
-        ),
       ),
     );
   }

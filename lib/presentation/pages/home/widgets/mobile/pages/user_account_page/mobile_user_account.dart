@@ -13,75 +13,78 @@ class MobileUserAccount extends StatelessWidget {
   final _authController = Get.find<AuthenticationController>();
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: ScreenConstants.devicePadding),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    backgroundImage: AssetImage(Assets.avatar),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  _authController.currentUserState == null
-                      ? Expanded(
-                          child: ElevatedButton.icon(
-                              onPressed: _login,
-                              icon: Icon(Icons.login_outlined),
-                              label: Text('login')),
-                        )
-                      : Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  Get.find<UserController>()
-                                          .currentUserStream
-                                          .displayName ??
-                                      'Shay User',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+    return Obx(() => Scaffold(
+          appBar: MobileAppbar(
+            title: 'Account',
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ScreenConstants.devicePadding),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      backgroundImage: AssetImage(Assets.avatar),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    _authController.currentUserState == null
+                        ? Expanded(
+                            child: ElevatedButton.icon(
+                                onPressed: _login,
+                                icon: Icon(Icons.login_outlined),
+                                label: Text('login')),
+                          )
+                        : Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    Get.find<UserController>()
+                                            .currentUserStream
+                                            .displayName ??
+                                        'Shay User',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
-                              IconButton(
-                                  onPressed: _editProfileButton,
-                                  icon: Icon(Icons.edit))
-                            ],
+                                IconButton(
+                                    onPressed: _editProfileButton,
+                                    icon: Icon(Icons.edit))
+                              ],
+                            ),
                           ),
-                        ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            if (_authController.currentUser != null)
+              SizedBox(
+                height: 30,
+              ),
+              if (_authController.currentUser != null)
+                customTile(
+                    title: 'Settings',
+                    leading: Icons.settings,
+                    subTitle: 'Change password and logout',
+                    onTap: () => Get.toNamed(SettingsPage.routeName)),
               customTile(
-                  title: 'Settings',
-                  leading: Icons.settings,
-                  subTitle: 'Change password and logout',
-                  onTap: () => Get.toNamed(SettingsPage.routeName)),
-            customTile(
-                title: 'Help And Support',
-                leading: Icons.help_center_outlined,
-                subTitle: 'Contact Us, Help and FAQs ',
-                onTap: () => Get.toNamed(HelpAndSupportPage.routeName)),
-          ],
+                  title: 'Help And Support',
+                  leading: Icons.help_center_outlined,
+                  subTitle: 'Contact Us, Help and FAQs ',
+                  onTap: () => Get.toNamed(HelpAndSupportPage.routeName)),
+            ],
+          ),
         ));
   }
 

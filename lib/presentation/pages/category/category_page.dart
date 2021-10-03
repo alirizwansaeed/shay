@@ -22,7 +22,7 @@ class CategoryPage extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
-                return Center(child: Text('NO items'));
+                return Center(child: Text('No items'));
               } else
                 return StaggeredGridView.countBuilder(
                   physics: BouncingScrollPhysics(),
