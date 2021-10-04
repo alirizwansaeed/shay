@@ -23,14 +23,14 @@ class HomePageView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: Get.mediaQuery.padding.top + 200,
+            height: MediaQuery.of(context).padding.top + 180,
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
               boxShadow: [BoxShadow(blurRadius: 10)],
               borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(35),
-                  bottomRight: Radius.circular(35)),
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30)),
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
