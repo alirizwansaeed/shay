@@ -33,15 +33,21 @@ class MobileHome extends StatelessWidget {
   }
 
   Widget _mobilehome() {
-    return PageView(
-      physics: NeverScrollableScrollPhysics(),
-      controller: pageController,
-      children: [
-        HomePageView(),
-        MyAdsPageView(),
-        LikedAdsPageView(),
-        MobileUserAccount()
-      ],
+    return Obx(
+      () => PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: pageController,
+        children: [
+          HomePageView(),
+          _authenticationController.currentUserState == null
+              ? LoginPage()
+              : MyAdsPageView(),
+          _authenticationController.currentUserState == null
+              ? LoginPage()
+              : LikedAdsPageView(),
+          MobileUserAccount()
+        ],
+      ),
     );
   }
 

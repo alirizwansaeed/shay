@@ -23,7 +23,7 @@ class HomePageView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: MediaQuery.of(context).padding.top + 180,
+            height: MediaQuery.of(context).padding.top + 170,
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
