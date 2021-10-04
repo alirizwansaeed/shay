@@ -88,9 +88,9 @@ class LoginPage extends StatelessWidget {
               FormBuilderValidators.required(context),
               FormBuilderValidators.email(context)
             ]),
-            decoration: InputDecoration(
+            decoration: formFieldDecoration.copyWith(
               labelText: email,
-              border: OutlineInputBorder(),
+
             ),
           ),
           SizedBox(height: 15),
@@ -104,7 +104,7 @@ class LoginPage extends StatelessWidget {
                 FormBuilderValidators.match(context, '^(?!.* )',
                     errorText: 'space not allowed')
               ]),
-              decoration: InputDecoration(
+              decoration: formFieldDecoration.copyWith(
                 suffixIcon: IconButton(
                   onPressed: obsecurePassword.toggle,
                   icon: Icon(obsecurePassword.value
@@ -118,6 +118,7 @@ class LoginPage extends StatelessWidget {
           ),
           SizedBox(height: 15),
           Obx(() => ElevatedButton(
+              style: ButtonStyle(),
               onPressed: _isloading.value ? null : loginButton,
               child: Text('Sign in'))),
           SizedBox(height: 15),

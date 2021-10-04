@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/presentation/pages/home/widgets/mobile/pages/liked_ads_page_view/liked_ads_page_view.dart';
 import 'package:shay/presentation/pages/home/widgets/mobile/pages/user_account_page/mobile_user_account.dart';
+import 'package:shay/presentation/pages/login/login_page.dart';
 import 'package:shay/presentation/pages/pages.dart';
 
 import 'pages/home_page_view/home_page_view.dart';
@@ -40,10 +41,22 @@ class MobileHome extends StatelessWidget {
         children: [
           HomePageView(),
           _authenticationController.currentUserState == null
-              ? LoginPage()
+              ? Center(
+                  child: TextButton(
+                      onPressed: () {
+                        Get.toNamed(LoginPage.routeName);
+                      },
+                      child: Text("Login")),
+                )
               : MyAdsPageView(),
           _authenticationController.currentUserState == null
-              ? LoginPage()
+              ? Center(
+                  child: TextButton(
+                      onPressed: () {
+                        Get.toNamed(LoginPage.routeName);
+                      },
+                      child: Text("Login")),
+                )
               : LikedAdsPageView(),
           MobileUserAccount()
         ],
