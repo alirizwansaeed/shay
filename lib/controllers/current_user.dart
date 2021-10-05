@@ -47,6 +47,7 @@ class UserController extends GetxController {
         docid: docid, uid: _authController.currentUser!.uid, isliked: isliked);
   }
 
+
   // Future<void> fetchLickedAds() async {
   //   _likedAds([]);
   //   List<AdModel> value =

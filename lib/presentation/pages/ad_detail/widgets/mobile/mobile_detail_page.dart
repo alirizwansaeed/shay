@@ -5,6 +5,7 @@ import 'package:shay/controllers/controllers.dart';
 import 'package:shay/models/models.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
 import 'package:shay/presentation/pages/ad_detail/widgets/images_view.dart';
+import 'package:shay/presentation/pages/login/login_page.dart';
 
 import '../user_information.dart';
 
@@ -43,15 +44,22 @@ class MobileDetailPage extends StatelessWidget {
                     Obx(
                       () => IconButton(
                           onPressed: () async {
-                            await Get.find<UserController>().likeAd(
-                                docid: adModel.docId!,
-                                isliked: Get.find<DatabaseController>()
-                                        .adLikedByMe
-                                        .value
-                                    ? false
-                                    : true);
-                            await Get.find<DatabaseController>()
-                                .adLikedbyMe(adModel.docId!);
+                            if (Get.find<AuthenticationController>()
+                                    .currentUserState ==
+                                null)
+                              Get.toNamed(LoginPage.routeName);
+                            else {
+
+                              await Get.find<UserController>().likeAd(
+                                  docid: adModel.docId!,
+                                  isliked: Get.find<DatabaseController>()
+                                          .adLikedByMe
+                                          .value
+                                      ? false
+                                      : true);
+                              await Get.find<DatabaseController>()
+                                  .adLikedbyMe(adModel.docId!);
+                            }
                           },
                           icon: Icon(
                               Get.find<DatabaseController>().adLikedByMe.value

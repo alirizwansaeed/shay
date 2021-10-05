@@ -90,7 +90,6 @@ class LoginPage extends StatelessWidget {
             ]),
             decoration: formFieldDecoration.copyWith(
               labelText: email,
-
             ),
           ),
           SizedBox(height: 15),

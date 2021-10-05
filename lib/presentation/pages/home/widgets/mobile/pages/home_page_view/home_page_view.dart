@@ -45,9 +45,9 @@ class HomePageView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 70,
+                  height: 50,
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
@@ -61,22 +61,23 @@ class HomePageView extends StatelessWidget {
                       SizedBox(
                         width: 8,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
+                      SizedBox(
+                        height: 40,
                         child: AnimatedTextKit(
-                            repeatForever: true,
-                            animatedTexts: PostNewAdConstants.typeList
-                                .map(
-                                  (e) => RotateAnimatedText(
-                                    e,
-                                    textStyle: GoogleFonts.bebasNeue(
-                                      color: Colors.white.withOpacity(.5),
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                          repeatForever: true,
+                          animatedTexts: PostNewAdConstants.typeList
+                              .map(
+                                (e) => RotateAnimatedText(
+                                  e,
+                                  textStyle: GoogleFonts.bebasNeue(
+                                    color: Colors.white.withOpacity(.5),
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                )
-                                .toList()),
+                                ),
+                              )
+                              .toList(),
+                        ),
                       )
                     ],
                   ),

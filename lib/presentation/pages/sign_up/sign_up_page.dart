@@ -81,9 +81,8 @@ class SignUpPage extends StatelessWidget {
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
             ]),
-            decoration: InputDecoration(
+            decoration: formFieldDecoration.copyWith(
               labelText: username,
-              border: OutlineInputBorder(),
             ),
           ),
           SizedBox(
@@ -95,9 +94,8 @@ class SignUpPage extends StatelessWidget {
               FormBuilderValidators.required(context),
               FormBuilderValidators.email(context)
             ]),
-            decoration: InputDecoration(
+            decoration: formFieldDecoration.copyWith(
               labelText: email,
-              border: OutlineInputBorder(),
             ),
           ),
           SizedBox(height: 15),
@@ -109,9 +107,8 @@ class SignUpPage extends StatelessWidget {
               FormBuilderValidators.match(context, '^(?!.* )',
                   errorText: 'space not allowed')
             ]),
-            decoration: InputDecoration(
+            decoration: formFieldDecoration.copyWith(
               labelText: password,
-              border: OutlineInputBorder(),
             ),
           ),
           SizedBox(height: 15),
@@ -123,9 +120,8 @@ class SignUpPage extends StatelessWidget {
               FormBuilderValidators.match(context, '^(?!.* )',
                   errorText: 'space not allowed'),
             ]),
-            decoration: InputDecoration(
+            decoration: formFieldDecoration.copyWith(
               labelText: confirmPassword,
-              border: OutlineInputBorder(),
             ),
           ),
           SizedBox(height: 15),

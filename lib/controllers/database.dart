@@ -233,11 +233,11 @@ class DatabaseController extends GetxController {
     }
 
     Map<String, dynamic> value = data['Likes'];
+
     value.forEach((key, value) {
       if (key == _authController.currentUser!.uid && value == true) {
         adLikedByMe(true);
-      } else {
-        adLikedByMe(false);
+        return;
       }
     });
   }

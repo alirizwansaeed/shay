@@ -49,7 +49,7 @@ class AuthenticationController extends GetxController {
   Future<void> signInWithEmailPassword(
       {required String email, required String password}) async {
     await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
+        .signInWithEmailAndPassword(email: email.trim(), password: password.trim());
   }
 
 // create user  with email password
@@ -58,11 +58,11 @@ class AuthenticationController extends GetxController {
       required String email,
       required String password}) async {
     UserCredential _userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
+        email: email.trim(), password: password.trim());
     _userCredential.user?.sendEmailVerification();
     UserModel userModel = UserModel(
       isVarified: false,
-      displayName: username,
+      displayName: username.trim(),
       uid: _userCredential.user!.uid,
       creationdate: Timestamp.fromDate(
         _userCredential.user!.metadata.creationTime!,

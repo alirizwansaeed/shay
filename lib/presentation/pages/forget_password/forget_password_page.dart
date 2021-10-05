@@ -80,9 +80,8 @@ class ForgetPasswordPage extends StatelessWidget {
               FormBuilderValidators.required(context),
               FormBuilderValidators.email(context)
             ]),
-            decoration: InputDecoration(
+            decoration: formFieldDecoration.copyWith(
               labelText: email,
-              border: OutlineInputBorder(),
             ),
           ),
           SizedBox(

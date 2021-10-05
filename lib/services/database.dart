@@ -230,6 +230,10 @@ class Database {
     required String uid,
     required bool isliked,
   }) async {
-    await _postsCollection.doc(docid).update({"Likes.$uid": isliked});
+    try {
+      await _postsCollection.doc(docid).update({"Likes.$uid": isliked});
+    } catch (e) {
+      print(e);
+    }
   }
 }
