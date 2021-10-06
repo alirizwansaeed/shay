@@ -49,7 +49,6 @@ class MobileDetailPage extends StatelessWidget {
                                 null)
                               Get.toNamed(LoginPage.routeName);
                             else {
-
                               await Get.find<UserController>().likeAd(
                                   docid: adModel.docId!,
                                   isliked: Get.find<DatabaseController>()
@@ -189,6 +188,25 @@ class MobileDetailPage extends StatelessWidget {
                     ],
                   ),
                 ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Ad Id"),
+                    Text(
+                      adModel.adId!.toString(),
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Divider(
+                indent: 8,
+                endIndent: 8,
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(

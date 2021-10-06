@@ -1,8 +1,11 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/models/models.dart';
 import 'package:shay/services/database.dart';
 import 'package:shay/services/services.dart';
+import 'package:shay/utils/pick_image.dart';
 
 class UserController extends GetxController {
   final _authController = Get.find<AuthenticationController>();
@@ -47,11 +50,18 @@ class UserController extends GetxController {
         docid: docid, uid: _authController.currentUser!.uid, isliked: isliked);
   }
 
+  Future<void> changeProfilePicture() async {
+    try {
+      XFile? pickimage = await PickImage.pickProfilePicture();
+      BotToast.showLoading(backButtonBehavior: BackButtonBehavior.ignore);
+      String imageurl = await Storage.changeProfilePicture(
+          pickedFile: pickimage!, uid: _authController.currentUser!.uid);
 
-  // Future<void> fetchLickedAds() async {
-  //   _likedAds([]);
-  //   List<AdModel> value =
-  //       await Database.fetchLikedAds(_authController.currentUser!.uid);
-  //   _likedAds(value);
-  // }
+      Database.updateUser(UserModel(
+          uid: _authController.currentUser!.uid, profilePicture: imageurl));
+    } catch (e) {
+    } finally {
+      BotToast.closeAllLoading();
+    }
+  }
 }

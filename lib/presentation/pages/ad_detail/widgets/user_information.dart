@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -45,8 +46,17 @@ class UserInformation extends StatelessWidget {
                         CircleAvatar(
                           backgroundColor:
                               Theme.of(context).scaffoldBackgroundColor,
-                          backgroundImage: AssetImage(Assets.avatar),
                           radius: 30,
+                          child: CachedNetworkImage(
+                            imageUrl: snapshot.data!.profilePicture == null
+                                ? ''
+                                : snapshot.data!.profilePicture!,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) =>
+                                Image.asset(Assets.avatar),
+                            errorWidget: (context, url, error) =>
+                                Image.asset(Assets.avatar),
+                          ),
                         ),
                         SizedBox(width: 6),
                         Column(

@@ -20,6 +20,7 @@ class AdModel {
   late String? videoUrl;
   late Timestamp? date;
   late String? docId;
+  late int? adId;
 
   AdModel({
     this.uid,
@@ -38,6 +39,7 @@ class AdModel {
     this.videoUrl,
     this.subCategory,
     this.docId,
+    this.adId,
   });
 
   AdModel copyWith({
@@ -57,24 +59,27 @@ class AdModel {
     Timestamp? date,
     String? subCategory,
     String? docId,
+    int? adId,
   }) {
     return AdModel(
-        uid: uid ?? this.uid,
-        category: category ?? this.category,
-        type: type ?? this.type,
-        title: title ?? this.title,
-        description: description ?? this.description,
-        price: price ?? this.price,
-        mobileNumber: mobileNumber ?? this.mobileNumber,
-        itemCondition: itemCondition ?? this.itemCondition,
-        city: city ?? this.city,
-        isFeatured: isFeatured ?? this.isFeatured,
-        status: status ?? this.status,
-        photos: photos ?? this.photos,
-        date: date ?? this.date,
-        videoUrl: videoUrl ?? this.videoUrl,
-        subCategory: subCategory ?? this.subCategory,
-        docId: docId ?? this.docId);
+      uid: uid ?? this.uid,
+      category: category ?? this.category,
+      type: type ?? this.type,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      mobileNumber: mobileNumber ?? this.mobileNumber,
+      itemCondition: itemCondition ?? this.itemCondition,
+      city: city ?? this.city,
+      isFeatured: isFeatured ?? this.isFeatured,
+      status: status ?? this.status,
+      photos: photos ?? this.photos,
+      date: date ?? this.date,
+      videoUrl: videoUrl ?? this.videoUrl,
+      subCategory: subCategory ?? this.subCategory,
+      docId: docId ?? this.docId,
+      adId: adId ?? this.adId,
+    );
   }
 
   AdModel.fromsnapshot(DocumentSnapshot snapshot) {
@@ -94,6 +99,7 @@ class AdModel {
     videoUrl = snapshot[PostNewAdConstants.videoUrl];
     subCategory = snapshot[PostNewAdConstants.subCategory];
     docId = snapshot.id;
+    adId = snapshot[Strings.adId];
   }
 
   @override
@@ -101,41 +107,43 @@ class AdModel {
     if (identical(this, other)) return true;
 
     return other is AdModel &&
-        other.uid == uid &&
-        other.category == category &&
-        other.subCategory == subCategory &&
-        other.type == type &&
-        other.title == title &&
-        other.description == description &&
-        other.price == price &&
-        other.mobileNumber == mobileNumber &&
-        other.itemCondition == itemCondition &&
-        other.city == city &&
-        other.isFeatured == isFeatured &&
-        other.status == status &&
-        other.photos == photos &&
-        other.videoUrl == videoUrl &&
-        other.date == date &&
-        other.docId == docId;
+      other.uid == uid &&
+      other.category == category &&
+      other.subCategory == subCategory &&
+      other.type == type &&
+      other.title == title &&
+      other.description == description &&
+      other.price == price &&
+      other.mobileNumber == mobileNumber &&
+      other.itemCondition == itemCondition &&
+      other.city == city &&
+      other.isFeatured == isFeatured &&
+      other.status == status &&
+      other.photos == photos &&
+      other.videoUrl == videoUrl &&
+      other.date == date &&
+      other.docId == docId &&
+      other.adId == adId;
   }
 
   @override
   int get hashCode {
     return uid.hashCode ^
-        category.hashCode ^
-        subCategory.hashCode ^
-        type.hashCode ^
-        title.hashCode ^
-        description.hashCode ^
-        price.hashCode ^
-        mobileNumber.hashCode ^
-        itemCondition.hashCode ^
-        city.hashCode ^
-        isFeatured.hashCode ^
-        status.hashCode ^
-        photos.hashCode ^
-        videoUrl.hashCode ^
-        date.hashCode ^
-        docId.hashCode;
+      category.hashCode ^
+      subCategory.hashCode ^
+      type.hashCode ^
+      title.hashCode ^
+      description.hashCode ^
+      price.hashCode ^
+      mobileNumber.hashCode ^
+      itemCondition.hashCode ^
+      city.hashCode ^
+      isFeatured.hashCode ^
+      status.hashCode ^
+      photos.hashCode ^
+      videoUrl.hashCode ^
+      date.hashCode ^
+      docId.hashCode ^
+      adId.hashCode;
   }
 }

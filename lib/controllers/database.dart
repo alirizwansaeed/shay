@@ -12,7 +12,7 @@ class DatabaseController extends GetxController {
   Rx<List<AdModel>> _allAdsStream = Rx<List<AdModel>>([]);
   Rx<List<AdModel>> _featuredAdsStream = Rx<List<AdModel>>([]);
   Rx<List<AdModel>> _fetchedSpecificUserAdsList = Rx<List<AdModel>>([]);
-  Rx<List<AdModel>> _fetchedCategory = Rx<List<AdModel>>([]);
+
   Rx<List<AdModel>> _searchedads = Rx<List<AdModel>>([]);
 
   Rx<List<XFile>> imagePickerImageList = Rx<List<XFile>>([]);
@@ -29,10 +29,6 @@ class DatabaseController extends GetxController {
 
   List<AdModel> get searchedAds {
     return _searchedads.value;
-  }
-
-  List<AdModel> get fetchedCategory {
-    return _fetchedCategory.value;
   }
 
   List<AdModel> get featuredAdsStream {
@@ -102,7 +98,7 @@ class DatabaseController extends GetxController {
       await Database.postNewAdd(
           model.copyWith(
             uid: _authController.currentUser!.uid,
-            isFeatured: true,
+            isFeatured: false,
             status: 'publish',
             photos: imagesPathInStorage,
           ),
@@ -243,10 +239,7 @@ class DatabaseController extends GetxController {
   }
 
   Future<List<AdModel>> fetchCategory(String value) async {
-    //  _fetchedCategory([]);
     return await Database.fetchByCategory(value);
-
-    // _fetchedCategory(snapshot);
   }
 
   Future<void> searchads(String value) async {

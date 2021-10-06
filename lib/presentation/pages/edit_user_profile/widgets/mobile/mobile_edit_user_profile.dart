@@ -51,6 +51,11 @@ class MobileEditUserProfile extends StatelessWidget {
                   formBuilderText(Strings.userMobileNumber, topPadding: 0),
                   FormBuilderTextField(
                     name: Strings.userMobileNumber,
+                    keyboardType: TextInputType.phone,
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.minLength(context, 11),
+                      FormBuilderValidators.integer(context)
+                    ]),
                     initialValue: _currentUser.mobileNumber,
                     maxLength: 11,
                     decoration: formFieldDecoration,

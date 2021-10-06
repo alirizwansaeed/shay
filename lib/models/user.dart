@@ -15,6 +15,7 @@ class UserModel {
   late String? youtube;
   late bool? isVarified;
   late Timestamp? creationdate;
+  late String? profilePicture;
 
   UserModel({
     this.uid,
@@ -30,6 +31,7 @@ class UserModel {
     this.youtube,
     this.creationdate,
     this.isVarified,
+    this.profilePicture,
   });
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -46,6 +48,7 @@ class UserModel {
     youtube = snapshot[Strings.youtube];
     isVarified = snapshot[Strings.isVarified];
     creationdate = snapshot[Strings.userCreationDate];
+    profilePicture = snapshot[Strings.profilePicture];
   }
 
   UserModel copyWith({
@@ -62,6 +65,7 @@ class UserModel {
     String? youtube,
     bool? isVarified,
     Timestamp? creationdate,
+    String? prfilePicture,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -77,6 +81,7 @@ class UserModel {
       youtube: youtube ?? this.youtube,
       isVarified: isVarified ?? this.isVarified,
       creationdate: creationdate ?? this.creationdate,
+      profilePicture: profilePicture??this.profilePicture
     );
   }
 }

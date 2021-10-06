@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shay/controllers/controllers.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
-import 'package:shay/presentation/pages/home/home_page.dart';
 import 'package:shay/presentation/pages/pages.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -23,26 +21,7 @@ class SettingsPage extends StatelessWidget {
               onTap: () => Get.toNamed(ChangePasswordPage.routeName),
               title: 'Change Password',
               leading: Icons.password_outlined),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextButton.icon(
-              onPressed: () {
-                Get.find<AuthenticationController>().signOut();
-                Get.offAllNamed(HomePage.routeName);
-              },
-              icon: Icon(
-                Icons.logout_outlined,
-                color: Colors.black,
-              ),
-              label: Text(
-                'Logout',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
-              ),
-            ),
-          )
+
         ],
       ),
     );

@@ -31,4 +31,21 @@ class Storage {
   }
 
 
+static Future<String> changeProfilePicture({
+    required XFile pickedFile,
+    required String uid,
+  }) async{
+
+  Reference _reference = _firebaseStorage
+          .ref()
+          .child('profilepictures')
+          .child(uid);
+
+            TaskSnapshot uploadTask = await _reference.putData(
+          await pickedFile.readAsBytes(),
+          SettableMetadata(contentType: 'image/jpeg'));
+      return uploadTask.ref.getDownloadURL();
+
+}
+
 }

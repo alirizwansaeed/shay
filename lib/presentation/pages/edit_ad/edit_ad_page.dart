@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:shay/constants/city_list.dart';
 import 'package:shay/constants/constants.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/models/models.dart';
@@ -61,7 +62,7 @@ class EditAdPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  formBuilderText(PostNewAdConstants.category),
+                  formBuilderText(PostNewAdConstants.category + '*'),
                   FormBuilderDropdown(
                     name: PostNewAdConstants.category,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -90,10 +91,11 @@ class EditAdPage extends StatelessWidget {
                         : Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              formBuilderText(PostNewAdConstants.subCategory),
+                              formBuilderText(
+                                  PostNewAdConstants.subCategory + '*'),
                               FormBuilderDropdown(
                                   name: PostNewAdConstants.subCategory,
-                                  hint: Text('Choose  Subcategory'),
+                                  hint: Text('Choose Subcategory'),
                                   validator:
                                       FormBuilderValidators.required(context),
                                   isDense: true,
@@ -105,7 +107,7 @@ class EditAdPage extends StatelessWidget {
                             ],
                           ),
                   ),
-                  formBuilderText(PostNewAdConstants.type),
+                  formBuilderText(PostNewAdConstants.type + '*'),
                   FormBuilderChoiceChip(
                     visualDensity: VisualDensity.compact,
                     name: PostNewAdConstants.type,
@@ -124,7 +126,7 @@ class EditAdPage extends StatelessWidget {
                         )
                         .toList(),
                   ),
-                  formBuilderText(PostNewAdConstants.title),
+                  formBuilderText(PostNewAdConstants.title + '*'),
                   FormBuilderTextField(
                     name: PostNewAdConstants.title,
                     initialValue: _userController.allAds[args].title,
@@ -136,7 +138,7 @@ class EditAdPage extends StatelessWidget {
                     ]),
                     decoration: formFieldDecoration,
                   ),
-                  formBuilderText(PostNewAdConstants.description,
+                  formBuilderText(PostNewAdConstants.description + '*',
                       topPadding: 0),
                   FormBuilderTextField(
                     name: PostNewAdConstants.description,
@@ -152,7 +154,7 @@ class EditAdPage extends StatelessWidget {
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  formBuilderText(PostNewAdConstants.price),
+                  formBuilderText(PostNewAdConstants.price + '*'),
                   FormBuilderTextField(
                       name: PostNewAdConstants.price,
                       initialValue: _userController.allAds[args].price,
@@ -165,7 +167,7 @@ class EditAdPage extends StatelessWidget {
                       ]),
                       decoration:
                           formFieldDecoration.copyWith(prefixText: 'Rs:')),
-                  formBuilderText(PostNewAdConstants.mobileNumber),
+                  formBuilderText(PostNewAdConstants.mobileNumber + '*'),
                   FormBuilderTextField(
                       name: PostNewAdConstants.mobileNumber,
                       initialValue: _userController.allAds[args].mobileNumber,
@@ -179,7 +181,7 @@ class EditAdPage extends StatelessWidget {
                         FormBuilderValidators.minLength(context, 11),
                       ]),
                       decoration: formFieldDecoration),
-                  formBuilderText(PostNewAdConstants.itemCondition,
+                  formBuilderText(PostNewAdConstants.itemCondition + '*',
                       topPadding: 0),
                   FormBuilderChoiceChip(
                     name: PostNewAdConstants.itemCondition,
@@ -201,8 +203,12 @@ class EditAdPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  formBuilderText(PostNewAdConstants.city),
-                  FormBuilderTextField(
+                  formBuilderText(PostNewAdConstants.city + '*'),
+                  FormBuilderDropdown(
+                      items: CityList.citylist
+                          .map(
+                              (e) => DropdownMenuItem(value: e, child: Text(e)))
+                          .toList(),
                       name: PostNewAdConstants.city,
                       initialValue: _userController.allAds[args].city,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -215,7 +221,7 @@ class EditAdPage extends StatelessWidget {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: formFieldDecoration,
                   ),
-                  formBuilderText(PostNewAdConstants.photos),
+                  formBuilderText(PostNewAdConstants.photos + '*'),
                   Obx(
                     () => Container(
                       height: 150,

@@ -36,6 +36,7 @@ class Database {
           Strings.youtube: userModel.youtube,
           Strings.userCreationDate: userModel.creationdate,
           Strings.isVarified: userModel.isVarified,
+          Strings.profilePicture:userModel.profilePicture,
         },
       );
     }
@@ -59,6 +60,7 @@ class Database {
         if (userModel.youtube != null) Strings.youtube: userModel.youtube,
         if (userModel.isVarified != null)
           Strings.isVarified: userModel.isVarified,
+        if(userModel.profilePicture!=null)Strings.profilePicture:userModel.profilePicture
       },
     );
   }

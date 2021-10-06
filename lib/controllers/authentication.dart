@@ -87,6 +87,7 @@ class AuthenticationController extends GetxController {
     ///map data to model
     UserModel _user = UserModel(
       isVarified: true,
+      profilePicture: userCredential.user!.photoURL,
       uid: userCredential.user?.uid,
       displayName: userCredential.user?.displayName!,
       creationdate:
@@ -111,6 +112,7 @@ class AuthenticationController extends GetxController {
 
     UserModel _userModel = UserModel(
       isVarified: true,
+      profilePicture: _userCredential.user!.photoURL,
       uid: _userCredential.user!.uid,
       displayName: _userCredential.user!.displayName!,
       creationdate:

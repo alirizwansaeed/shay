@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,11 +46,14 @@ class _MyappState extends State<Myapp> {
             return Container();
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return GetMaterialApp(
-              initialBinding: HomeBinding(),
-              debugShowCheckedModeBanner: false,
-              initialRoute:GetPlatform.isWeb?HomePage.routeName:    WrapperPage.routeName,
-              routes: Routes.routes,
+            return  GetMaterialApp(
+                initialBinding: HomeBinding(),
+                builder: BotToastInit(),
+                debugShowCheckedModeBanner: false,
+                navigatorObservers: [BotToastNavigatorObserver()],
+                initialRoute:GetPlatform.isWeb?HomePage.routeName:    WrapperPage.routeName,
+                routes: Routes.routes,
+
             );
           }
           return Container();

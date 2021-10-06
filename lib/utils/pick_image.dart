@@ -15,8 +15,8 @@ class PickImage {
               leading: Icon(Icons.collections),
               title: Text('Pick Form Gallery'),
               onTap: () async {
-                imagefile =
-                    await ImagePicker().pickImage(source: ImageSource.gallery,maxHeight: 500,maxWidth: 500);
+                imagefile = await ImagePicker().pickImage(
+                    source: ImageSource.gallery, maxHeight: 500, maxWidth: 500);
                 Get.back();
               },
             ),
@@ -24,8 +24,8 @@ class PickImage {
               leading: Icon(Icons.camera),
               title: Text('Pick Form Camera'),
               onTap: () async {
-                imagefile =
-                    await ImagePicker().pickImage(source: ImageSource.camera,maxHeight: 500,maxWidth: 500);
+                imagefile = await ImagePicker().pickImage(
+                    source: ImageSource.camera, maxHeight: 500, maxWidth: 500);
                 Get.back();
               },
             ),
@@ -36,6 +36,42 @@ class PickImage {
     } else {
       return imagefile =
           await ImagePicker().pickImage(source: ImageSource.gallery);
+    }
+  }
+
+  static Future<XFile?> pickProfilePicture() async {
+    XFile? imagefile;
+    if (GetPlatform.isMobile) {
+      await Get.bottomSheet(BottomSheet(
+        onClosing: () {},
+        builder: (context) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(Icons.collections),
+              title: Text('Pick Form Gallery'),
+              onTap: () async {
+                imagefile = await ImagePicker().pickImage(
+                    source: ImageSource.gallery, maxHeight: 200, maxWidth: 200);
+                Get.back();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.camera),
+              title: Text('Pick Form Camera'),
+              onTap: () async {
+                imagefile = await ImagePicker().pickImage(
+                    source: ImageSource.camera, maxHeight: 100, maxWidth: 100);
+                Get.back();
+              },
+            ),
+          ],
+        ),
+      ));
+      return imagefile;
+    } else {
+      return imagefile = await ImagePicker().pickImage(
+          source: ImageSource.gallery, maxHeight: 100, maxWidth: 100);
     }
   }
 }
