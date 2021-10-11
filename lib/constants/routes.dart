@@ -6,7 +6,7 @@ class Routes {
     HomePage.routeName: (context) => HomePage(),
     LoginPage.routeName: (context) => LoginPage(),
     SignUpPage.routeName: (context) => SignUpPage(),
-    PostNewAdPage.routeName: (context) => PostNewAdPage(),
+    PostAdCategoryPage.routeName: (context) => PostAdCategoryPage(),
     ForgetPasswordPage.routeName: (context) => ForgetPasswordPage(),
     UserVerificationPage.routeName: (context) => UserVerificationPage(),
     EditUserProfilepage.routeName: (context) => EditUserProfilepage(),
@@ -24,5 +24,6 @@ class Routes {
     EditAdPage.routeName: (context) => EditAdPage(),
     SearchPage.routeName: (context) => SearchPage(),
     CategoryPage.routeName: (context) => CategoryPage(),
+    ChoosePakagePage.routeName: (context) => ChoosePakagePage(),
   };
 }

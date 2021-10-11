@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shay/constants/constants.dart';
 import 'package:shay/constants/post_new_ad.dart';
 import 'package:shay/models/models.dart';
-import 'package:shay/models/ad.dart';
 
 class Database {
   static FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -13,6 +12,10 @@ class Database {
 
   static CollectionReference get _postsCollection {
     return _db.collection('posts');
+  }
+
+  static CollectionReference get _usersPackages {
+    return _db.collection('packages');
   }
 
   static Future<void> createNewUser(UserModel userModel) async {
@@ -36,7 +39,7 @@ class Database {
           Strings.youtube: userModel.youtube,
           Strings.userCreationDate: userModel.creationdate,
           Strings.isVarified: userModel.isVarified,
-          Strings.profilePicture:userModel.profilePicture,
+          Strings.profilePicture: userModel.profilePicture,
         },
       );
     }
@@ -60,7 +63,8 @@ class Database {
         if (userModel.youtube != null) Strings.youtube: userModel.youtube,
         if (userModel.isVarified != null)
           Strings.isVarified: userModel.isVarified,
-        if(userModel.profilePicture!=null)Strings.profilePicture:userModel.profilePicture
+        if (userModel.profilePicture != null)
+          Strings.profilePicture: userModel.profilePicture
       },
     );
   }
@@ -237,5 +241,45 @@ class Database {
     } catch (e) {
       print(e);
     }
+  }
+
+//package Stream
+
+  static Stream<List<PackageModel>> activePackageStream(String uid) {
+    return _usersPackages
+        .where(Strings.userId, isEqualTo: uid)
+        .where(Strings.PackageExpiryDate, isGreaterThan: Timestamp.now())
+        .snapshots()
+        .map((event) {
+      List<PackageModel> retval = [];
+
+      event.docs.forEach((element) {
+        retval.add(PackageModel.formsnapshot(element));
+      });
+      return retval;
+    });
+  }
+
+  static Future<void> addPackage(PackageModel model) async {
+    await _usersPackages.add(
+      {
+        Strings.userId: model.uid,
+        Strings.PackageExpiryDate: model.packageExpiryDate,
+        Strings.packageName: model.packageName,
+        Strings.packagePrice: model.packagePrice,
+        Strings.packageType: model.packageType,
+        Strings.maxAdsLimit: model.maxAdsLimit,
+        Strings.validForDays:model.validForDays,
+        Strings.remainingAdsLimit: model.remainingAdsLimit,
+        Strings.packagePurchasingDate: DateTime.now(),
+      },
+    );
+  }
+
+  ///ads
+  static Future<void> updatePackage(PackageModel model) async {
+    _usersPackages.doc(model.docId).update({
+      Strings.remainingAdsLimit: model.remainingAdsLimit,
+    });
   }
 }

@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+
 import 'package:shay/constants/city_list.dart';
 import 'package:shay/constants/constants.dart';
 import 'package:shay/controllers/controllers.dart';
@@ -11,17 +13,18 @@ import 'package:shay/models/models.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
 import 'package:shay/utils/utils.dart';
 
-class PostNewAdPage extends StatefulWidget {
-  static const routeName = 'postnewad';
-  PostNewAdPage({Key? key}) : super(key: key);
+import 'widgets/post_ad_package_page.dart';
 
-  @override
-  _PostNewAdPageState createState() => _PostNewAdPageState();
-}
+class PostNewAdPage extends StatelessWidget {
+  final String category;
+  final String subCategory;
+  PostNewAdPage({
+    Key? key,
+    required this.category,
+    required this.subCategory,
+  }) : super(key: key);
 
-class _PostNewAdPageState extends State<PostNewAdPage> {
   final _formKey = GlobalKey<FormBuilderState>();
-  Rx<List<String>> subCategory = Rx<List<String>>([]);
   @override
   Widget build(BuildContext context) {
     final databaseController = Get.find<DatabaseController>();
@@ -71,51 +74,6 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                           SizedBox(height: 20),
                         ],
                       ),
-                    ),
-                    formBuilderText(PostNewAdConstants.category + '*'),
-                    FormBuilderDropdown(
-                      name: PostNewAdConstants.category,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: FormBuilderValidators.required(context),
-                      hint: Text('Choose Category'),
-                      onChanged: (value) {
-                        _formKey.currentState
-                            ?.fields[PostNewAdConstants.subCategory]
-                            ?.reset();
-                        subCategory(PostNewAdConstants.categoryMap[value]);
-                      },
-                      isDense: true,
-                      decoration: formFieldDecoration,
-                      items: PostNewAdConstants.categoryMap.entries
-                          .map(
-                            (category) => DropdownMenuItem(
-                              value: category.key,
-                              child: Text(category.key),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                    Obx(
-                      () => subCategory.value.isEmpty
-                          ? SizedBox.shrink()
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                formBuilderText(
-                                    PostNewAdConstants.subCategory + '*'),
-                                FormBuilderDropdown(
-                                    name: PostNewAdConstants.subCategory,
-                                    hint: Text('Choose Subcategory'),
-                                    validator:
-                                        FormBuilderValidators.required(context),
-                                    isDense: true,
-                                    decoration: formFieldDecoration,
-                                    items: subCategory.value
-                                        .map((e) => DropdownMenuItem(
-                                            value: e, child: Text(e)))
-                                        .toList()),
-                              ],
-                            ),
                     ),
                     formBuilderText(PostNewAdConstants.type + '*'),
                     FormBuilderChoiceChip(
@@ -348,15 +306,16 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                                       ),
                                     ),
                                     Container(
-                                        padding: EdgeInsets.only(
-                                            top: 10, right: 10, left: 10),
-                                        height: 35,
-                                        width: double.infinity,
-                                        color: Colors.grey.shade200,
-                                        child: Text(
-                                          'Tap on images to delete them',
-                                          style: TextStyle(color: Colors.grey),
-                                        ))
+                                      padding: EdgeInsets.only(
+                                          top: 10, right: 10, left: 10),
+                                      height: 35,
+                                      width: double.infinity,
+                                      color: Colors.grey.shade200,
+                                      child: Text(
+                                        'Tap on images to delete them',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                    )
                                   ],
                                 ),
                         ),
@@ -368,7 +327,7 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: _postNewAdButton, child: Text(' Post Ad')),
+                          onPressed: _postNewAdButton, child: Text(' Next')),
                     ),
                     SizedBox(
                       height: 20,
@@ -386,12 +345,10 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
   void _postNewAdButton() async {
     if (_formKey.currentState!.validate()) {
       if (Get.find<DatabaseController>().imagePickerImageList.value.isEmpty) {
-        Get.snackbar('Image not picked', 'Pick Atleast one image');
-        return;
+        BotToast.showText(text: "Pick Atleast one image");
       } else {
         AdModel model = AdModel(
-            category: _formKey
-                .currentState!.fields[PostNewAdConstants.category]!.value,
+            category: category,
             type: _formKey.currentState!.fields[PostNewAdConstants.type]!.value,
             title:
                 _formKey.currentState!.fields[PostNewAdConstants.title]!.value,
@@ -404,13 +361,44 @@ class _PostNewAdPageState extends State<PostNewAdPage> {
             itemCondition: _formKey
                 .currentState!.fields[PostNewAdConstants.itemCondition]!.value,
             city: _formKey.currentState!.fields[PostNewAdConstants.city]!.value,
-            subCategory: _formKey
-                .currentState?.fields[PostNewAdConstants.subCategory]?.value,
+            subCategory: subCategory,
             videoUrl: _formKey
                 .currentState?.fields[PostNewAdConstants.videoUrl]?.value);
-        Get.back();
-        await Get.find<DatabaseController>().postNewAdd(model);
+
+        Get.to(() => PostAdPackagePage(
+              model: model,
+            ));
       }
     }
+
+    //   if (_formKey.currentState!.validate()) {
+    //     if (Get.find<DatabaseController>().imagePickerImageList.value.isEmpty) {
+    //       Get.snackbar('Image not picked', 'Pick Atleast one image');
+    //       return;
+    //     } else {
+    //       AdModel model = AdModel(
+    //           category: _formKey
+    //               .currentState!.fields[PostNewAdConstants.category]!.value,
+    //           type: _formKey.currentState!.fields[PostNewAdConstants.type]!.value,
+    //           title:
+    //               _formKey.currentState!.fields[PostNewAdConstants.title]!.value,
+    //           description: _formKey
+    //               .currentState!.fields[PostNewAdConstants.description]!.value,
+    //           price:
+    //               _formKey.currentState!.fields[PostNewAdConstants.price]!.value,
+    //           mobileNumber: _formKey
+    //               .currentState!.fields[PostNewAdConstants.mobileNumber]!.value,
+    //           itemCondition: _formKey
+    //               .currentState!.fields[PostNewAdConstants.itemCondition]!.value,
+    //           city: _formKey.currentState!.fields[PostNewAdConstants.city]!.value,
+    //           subCategory: _formKey
+    //               .currentState?.fields[PostNewAdConstants.subCategory]?.value,
+    //           videoUrl: _formKey
+    //               .currentState?.fields[PostNewAdConstants.videoUrl]?.value);
+    //       Get.back();
+    //       await Get.find<DatabaseController>().postNewAdd(model);
+    //     }
+    //   }
+    // }
   }
 }

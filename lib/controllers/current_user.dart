@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shay/controllers/controllers.dart';
@@ -13,6 +14,7 @@ class UserController extends GetxController {
   var _currentUserStream = UserModel().obs;
   Rx<List<AdModel>> _currentUserAds = Rx<List<AdModel>>([]);
   Rx<List<AdModel>> _likedAds = Rx<List<AdModel>>([]);
+  Rx<List<PackageModel>> _activePackagesStream = Rx<List<PackageModel>>([]);
 
   List<AdModel> get allAds {
     return _currentUserAds.value;
@@ -22,18 +24,28 @@ class UserController extends GetxController {
     return _likedAds.value;
   }
 
+  String get uid {
+    return _authController.currentUser!.uid;
+  }
+
+  List<PackageModel> get activePackagesStream {
+    return _activePackagesStream.value.where(
+      (element) {
+        return (element.remainingAdsLimit! > 0);
+      },
+    ).toList();
+  }
+
   UserModel get currentUserStream {
     return _currentUserStream.value;
   }
 
   @override
   void onInit() async {
-    _currentUserStream.bindStream(
-        Database.currentuserStream(_authController.currentUser!.uid));
-    _currentUserAds.bindStream(
-        Database.currentUserAdsStream(_authController.currentUser!.uid));
-    _likedAds
-        .bindStream(Database.likedAdsStream(_authController.currentUser!.uid));
+    _activePackagesStream.bindStream(Database.activePackageStream(uid));
+    _currentUserStream.bindStream(Database.currentuserStream(uid));
+    _currentUserAds.bindStream(Database.currentUserAdsStream(uid));
+    _likedAds.bindStream(Database.likedAdsStream(uid));
 
     super.onInit();
   }
@@ -62,6 +74,15 @@ class UserController extends GetxController {
     } catch (e) {
     } finally {
       BotToast.closeAllLoading();
+    }
+  }
+
+  Future<void> addPackage(PackageModel model) async {
+    try {
+      Database.addPackage(
+          model.copyWith(uid: _authController.currentUser!.uid));
+    } catch (e) {
+      print(e);
     }
   }
 }

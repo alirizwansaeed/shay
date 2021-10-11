@@ -68,11 +68,8 @@ class MobileUserAccount extends StatelessWidget {
                                       ),
                                       child: IconButton(
                                           onPressed: () async {
-
-
                                             await Get.find<UserController>()
                                                 .changeProfilePicture();
-
                                           },
                                           icon:
                                               FaIcon(FontAwesomeIcons.camera)),
@@ -114,11 +111,19 @@ class MobileUserAccount extends StatelessWidget {
                 height: 30,
               ),
               if (_authController.currentUser != null)
-                customTile(
-                    title: 'Settings',
-                    leading: Icons.settings,
-                    subTitle: 'Change password',
-                    onTap: () => Get.toNamed(SettingsPage.routeName)),
+                Column(
+                  children: [
+                    customTile(
+                        title: 'Buy Packages',
+                        leading: Icons.credit_card,
+                        onTap: () => Get.toNamed(ChoosePakagePage.routeName)),
+                    customTile(
+                        title: 'Settings',
+                        leading: Icons.settings,
+                        subTitle: 'Change password',
+                        onTap: () => Get.toNamed(SettingsPage.routeName)),
+                  ],
+                ),
               customTile(
                   title: 'Help And Support',
                   leading: Icons.help_center_outlined,
@@ -151,6 +156,6 @@ class MobileUserAccount extends StatelessWidget {
     if (!await _authController.isEmailVerified())
       return Get.toNamed(UserVerificationPage.routeName);
     else
-      return Get.toNamed(PostNewAdPage.routeName);
+      return Get.toNamed(PostAdCategoryPage.routeName);
   }
 }

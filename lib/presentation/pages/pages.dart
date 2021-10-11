@@ -4,7 +4,7 @@
 export 'sign_up/sign_up_page.dart';
 export 'home/home_page.dart';
 export 'forget_password/forget_password_page.dart';
-export 'post_new_ad/post_new_ad_page.dart';
+export 'post_new_ad/widgets/post_ad_category_page.dart';
 export 'login/login_page.dart';
 export 'user_verification/user_verification_page.dart';
 export 'ad_detail/ad_detail_page.dart';
@@ -22,3 +22,5 @@ export 'specific_user_ads/specific_user_ads_page.dart';
 export 'edit_ad/edit_ad_page.dart';
 export 'search/search_page.dart';
 export 'category/category_page.dart';
+export 'choose_package/choose_pakage_page.dart';
+export '';

@@ -47,16 +47,13 @@ class UserInformation extends StatelessWidget {
                           backgroundColor:
                               Theme.of(context).scaffoldBackgroundColor,
                           radius: 30,
-                          child: CachedNetworkImage(
-                            imageUrl: snapshot.data!.profilePicture == null
-                                ? ''
-                                : snapshot.data!.profilePicture!,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) =>
-                                Image.asset(Assets.avatar),
-                            errorWidget: (context, url, error) =>
-                                Image.asset(Assets.avatar),
-                          ),
+                          backgroundImage: AssetImage(Assets.avatar),
+                          foregroundImage: CachedNetworkImageProvider(
+                              snapshot.data!.profilePicture == null
+                                  ? ''
+                                  : snapshot.data!.profilePicture!),
+                          onForegroundImageError: (exception, stackTrace) =>
+                              Image.asset(Assets.avatar),
                         ),
                         SizedBox(width: 6),
                         Column(

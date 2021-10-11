@@ -98,7 +98,6 @@ class DatabaseController extends GetxController {
       await Database.postNewAdd(
           model.copyWith(
             uid: _authController.currentUser!.uid,
-            isFeatured: false,
             status: 'publish',
             photos: imagesPathInStorage,
           ),

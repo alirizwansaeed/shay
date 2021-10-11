@@ -139,7 +139,7 @@ class HelpPage extends StatelessWidget {
           '\nContact Number: ' +
           form.fields[contactNumber]?.value +
           '\nEmail: ' +
-          form.fields[email]!.value;
+          form.fields[email]?.value;
 
       Get.back();
       EmailSend.sendemail(
