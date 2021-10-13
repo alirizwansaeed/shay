@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shay/services/auth.dart';
 
 class Storage {
   static FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -25,27 +28,21 @@ class Storage {
       print(e);
     }
   }
-
   static Future<void> deleteimage(String url) {
-   return _firebaseStorage.refFromURL(url).delete();
+    return _firebaseStorage.refFromURL(url).delete();
   }
 
 
-static Future<String> changeProfilePicture({
+  static Future<String> changeProfilePicture({
     required XFile pickedFile,
     required String uid,
-  }) async{
+  }) async {
+    Reference _reference =
+        _firebaseStorage.ref().child('profilepictures').child(uid);
 
-  Reference _reference = _firebaseStorage
-          .ref()
-          .child('profilepictures')
-          .child(uid);
-
-            TaskSnapshot uploadTask = await _reference.putData(
-          await pickedFile.readAsBytes(),
-          SettableMetadata(contentType: 'image/jpeg'));
-      return uploadTask.ref.getDownloadURL();
-
-}
-
+    TaskSnapshot uploadTask = await _reference.putData(
+        await pickedFile.readAsBytes(),
+        SettableMetadata(contentType: 'image/jpeg'));
+    return uploadTask.ref.getDownloadURL();
+  }
 }

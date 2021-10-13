@@ -100,14 +100,9 @@ class ForgetPasswordPage extends StatelessWidget {
   }
 
   void sendPassswordButton() async {
-    try {
-      if (_formKey.currentState!.validate()) {
-        await Get.find<AuthenticationController>()
-            .resetPassword(email: _formKey.currentState!.fields[email]!.value);
-        Get.back();
-      }
-    } catch (e) {
-      Get.snackbar('Password reset Failed', 'Please try');
+    if (_formKey.currentState!.validate()) {
+      await Get.find<AuthenticationController>()
+          .resetPassword(email: _formKey.currentState!.fields[email]!.value);
     }
   }
 }

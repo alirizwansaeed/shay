@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -20,7 +19,6 @@ class LoginPage extends StatelessWidget {
   final email = 'Email';
   final password = 'Password';
   var obsecurePassword = true.obs;
-  var _isloading = false.obs;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -116,24 +114,32 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 15),
-          Obx(() => ElevatedButton(
+          ElevatedButton(
               style: ButtonStyle(),
-              onPressed: _isloading.value ? null : loginButton,
-              child: Text('Sign in'))),
+              onPressed: loginButton,
+              child: Text('Sign in')),
           SizedBox(height: 15),
-          screenType(context,
-              mobile: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _signupRow(),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: _forgetPasswordButton()),
-                ],
-              ),
-              desktopTab: Row(
-                  children: [_signupRow(), Spacer(), _forgetPasswordButton()])),
+          screenType(
+            context,
+            mobile: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _signupRow(),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: _forgetPasswordButton(),
+                ),
+              ],
+            ),
+            desktopTab: Row(
+              children: [
+                _signupRow(),
+                Spacer(),
+                _forgetPasswordButton(),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -165,20 +171,10 @@ class LoginPage extends StatelessWidget {
 
   void loginButton() async {
     if (_formKey.currentState!.validate()) {
-      try {
-        _isloading(true);
-        await Get.find<AuthenticationController>().signInWithEmailPassword(
-          email: _formKey.currentState!.fields[email]!.value,
-          password: _formKey.currentState!.fields[password]!.value,
-        );
-        Get.back();
-      } on FirebaseAuthException catch (e) {
-        Get.snackbar('Execption', e.code);
-      } catch (e) {
-        print(e);
-      } finally {
-        _isloading(false);
-      }
+      await Get.find<AuthenticationController>().signInWithEmailPassword(
+        email: _formKey.currentState!.fields[email]!.value,
+        password: _formKey.currentState!.fields[password]!.value,
+      );
     }
   }
 }

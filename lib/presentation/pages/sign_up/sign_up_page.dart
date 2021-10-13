@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:get/get.dart';
 import 'package:shay/controllers/authentication.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
-import 'package:shay/presentation/pages/pages.dart';
 import 'package:shay/utils/utils.dart';
 
 // ignore: must_be_immutable
@@ -137,27 +135,16 @@ class SignUpPage extends StatelessWidget {
   }
 
   void signupButton() async {
-    try {
-      isloading(true);
-      if (_formKey.currentState!.validate() &&
-          _formKey.currentState!.fields[password]!.value ==
-              _formKey.currentState!.fields[confirmPassword]!.value) {
-        //create new user
-        await Get.find<AuthenticationController>().createUserWithEmailPassword(
-            username: _formKey.currentState!.fields[username]!.value,
-            email: _formKey.currentState!.fields[email]!.value,
-            password: _formKey.currentState!.fields[password]!.value);
-        Get.toNamed(UserVerificationPage.routeName);
-      } else {
-        _formKey.currentState!.invalidateField(
-            name: confirmPassword, errorText: 'Password Not Match');
-      }
-    } on FirebaseAuthException catch (e) {
-      Get.snackbar('Execption', e.code);
-    } catch (e) {
-      print(e);
-    } finally {
-      isloading(false);
+    if (_formKey.currentState!.validate() &&
+        _formKey.currentState!.fields[password]!.value ==
+            _formKey.currentState!.fields[confirmPassword]!.value) {
+      await Get.find<AuthenticationController>().createUserWithEmailPassword(
+          username: _formKey.currentState!.fields[username]!.value,
+          email: _formKey.currentState!.fields[email]!.value,
+          password: _formKey.currentState!.fields[password]!.value);
+    } else {
+      _formKey.currentState!.invalidateField(
+          name: confirmPassword, errorText: 'Password Not Match');
     }
   }
 }
