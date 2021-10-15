@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/presentation/pages/home/widgets/mobile/pages/liked_ads_page_view/liked_ads_page_view.dart';
@@ -66,7 +67,7 @@ class MobileHome extends StatelessWidget {
 
   FloatingActionButton _floatingActionButton(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: Colors.pink,
+      backgroundColor: Color(0xFF120C32).withGreen(50),
       foregroundColor: Colors.white,
       child: Icon(
         Icons.add,
@@ -86,15 +87,15 @@ class MobileHome extends StatelessWidget {
   Widget _mobilebottombar() {
     return Obx(
       () => AnimatedBottomNavigationBar(
-        inactiveColor: Colors.pink.shade200,
+        inactiveColor: Color(0xFF120C32).withGreen(50).withOpacity(.5),
         splashColor: Colors.pink,
-        activeColor: Colors.pink,
+        activeColor: Color(0xFF120C32).withGreen(50),
         notchMargin: 5.0,
         icons: [
-          Icons.home,
-          Icons.book,
-          Icons.favorite_border,
-          Icons.manage_accounts
+          FontAwesomeIcons.home,
+          FontAwesomeIcons.clipboardList,
+          FontAwesomeIcons.heart,
+          FontAwesomeIcons.userCircle
         ],
         activeIndex: bottombarIndex.value,
         gapLocation: GapLocation.center,

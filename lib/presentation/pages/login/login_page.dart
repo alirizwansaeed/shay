@@ -172,8 +172,8 @@ class LoginPage extends StatelessWidget {
   void loginButton() async {
     if (_formKey.currentState!.validate()) {
       await Get.find<AuthenticationController>().signInWithEmailPassword(
-        email: _formKey.currentState!.fields[email]!.value,
-        password: _formKey.currentState!.fields[password]!.value,
+        email: _formKey.currentState!.fields[email]!.value.toString().trim(),
+        password: _formKey.currentState!.fields[password]!.value.toString().trim(),
       );
     }
   }

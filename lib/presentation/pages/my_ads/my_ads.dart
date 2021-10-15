@@ -87,28 +87,15 @@ class MyAds extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   OutlinedButton(
-                                      onPressed: () =>
-                                          Get.toNamed(EditAdPage.routeName,arguments: index),
+                                      onPressed: () => Get.toNamed(
+                                          EditAdPage.routeName,
+                                          arguments: index),
                                       child: Text('Edit')),
                                   SizedBox(
                                     width: 8,
                                   ),
                                   OutlinedButton(
-                                      onPressed: () {
-                                        Get.defaultDialog(
-                                            onConfirm: () {
-                                              Get.back();
-                                              _userController.deleteAd(
-                                                  _userController
-                                                      .allAds[index]);
-                                            },
-                                            title: _userController
-                                                .allAds[index].title!,
-                                            middleText:
-                                                'Are you sure to delete',
-                                            textConfirm: 'Delete',
-                                            textCancel: 'Cancel');
-                                      },
+                                      onPressed:()=> _deleteButton(index),
                                       child: Text('delete')),
                                 ],
                               )
@@ -125,5 +112,21 @@ class MyAds extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _deleteButton( int index ) {
+    Get.defaultDialog(
+        onConfirm: () {
+          Get.back();
+          Get.find<PostAndEditAdsController>().deleteAd(
+              _userController
+                  .allAds[index]);
+        },
+        title: _userController
+            .allAds[index].title!,
+        middleText:
+            'Are you sure to delete',
+        textConfirm: 'Delete',
+        textCancel: 'Cancel');
   }
 }

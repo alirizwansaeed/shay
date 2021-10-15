@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shay/services/auth.dart';
 
 class Storage {
   static FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -28,10 +27,10 @@ class Storage {
       print(e);
     }
   }
+
   static Future<void> deleteimage(String url) {
     return _firebaseStorage.refFromURL(url).delete();
   }
-
 
   static Future<String> changeProfilePicture({
     required XFile pickedFile,

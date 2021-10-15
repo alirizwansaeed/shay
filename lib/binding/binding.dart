@@ -7,5 +7,6 @@ class HomeBinding extends Bindings {
     Get.put<AuthenticationController>(AuthenticationController());
     Get.put<DatabaseController>(DatabaseController());
     Get.lazyPut<UserController>(() => UserController(), fenix: true);
+    Get.lazyPut(() => PostAndEditAdsController(), fenix: true);
   }
 }

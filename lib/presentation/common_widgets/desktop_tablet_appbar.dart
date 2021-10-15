@@ -46,19 +46,22 @@ class DesktopTabletAppbar extends StatelessWidget
             ),
             SizedBox(width: 10),
             Obx(
-              () => TextButton(
-                onPressed: loginButton,
-                child: Text(
-                  _authenticationController.currentUserState == null
-                      ? 'Login'
-                      : 'Logout',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
+              () => _authenticationController.currentUserState == null
+                  ? TextButton(
+                      onPressed: loginButton,
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                      ),
+                    )
+                  : PopupMenuButton(
+                      itemBuilder: (context) =>
+                          [PopupMenuItem(child: Text('Profile'))],
+                    ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),

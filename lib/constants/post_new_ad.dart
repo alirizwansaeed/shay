@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 enum categoryNames {
   mobile,
@@ -20,42 +21,43 @@ class PostNewAdConstants {
     CategoryModel(
       name: 'Mobile',
       subCategory: ['Mobile', 'Tablet', 'Accessories'],
-      icon: Icons.phone,
+      icon: FontAwesomeIcons.mobile,
     ),
     CategoryModel(
-        name: 'Laptop',
-        subCategory: ['Laptop', 'Accessories'],
-        icon: Icons.laptop),
+      name: 'Laptop',
+      subCategory: ['Laptop', 'Accessories'],
+      icon: FontAwesomeIcons.laptop,
+    ),
     CategoryModel(
         name: 'Automobiles Parts',
         subCategory: ['Cycle', 'bike', 'Car', 'Parts'],
-        icon: Icons.ac_unit),
+        icon: FontAwesomeIcons.carSide),
     CategoryModel(
-        name: 'Home Utilities',
-        subCategory: ['Furniture', 'Kitchen', 'Decoration'],
-        icon: Icons.kitchen),
+      name: 'Home Utilities',
+      subCategory: ['Furniture', 'Kitchen', 'Decoration'],
+      icon: FontAwesomeIcons.home,
+    ),
     CategoryModel(
-        name: 'Sports Goods',
-        subCategory: [
-          'Football',
-          'Cricket',
-          'Hockey',
-          'Table Tennis',
-          'Snooker'
-        ],
-        icon: Icons.ac_unit),
+      name: 'Sports Goods',
+      subCategory: ['Football', 'Cricket', 'Hockey', 'Table Tennis', 'Snooker'],
+      icon: FontAwesomeIcons.futbol,
+    ),
     CategoryModel(
-        name: 'Cloting',
-        subCategory: ['Men', 'Women', 'Birde', 'Groom', 'Kids'],
-        icon: Icons.ac_unit),
-    CategoryModel(name: 'Pet & Animals', subCategory: [], icon: Icons.ac_unit),
-    CategoryModel(name: 'Kids', subCategory: [], icon: Icons.ac_unit),
+      name: 'Cloting',
+      subCategory: ['Men', 'Women', 'Birde', 'Groom', 'Kids'],
+      icon: FontAwesomeIcons.tshirt,
+    ),
+    CategoryModel(
+        name: 'Pet & Animals', subCategory: [], icon: FontAwesomeIcons.cat),
+    CategoryModel(name: 'Kids', subCategory: [], icon: FontAwesomeIcons.child),
     CategoryModel(
         name: "'Real Estate'",
         subCategory: ['Plot', 'House', "Agricultural Land", 'Shop', "Plaza"],
-        icon: Icons.ac_unit),
+        icon: FontAwesomeIcons.building),
     CategoryModel(
-        name: 'Uncategorized', subCategory: [], icon: Icons.ac_unit_outlined),
+        name: 'Uncategorized',
+        subCategory: [],
+        icon: FontAwesomeIcons.handPointUp),
   ];
 
   static Map<String, List<String>> categoryMap = {

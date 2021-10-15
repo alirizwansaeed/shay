@@ -1,16 +1,14 @@
 import 'dart:io';
-
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
-
 import 'package:shay/constants/city_list.dart';
 import 'package:shay/constants/constants.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/models/models.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
+import 'package:shay/utils/dialogs.dart';
 import 'package:shay/utils/utils.dart';
 
 import 'widgets/post_ad_package_page.dart';
@@ -25,12 +23,12 @@ class PostNewAdPage extends StatelessWidget {
   }) : super(key: key);
 
   final _formKey = GlobalKey<FormBuilderState>();
+  final _adController = Get.find<PostAndEditAdsController>();
   @override
   Widget build(BuildContext context) {
-    final databaseController = Get.find<DatabaseController>();
     return WillPopScope(
       onWillPop: () async {
-        databaseController.imagePickerImageList.value.clear();
+        _adController.pickedImages.value.clear();
         return true;
       },
       child: GestureDetector(
@@ -188,20 +186,17 @@ class PostNewAdPage extends StatelessWidget {
                     formBuilderText(PostNewAdConstants.photos + '*'),
                     Obx(
                       () => InkWell(
-                        onTap: databaseController
-                                .imagePickerImageList.value.isEmpty
-                            ? () => databaseController.pickPostNewAdImages()
+                        onTap: _adController.pickedImages.value.isEmpty
+                            ? () => _adController.pickImagesFormDevice()
                             : null,
                         child: Container(
                           height: 150,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: databaseController
-                                      .imagePickerImageList.value.isEmpty
+                              color: _adController.pickedImages.value.isEmpty
                                   ? Colors.green
                                   : Colors.grey.shade200),
-                          child: databaseController
-                                  .imagePickerImageList.value.isEmpty
+                          child: _adController.pickedImages.value.isEmpty
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -222,8 +217,8 @@ class PostNewAdPage extends StatelessWidget {
                               : Column(
                                   children: [
                                     InkWell(
-                                      onTap: () => databaseController
-                                          .pickPostNewAdImages(),
+                                      onTap: () => _adController
+                                          .pickImagesFormDevice(),
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 10),
@@ -244,8 +239,8 @@ class PostNewAdPage extends StatelessWidget {
                                       child: ListView.builder(
                                         padding: EdgeInsets.only(left: 8.0),
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: databaseController
-                                            .imagePickerImageList.value.length,
+                                        itemCount: _adController
+                                            .pickedImages.value.length,
                                         itemBuilder: (context, index) =>
                                             InkWell(
                                           onTap: () {
@@ -256,8 +251,8 @@ class PostNewAdPage extends StatelessWidget {
                                                       title: Text('Delete'),
                                                       onTap: () {
                                                         Get.back();
-                                                        databaseController
-                                                            .imagePickerImageList
+                                                        _adController
+                                                            .pickedImages
                                                             .update((val) {
                                                           val!.removeAt(index);
                                                         });
@@ -281,16 +276,14 @@ class PostNewAdPage extends StatelessWidget {
                                             clipBehavior: Clip.hardEdge,
                                             child: GetPlatform.isWeb
                                                 ? Image.network(
-                                                    databaseController
-                                                        .imagePickerImageList
-                                                        .value[index]
-                                                        .path,
+                                                    _adController.pickedImages
+                                                        .value[index].path,
                                                     fit: BoxFit.cover,
                                                   )
                                                 : Image.file(
                                                     File(
-                                                      databaseController
-                                                          .imagePickerImageList
+                                                      _adController
+                                                          .pickedImages
                                                           .value[index]
                                                           .path,
                                                     ),
@@ -344,8 +337,8 @@ class PostNewAdPage extends StatelessWidget {
 
   void _postNewAdButton() async {
     if (_formKey.currentState!.validate()) {
-      if (Get.find<DatabaseController>().imagePickerImageList.value.isEmpty) {
-        BotToast.showText(text: "Pick Atleast one image");
+      if (_adController.pickedImages.value.isEmpty) {
+        Dialogs.toast('Pick Atleast one image');
       } else {
         AdModel model = AdModel(
             category: category,

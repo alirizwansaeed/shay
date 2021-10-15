@@ -127,8 +127,7 @@ class MobileEditUserProfile extends StatelessWidget {
         instagram: _formState.fields[Strings.instagram]!.value,
         youtube: _formState.fields[Strings.youtube]!.value,
       );
-      Get.find<DatabaseController>().updateUser(userModel);
-      Get.back();
+      Get.find<UserController>().updateUser(userModel);
     }
   }
 }

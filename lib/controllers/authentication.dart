@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/helper/auth_excepitons.dart';
 import 'package:shay/models/models.dart';
-import 'package:shay/presentation/pages/home/home_page.dart';
 import 'package:shay/presentation/pages/pages.dart';
 import 'package:shay/services/auth.dart';
 import 'package:shay/services/services.dart';

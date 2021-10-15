@@ -12,6 +12,7 @@ class PackageModel {
   late int? remainingAdsLimit;
   late String? docId;
   late int? validForDays;
+  late Timestamp? packagePurchasingDate;
   PackageModel({
     this.uid,
     this.packageName,
@@ -22,6 +23,7 @@ class PackageModel {
     this.remainingAdsLimit,
     this.docId,
     this.validForDays,
+    this.packagePurchasingDate,
   });
 
   @override
@@ -37,7 +39,8 @@ class PackageModel {
         other.maxAdsLimit == maxAdsLimit &&
         other.remainingAdsLimit == remainingAdsLimit &&
         other.docId == docId &&
-        other.validForDays == validForDays;
+        other.validForDays == validForDays &&
+        other.packagePurchasingDate == packagePurchasingDate;
   }
 
   @override
@@ -50,7 +53,8 @@ class PackageModel {
         maxAdsLimit.hashCode ^
         remainingAdsLimit.hashCode ^
         docId.hashCode ^
-        validForDays.hashCode;
+        validForDays.hashCode ^
+        packagePurchasingDate.hashCode;
   }
 
   PackageModel copyWith({
@@ -63,6 +67,7 @@ class PackageModel {
     int? remainingAdsLimit,
     String? docId,
     int? validForDays,
+    Timestamp? packagePurchasingDate,
   }) {
     return PackageModel(
       uid: uid ?? this.uid,
@@ -74,6 +79,7 @@ class PackageModel {
       remainingAdsLimit: remainingAdsLimit ?? this.remainingAdsLimit,
       docId: docId ?? this.docId,
       validForDays: validForDays ?? this.validForDays,
+      packagePurchasingDate: packageExpiryDate ?? this.packagePurchasingDate,
     );
   }
 
@@ -87,5 +93,6 @@ class PackageModel {
     maxAdsLimit = snapshot[Strings.maxAdsLimit];
     remainingAdsLimit = snapshot[Strings.remainingAdsLimit];
     validForDays = snapshot[Strings.validForDays];
+    packagePurchasingDate = snapshot[Strings.packagePurchasingDate];
   }
 }

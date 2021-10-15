@@ -46,14 +46,15 @@ class _MyappState extends State<Myapp> {
             return Container();
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return  GetMaterialApp(
-                initialBinding: HomeBinding(),
-                builder: BotToastInit(),
-                debugShowCheckedModeBanner: false,
-                navigatorObservers: [BotToastNavigatorObserver()],
-                initialRoute:GetPlatform.isWeb?HomePage.routeName:    WrapperPage.routeName,
-                routes: Routes.routes,
-
+            return GetMaterialApp(
+              initialBinding: HomeBinding(),
+              builder: BotToastInit(),
+              debugShowCheckedModeBanner: false,
+              navigatorObservers: [BotToastNavigatorObserver()],
+              initialRoute: GetPlatform.isWeb
+                  ? HomePage.routeName
+                  : WrapperPage.routeName,
+              routes: Routes.routes,
             );
           }
           return Container();

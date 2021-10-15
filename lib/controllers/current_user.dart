@@ -1,11 +1,11 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/models/models.dart';
 import 'package:shay/services/database.dart';
 import 'package:shay/services/services.dart';
+import 'package:shay/utils/dialogs.dart';
 import 'package:shay/utils/pick_image.dart';
 
 class UserController extends GetxController {
@@ -15,6 +15,8 @@ class UserController extends GetxController {
   Rx<List<AdModel>> _currentUserAds = Rx<List<AdModel>>([]);
   Rx<List<AdModel>> _likedAds = Rx<List<AdModel>>([]);
   Rx<List<PackageModel>> _activePackagesStream = Rx<List<PackageModel>>([]);
+  Rx<List<PackageModel>> _expirePackagesStream = Rx<List<PackageModel>>([]);
+  Rx<List<XFile>> pickedImages = Rx<List<XFile>>([]);
 
   List<AdModel> get allAds {
     return _currentUserAds.value;
@@ -28,12 +30,20 @@ class UserController extends GetxController {
     return _authController.currentUser!.uid;
   }
 
-  List<PackageModel> get activePackagesStream {
+  List<PackageModel> get availablePackagesStream {
     return _activePackagesStream.value.where(
       (element) {
         return (element.remainingAdsLimit! > 0);
       },
     ).toList();
+  }
+
+  List<PackageModel> get activePackageStream {
+    return _activePackagesStream.value;
+  }
+
+  List<PackageModel> get expirePackageStream {
+    return _expirePackagesStream.value;
   }
 
   UserModel get currentUserStream {
@@ -45,21 +55,29 @@ class UserController extends GetxController {
     _activePackagesStream.bindStream(Database.activePackageStream(uid));
     _currentUserStream.bindStream(Database.currentuserStream(uid));
     _currentUserAds.bindStream(Database.currentUserAdsStream(uid));
+    _expirePackagesStream.bindStream(Database.expirePackageStream(uid));
     _likedAds.bindStream(Database.likedAdsStream(uid));
 
     super.onInit();
   }
 
-  void deleteAd(AdModel model) {
-    for (var i = 0; i < model.photos!.length; i++) {
-      Storage.deleteimage(model.photos!['$i']);
-    }
-    Database.deleteMyad(model.docId!);
-  }
-
   Future<void> likeAd({required String docid, required bool isliked}) async {
     await Database.likeAd(
         docid: docid, uid: _authController.currentUser!.uid, isliked: isliked);
+  }
+
+  void updateUser(UserModel userModel) async {
+    try {
+      Dialogs.loading();
+      await Database.updateUser(
+          userModel.copyWith(uid: _authController.currentUser!.uid));
+      Dialogs.closeLoading();
+      Get.back();
+    } catch (e) {
+      Dialogs.errorDialog('Unknown Erroe');
+    } finally {
+      Dialogs.closeLoading();
+    }
   }
 
   Future<void> changeProfilePicture() async {

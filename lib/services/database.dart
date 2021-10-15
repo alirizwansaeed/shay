@@ -260,6 +260,21 @@ class Database {
     });
   }
 
+  static Stream<List<PackageModel>> expirePackageStream(String uid) {
+    return _usersPackages
+        .where(Strings.userId, isEqualTo: uid)
+        .where(Strings.PackageExpiryDate, isLessThan: Timestamp.now())
+        .snapshots()
+        .map((event) {
+      List<PackageModel> retval = [];
+
+      event.docs.forEach((element) {
+        retval.add(PackageModel.formsnapshot(element));
+      });
+      return retval;
+    });
+  }
+
   static Future<void> addPackage(PackageModel model) async {
     await _usersPackages.add(
       {
@@ -269,7 +284,7 @@ class Database {
         Strings.packagePrice: model.packagePrice,
         Strings.packageType: model.packageType,
         Strings.maxAdsLimit: model.maxAdsLimit,
-        Strings.validForDays:model.validForDays,
+        Strings.validForDays: model.validForDays,
         Strings.remainingAdsLimit: model.remainingAdsLimit,
         Strings.packagePurchasingDate: DateTime.now(),
       },

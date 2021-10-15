@@ -12,7 +12,7 @@ import 'package:shay/utils/utils.dart';
 class EditAdPage extends StatelessWidget {
   static const routeName = 'editad';
   EditAdPage({Key? key}) : super(key: key);
-  final databaseController = Get.find<DatabaseController>();
+  final _adController = Get.find<PostAndEditAdsController>();
   final _userController = Get.find<UserController>();
   final _formKey = GlobalKey<FormBuilderState>();
   Rx<List<String>> subCategory = Rx<List<String>>([]);
@@ -61,51 +61,6 @@ class EditAdPage extends StatelessWidget {
                         SizedBox(height: 20),
                       ],
                     ),
-                  ),
-                  formBuilderText(PostNewAdConstants.category + '*'),
-                  FormBuilderDropdown(
-                    name: PostNewAdConstants.category,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: FormBuilderValidators.required(context),
-                    hint: Text('Choose Category'),
-                    onChanged: (value) {
-                      _formKey
-                          .currentState?.fields[PostNewAdConstants.subCategory]
-                          ?.reset();
-                      subCategory(PostNewAdConstants.categoryMap[value]);
-                    },
-                    isDense: true,
-                    decoration: formFieldDecoration,
-                    items: PostNewAdConstants.categoryMap.entries
-                        .map(
-                          (category) => DropdownMenuItem(
-                            value: category.key,
-                            child: Text(category.key),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                  Obx(
-                    () => subCategory.value.isEmpty
-                        ? SizedBox.shrink()
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              formBuilderText(
-                                  PostNewAdConstants.subCategory + '*'),
-                              FormBuilderDropdown(
-                                  name: PostNewAdConstants.subCategory,
-                                  hint: Text('Choose Subcategory'),
-                                  validator:
-                                      FormBuilderValidators.required(context),
-                                  isDense: true,
-                                  decoration: formFieldDecoration,
-                                  items: subCategory.value
-                                      .map((e) => DropdownMenuItem(
-                                          value: e, child: Text(e)))
-                                      .toList()),
-                            ],
-                          ),
                   ),
                   formBuilderText(PostNewAdConstants.type + '*'),
                   FormBuilderChoiceChip(
@@ -239,8 +194,7 @@ class EditAdPage extends StatelessWidget {
                                       docId: _userController.allAds[args].docId,
                                       photos:
                                           _userController.allAds[args].photos);
-                                  await databaseController
-                                      .updatePostPictures(model);
+                                  await _adController.adImagesInAd(model);
                                 },
                                 child: Container(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
@@ -276,9 +230,8 @@ class EditAdPage extends StatelessWidget {
                                                           .allAds[args].docId,
                                                       photos: _userController
                                                           .allAds[args].photos);
-                                                  databaseController
-                                                      .deleteImageonsinglePost(
-                                                          model, index);
+                                                  _adController.deleteAdImages(
+                                                      model, index);
                                                 },
                                               ),
                                               ListTile(
@@ -322,17 +275,6 @@ class EditAdPage extends StatelessWidget {
                               )
                             ],
                           ),
-                          if (databaseController.isUpladingImage.value)
-                            Container(
-                              color: Colors.black.withOpacity(.2),
-                              child: Center(
-                                child: SizedBox(
-                                  height: 30,
-                                  width: 30,
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ),
-                            )
                         ],
                       ),
                     ),
@@ -342,55 +284,46 @@ class EditAdPage extends StatelessWidget {
                   ),
                   SizedBox(
                     width: double.infinity,
-                    child: Obx(
-                      () => ElevatedButton(
-                          onPressed: databaseController.isUpladingImage.value
-                              ? null
-                              : () {
-                                  AdModel model = AdModel(
-                                      docId: _userController.allAds[args].docId,
-                                      category: _formKey
-                                              .currentState!
-                                              .fields[
-                                                  PostNewAdConstants.category]!
-                                              .value ??
-                                          _userController.allAds[args].category,
-                                      type: _formKey
-                                          .currentState!
-                                          .fields[PostNewAdConstants.type]!
-                                          .value,
-                                      title: _formKey
-                                              .currentState!
-                                              .fields[PostNewAdConstants.title]!
-                                              .value ??
-                                          _userController.allAds[args].title,
-                                      description: _formKey
-                                          .currentState!
-                                          .fields[
-                                              PostNewAdConstants.description]!
-                                          .value,
-                                      price: _formKey
-                                          .currentState!
-                                          .fields[PostNewAdConstants.price]!
-                                          .value,
-                                      mobileNumber: _formKey
-                                          .currentState!
-                                          .fields[
-                                              PostNewAdConstants.mobileNumber]!
-                                          .value,
-                                      itemCondition: _formKey
-                                          .currentState!
-                                          .fields[PostNewAdConstants.itemCondition]!
-                                          .value,
-                                      city: _formKey.currentState!.fields[PostNewAdConstants.city]!.value ?? _userController.allAds[args].city,
-                                      subCategory: _formKey.currentState?.fields[PostNewAdConstants.subCategory]?.value,
-                                      videoUrl: _formKey.currentState?.fields[PostNewAdConstants.videoUrl]?.value);
+                    child: ElevatedButton(
+                        onPressed: () {
+                          AdModel model = AdModel(
+                              docId: _userController.allAds[args].docId,
+                              category: _formKey
+                                      .currentState!
+                                      .fields[PostNewAdConstants.category]!
+                                      .value ??
+                                  _userController.allAds[args].category,
+                              type: _formKey.currentState!
+                                  .fields[PostNewAdConstants.type]!.value,
+                              title: _formKey.currentState!.fields[PostNewAdConstants.title]!.value ??
+                                  _userController.allAds[args].title,
+                              description: _formKey
+                                  .currentState!
+                                  .fields[PostNewAdConstants.description]!
+                                  .value,
+                              price: _formKey.currentState!
+                                  .fields[PostNewAdConstants.price]!.value,
+                              mobileNumber: _formKey
+                                  .currentState!
+                                  .fields[PostNewAdConstants.mobileNumber]!
+                                  .value,
+                              itemCondition: _formKey
+                                  .currentState!
+                                  .fields[PostNewAdConstants.itemCondition]!
+                                  .value,
+                              city: _formKey.currentState!.fields[PostNewAdConstants.city]!.value ??
+                                  _userController.allAds[args].city,
+                              subCategory: _formKey
+                                  .currentState
+                                  ?.fields[PostNewAdConstants.subCategory]
+                                  ?.value,
+                              videoUrl: _formKey.currentState
+                                  ?.fields[PostNewAdConstants.videoUrl]?.value);
 
-                                  Get.back();
-                                  databaseController.updatePostData(model);
-                                },
-                          child: Text('Post')),
-                    ),
+                          Get.back();
+                          _adController.updatePostData(model);
+                        },
+                        child: Text('Post')),
                   ),
                   SizedBox(
                     height: 20,

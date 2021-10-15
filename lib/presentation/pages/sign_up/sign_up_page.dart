@@ -139,9 +139,10 @@ class SignUpPage extends StatelessWidget {
         _formKey.currentState!.fields[password]!.value ==
             _formKey.currentState!.fields[confirmPassword]!.value) {
       await Get.find<AuthenticationController>().createUserWithEmailPassword(
-          username: _formKey.currentState!.fields[username]!.value,
-          email: _formKey.currentState!.fields[email]!.value,
-          password: _formKey.currentState!.fields[password]!.value);
+          username: _formKey.currentState!.fields[username]!.value.toString().trim(),
+          email: _formKey.currentState!.fields[email]!.value.toString().trim(),
+          password: _formKey.currentState!.fields[password]!.value.toString().trim(),
+          );
     } else {
       _formKey.currentState!.invalidateField(
           name: confirmPassword, errorText: 'Password Not Match');
