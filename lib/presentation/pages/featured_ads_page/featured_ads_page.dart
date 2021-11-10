@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shay/controllers/controllers.dart';
 import 'package:shay/presentation/common_widgets/ad_widget.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
@@ -19,16 +20,16 @@ class FeaturedAdsPage extends StatelessWidget {
         title: 'Featured Ads',
       ),
       body: StaggeredGridView.countBuilder(
-        crossAxisCount: 4,
-        staggeredTileBuilder: (int index) => StaggeredTile.count(2, 2.5),
+        crossAxisCount:  getValueForScreenType(
+            context: context, mobile: 4, tablet: 8, desktop: 12),
+        staggeredTileBuilder: (int index) => StaggeredTile.count(2, 2.7),
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
         itemCount: _databseController.featuredAdsStream.length,
         itemBuilder: (BuildContext context, int index) => InkWell(
           onTap: () {
-            Get.toNamed(
-              AdDetailPage.routeName,
-              arguments: _databseController.featuredAdsStream[index]);
+            Get.toNamed(AdDetailPage.routeName,
+                arguments: _databseController.featuredAdsStream[index]);
           },
           child: AdWidget(
             adModel: _databseController.featuredAdsStream[index],

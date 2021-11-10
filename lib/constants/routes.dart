@@ -1,4 +1,8 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:shay/presentation/pages/home/widgets/mobile/pages/liked_ads_page_view/liked_ads_page_view.dart';
+import 'package:shay/presentation/pages/my_ads/my_ads.dart';
 import 'package:shay/presentation/pages/pages.dart';
 
 class Routes {
@@ -25,5 +29,7 @@ class Routes {
     SearchPage.routeName: (context) => SearchPage(),
     CategoryPage.routeName: (context) => CategoryPage(),
     ChoosePakagePage.routeName: (context) => ChoosePakagePage(),
+    MyAds.routeName: (context) => MyAds(),
+    LikedAdsPageView.routeName:(context)=>LikedAdsPageView()
   };
 }

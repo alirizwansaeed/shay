@@ -11,7 +11,6 @@ class HomePage extends StatelessWidget {
   final _pagecontroller = PageController();
   var bottomBarIndex = 0.obs;
 
-
   @override
   Widget build(BuildContext context) {
     return screenType(context,

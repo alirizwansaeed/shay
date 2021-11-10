@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shay/constants/constants.dart';
+import 'package:shay/controllers/controllers.dart';
 import 'package:shay/models/ad.dart';
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
 import 'package:shay/presentation/pages/ad_detail/widgets/images_view.dart';
 import 'package:shay/presentation/pages/ad_detail/widgets/user_information.dart';
+import 'package:shay/presentation/pages/login/login_page.dart';
 
 class DesktopTabDetailPage extends StatelessWidget {
   final AdModel adModel;
@@ -16,6 +18,7 @@ class DesktopTabDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<DatabaseController>().adLikedbyMe(adModel.docId!);
     return Scaffold(
       appBar: DesktopTabletAppbar(),
       body: SingleChildScrollView(
@@ -59,10 +62,37 @@ class DesktopTabDetailPage extends StatelessWidget {
                                           fontSize: 28,
                                           fontWeight: FontWeight.w900),
                                     ),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(
-                                            Icons.favorite_border_outlined))
+                                    Obx(
+                                      () => IconButton(
+                                          onPressed: () async {
+                                            if (Get.find<
+                                                        AuthenticationController>()
+                                                    .currentUserState ==
+                                                null)
+                                              Get.toNamed(LoginPage.routeName);
+                                            else {
+                                              await Get.find<UserController>()
+                                                  .likeAd(
+                                                      docid: adModel.docId!,
+                                                      isliked: Get.find<
+                                                                  DatabaseController>()
+                                                              .adLikedByMe
+                                                              .value
+                                                          ? false
+                                                          : true);
+                                              await Get.find<
+                                                      DatabaseController>()
+                                                  .adLikedbyMe(adModel.docId!);
+                                            }
+                                          },
+                                          icon: Icon(Get.find<
+                                                      DatabaseController>()
+                                                  .adLikedByMe
+                                                  .value
+                                              ? Icons.favorite_rounded
+                                              : Icons
+                                                  .favorite_outline_outlined)),
+                                    )
                                   ],
                                 ),
                                 SizedBox(
@@ -159,6 +189,68 @@ class DesktopTabDetailPage extends StatelessWidget {
                           ],
                         ),
                       ),
+                      Divider(
+                        indent: 8,
+                        endIndent: 8,
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Ad Type"),
+                            Text(
+                              adModel.type!,
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        indent: 8,
+                        endIndent: 8,
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Ad id"),
+                            Text(
+                              adModel.adId!.toString(),
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        indent: 8,
+                        endIndent: 8,
+                      ),
+                      if (adModel.videoUrl != null)
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Video Url"),
+                              SizedBox(height: 4),
+                              SelectableText(
+                                adModel.videoUrl!,
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       Divider(
                         indent: 8,
                         endIndent: 8,

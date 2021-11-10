@@ -42,26 +42,6 @@ class EditAdPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  screenType(
-                    context,
-                    mobile: SizedBox.shrink(),
-                    desktopTab: Column(
-                      children: [
-                        Center(
-                          child: Text(
-                            'Make New Ad',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Divider(),
-                        SizedBox(height: 20),
-                      ],
-                    ),
-                  ),
                   formBuilderText(PostNewAdConstants.type + '*'),
                   FormBuilderChoiceChip(
                     visualDensity: VisualDensity.compact,
@@ -287,15 +267,14 @@ class EditAdPage extends StatelessWidget {
                     child: ElevatedButton(
                         onPressed: () {
                           AdModel model = AdModel(
+                              category: _userController.allAds[args].category,
                               docId: _userController.allAds[args].docId,
-                              category: _formKey
-                                      .currentState!
-                                      .fields[PostNewAdConstants.category]!
-                                      .value ??
-                                  _userController.allAds[args].category,
                               type: _formKey.currentState!
                                   .fields[PostNewAdConstants.type]!.value,
-                              title: _formKey.currentState!.fields[PostNewAdConstants.title]!.value ??
+                              title: _formKey
+                                      .currentState!
+                                      .fields[PostNewAdConstants.title]!
+                                      .value ??
                                   _userController.allAds[args].title,
                               description: _formKey
                                   .currentState!
@@ -311,7 +290,8 @@ class EditAdPage extends StatelessWidget {
                                   .currentState!
                                   .fields[PostNewAdConstants.itemCondition]!
                                   .value,
-                              city: _formKey.currentState!.fields[PostNewAdConstants.city]!.value ??
+                              city: _formKey.currentState!
+                                      .fields[PostNewAdConstants.city]!.value ??
                                   _userController.allAds[args].city,
                               subCategory: _formKey
                                   .currentState

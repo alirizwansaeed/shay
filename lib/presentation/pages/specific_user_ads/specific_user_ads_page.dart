@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shay/controllers/controllers.dart';
 
 import 'package:shay/presentation/common_widgets/common_widgets.dart';
@@ -15,7 +16,9 @@ class SpecificUserAdsPage extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
-      appBar: MobileAppbar(title: args,),
+      appBar: MobileAppbar(
+        title: args,
+      ),
       body: Obx(
         () => _databaseController.fetchedSpecificUserAdsList.isEmpty
             ? Center(
@@ -27,7 +30,8 @@ class SpecificUserAdsPage extends StatelessWidget {
                   children: [
                     headerText('Published Ads'),
                     StaggeredGridView.countBuilder(
-                      crossAxisCount: 4,
+                      crossAxisCount: getValueForScreenType(
+                          context: context, mobile: 4, tablet: 8, desktop: 12),
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
                       staggeredTileBuilder: (int index) =>
